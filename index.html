@@ -23,7 +23,8 @@
  "APP_ID": "tmcmoney",
  "NAME": "TMC Money",
  "SHORT": "TMC Money",
- "VER": 6,
+ "VER": 7,
+  "REPORT_COLOR": "#1B7F3B",
  "COLOR": "#15803d",
  "COLOR_DARK": "#14532d",
  "BG": "#f1f5f9",
@@ -139,7 +140,8 @@
    "label": "LYD"
   }
  ],
- "PART_MONTH": "prorata"
+ "PART_MONTH": "prorata",
+ "PAID_TO_DEFAULT": "2026-10-25"
 }/*END*/;</script>
 <title>TMC Money</title>
 <link rel="manifest" href="manifest.json">
@@ -185,6 +187,8 @@ nav.tabs button .ticon{font-size:24px}nav.tabs button.on{color:var(--c);border-t
 .urow{display:flex;flex-wrap:wrap;align-items:center;gap:4px;border-bottom:1px solid #e2e8f0;padding:8px 0}.urow .n{flex:1;min-width:140px;font-weight:700}
 .st{font-size:14px;border-radius:99px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
 .insB{background:#16a34a;font-size:20px;min-height:64px}.insH{background:#f1f5f9;border-radius:10px;padding:10px;font-weight:600;margin:6px 0}
+.rep{width:100%;border-collapse:collapse;font-size:17px;margin:6px 0}.rep th{background:var(--rc);color:#fff;text-align:left;padding:12px 10px}.rep td{padding:12px 10px;border-bottom:1px solid #d1e7d8}.rep tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--rc) 10%,#fff)}.rep tfoot td{background:color-mix(in srgb,var(--rc) 22%,#fff);color:var(--rc);font-weight:800;border-top:3px solid var(--rc)}.repH{background:var(--rc);color:#fff;border-radius:10px;padding:12px;font-weight:800;font-size:19px;margin:6px 0}
+.phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
 .permBox{width:100%;margin:8px 0;border:2px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}.permBox .hint{padding:8px 12px;margin:0}
 .permT{display:flex;align-items:center;gap:12px;min-height:60px;border-top:1px solid #e2e8f0;padding:6px 14px;font-size:19px;font-weight:700;background:#fff;cursor:pointer}
 .permT span{flex:1}.permT.on{background:#ecfdf5}.permT input{width:32px;height:32px;min-height:32px;margin:0;flex:none;accent-color:var(--c)}
@@ -228,7 +232,7 @@ nav.tabs button .ticon{font-size:24px}nav.tabs button.on{color:var(--c);border-t
 (function(){
 const C=window.CONFIG,P=C.APP_ID+"_";            // every localStorage key starts with APP_ID_
 const CACHE_PREFIX=(C.CACHE_PREFIX||C.APP_ID)+"-v"; // every cache name starts with CACHE_PREFIX-v (default APP_ID)
-document.documentElement.style.setProperty("--c",C.COLOR);document.documentElement.style.setProperty("--cd",C.COLOR_DARK);document.documentElement.style.setProperty("--bg",C.BG);
+document.documentElement.style.setProperty("--c",C.COLOR);document.documentElement.style.setProperty("--cd",C.COLOR_DARK);document.documentElement.style.setProperty("--bg",C.BG);document.documentElement.style.setProperty("--rc",C.REPORT_COLOR||"#1B7F3B");
 const L={get:k=>localStorage.getItem(P+k),set:(k,v)=>localStorage.setItem(P+k,v),del:k=>localStorage.removeItem(P+k),
   j:(k,d)=>{try{const v=localStorage.getItem(P+k);return v==null?d:JSON.parse(v)}catch(e){return d}},sj:(k,v)=>localStorage.setItem(P+k,JSON.stringify(v))};
 window.TMC={P:P,L:L};
@@ -238,7 +242,7 @@ window.TMC={P:P,L:L};
 
 /* ---------------- Texts EN / FR / AR ---------------- */
 const T={en:{
-hello:"Hello",name:"Your name",nameH:"Type your name",go:"Continue",needName:"Please type your name.",
+hello:"Hello",phTake:"📷 Take photo",phPick:"🖼️ Choose from phone",phDemo:"Photo (demo)",rpTot:"Total",rpItem:"Item",rpQty:"Count",name:"Your name",nameH:"Type your name",go:"Continue",needName:"Please type your name.",
 pinT:"Enter your PIN",pin:"PIN",pinWrong:"Wrong PIN. Try again.",pinLock:"Too many wrong PINs. Try again in %m min.",other:"Use a different name",
 setT:"Choose a PIN",setH:"4 to 6 numbers. You will use it every time.",pin2:"Type the PIN again",pinBad:"Use 4 to 6 numbers.",pinDiff:"The two PINs are not the same.",save:"Save",
 setupT:"First Admin setup",setupH:"You are the first user. Choose the Admin PIN.",
@@ -258,7 +262,7 @@ logoutPend:"⚠️ %n change(s) are not sent yet. They stay on this phone and wi
 wipe:"🗑️ Clear this app on this phone",wipeQ:"Delete this app's data on this phone? Other apps are not touched.",wipePend:"⚠️ %n change(s) are NOT sent and will be LOST. Delete anyway?",
 draft:"Your unsaved text was kept.",ncT:"🔴 Not connected",ncH:"The app cannot reach the Sheet. Your work is kept on this phone and sent when it connects.",ncOff:"Sync link missing in this app. Tell the Admin."},
 fr:{
-hello:"Bonjour",name:"Votre nom",nameH:"Écrivez votre nom",go:"Continuer",needName:"Écrivez votre nom.",
+hello:"Bonjour",phTake:"📷 Prendre une photo",phPick:"🖼️ Choisir dans le téléphone",phDemo:"Photo (démo)",rpTot:"Total",rpItem:"Élément",rpQty:"Nombre",name:"Votre nom",nameH:"Écrivez votre nom",go:"Continuer",needName:"Écrivez votre nom.",
 pinT:"Entrez votre PIN",pin:"PIN",pinWrong:"PIN incorrect. Réessayez.",pinLock:"Trop de PIN erronés. Réessayez dans %m min.",other:"Utiliser un autre nom",
 setT:"Choisissez un PIN",setH:"4 à 6 chiffres. Vous l'utiliserez à chaque fois.",pin2:"Retapez le PIN",pinBad:"Utilisez 4 à 6 chiffres.",pinDiff:"Les deux PIN ne sont pas pareils.",save:"Enregistrer",
 setupT:"Configuration de l'Admin",setupH:"Vous êtes le premier utilisateur. Choisissez le PIN Admin.",
@@ -278,7 +282,7 @@ logoutPend:"⚠️ %n modification(s) pas encore envoyée(s). Elles restent sur 
 wipe:"🗑️ Effacer cette app sur ce téléphone",wipeQ:"Effacer les données de cette app sur ce téléphone ? Les autres apps ne sont pas touchées.",wipePend:"⚠️ %n modification(s) NON envoyée(s) seront PERDUES. Effacer quand même ?",
 draft:"Votre texte non enregistré a été gardé.",ncT:"🔴 Pas connecté",ncH:"L'app n'arrive pas à joindre la feuille. Votre travail reste sur ce téléphone et sera envoyé à la connexion.",ncOff:"Lien de synchro absent dans cette app. Prévenez l'Admin."},
 ar:{
-hello:"مرحبا",name:"اسمك",nameH:"اكتب اسمك",go:"متابعة",needName:"من فضلك اكتب اسمك.",
+hello:"مرحبا",phTake:"📷 التقط صورة",phPick:"🖼️ اختر من الهاتف",phDemo:"صورة (تجربة)",rpTot:"المجموع",rpItem:"البند",rpQty:"العدد",name:"اسمك",nameH:"اكتب اسمك",go:"متابعة",needName:"من فضلك اكتب اسمك.",
 pinT:"أدخل رمز PIN",pin:"PIN",pinWrong:"رمز خاطئ. حاول مرة أخرى.",pinLock:"رموز PIN خاطئة كثيرة. حاول مرة أخرى بعد %m دقيقة.",other:"استخدام اسم آخر",
 setT:"اختر رمز PIN",setH:"من 4 إلى 6 أرقام. ستستخدمه كل مرة.",pin2:"اكتب الرمز مرة أخرى",pinBad:"استخدم من 4 إلى 6 أرقام.",pinDiff:"الرمزان غير متطابقين.",save:"حفظ",
 setupT:"إعداد المسؤول الأول",setupH:"أنت أول مستخدم. اختر رمز المسؤول.",
@@ -359,13 +363,13 @@ function syncNow(){
   const keys=Object.keys(dirty),sent={};
   const changes=keys.map(k=>{const r=R[k];sent[k]=r.u;return {kind:r.kind,id:r.id,u:r.u,del:r.del,data:r.data}});
   sState="busy";paintSync();
-  busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sCode()||undefined,token:sCode()?undefined:sTok(),device:dev,since:+(L.get("since")||0),changes:changes})})
+  busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sCode()||undefined,token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes})})
   .then(r=>r.json()).then(j=>{
     if(j&&!j.ok&&(j.error==="bad_token"||j.error==="not_active")&&!sCode()){L.del("tok")}
     if(!j||!j.ok)throw new Error(j&&j.error||"sync");
     Object.keys(sent).forEach(k=>{if(R[k]&&R[k].u===sent[k])delete dirty[k]});
     (j.records||[]).forEach(s=>{const k=s.kind+":"+s.id,u=+s.u||0,loc=R[k];if(loc&&(loc.u>u||(dirty[k]&&loc.u>=u)))return;
-      let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del)return;R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
+      let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del)return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
     L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5e3*Math.pow(2,fails-1)):60000);return false})
   .then(ok=>{busy=null;paintSync();try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
@@ -470,12 +474,13 @@ async function gotToken(j,u){
   L.set("tok",j.token);L.del("since");await syncNow();
   const me_=users().find(x=>x.id===j.id);
   if(!me_){flow={s:"net",name:flow&&flow.name};return render()}
+  if(!me_.pinH&&u&&u.pinH){me_.pinH=u.pinH;me_.salt=u.salt;saveR()}
   L.set("uid",me_.id);L.set("uok",me_.id+":"+me_.pinH);tab="home";flow=null;render();
 }
 function lookup(name,localOnly){
   if(tokMode()&&!localOnly)return srvLookup(name,true);
   const K=NK(name),all_=users().filter(u=>NK(u.name)===K),ok=all_.filter(approved);
-  if(ok.length===1){if(tokMode()&&!ok[0].pinH){flow={s:"net",name:name};return render()}  // token phones only hold their own PIN hash
+  if(ok.length===1){if(!ok[0].pinH&&ok[0].hasPin&&!tokMode()&&navigator.onLine&&!localOnly)return srvLookup(name,true);if((tokMode()||ok[0].hasPin)&&!ok[0].pinH){flow={s:"net",name:name};return render()}  // token phones only hold their own PIN hash
     flow={s:ok[0].pinH?"pin":"set",u:ok[0],name:name};return render()}
   if(ok.length===0){
     if(all_.some(u=>u.status==="blocked")){flow={s:"blk",name:name};return render()}
@@ -494,7 +499,7 @@ async function checkPin(){
   let F=fails_(k);
   if(F.length>=5){$("fPin").value="";return err(t("pinLock").replace("%m",Math.max(1,Math.ceil((F[0]+36e5-Date.now())/6e4))))}
   if(flow.srv&&navigator.onLine){let j=null;try{j=await api({action:"login",id:u.id,pinH:await H(v,u.salt)})}catch(e){}
-    if(j&&j.ok){clearFail(k);return gotToken(j,u)}
+    if(j&&j.ok){clearFail(k);return gotToken(j,Object.assign({},u,{pinH:await H(v,u.salt)}))}
     if(j){addFail(k);$("fPin").value="";return err(j.error==="locked"?t("pinLock").replace("%m",Math.max(1,Math.ceil(((j.until||Date.now()+36e5)-Date.now())/6e4))):t("pinWrong"))}}
   if(u.pinH&&await H(v,u.salt)===u.pinH){clearFail(k);L.set("uid",u.id);L.set("uok",u.id+":"+u.pinH);tab="home";flow=null;render();return}
   addFail(k);F=fails_(k);$("fPin").value="";
@@ -526,6 +531,15 @@ function viewHTML(u){
    <button type="button" class="tile sec" data-tab="settings"><b>⚙️</b>${esc(t("settings"))}</button>
   </div>${insHTML()}`;
 }
+/* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
+   photoHTML(id) -> HTML; bindPhoto(id, cb) -> cb(dataUrl) after resize/compress (max 1280px, JPEG 0.7). */
+function photoHTML(id){return `<div class="phPick" id="${id}"><label class="phCam"><input type="file" accept="image/*" capture="environment" data-ph="${id}">${esc(t("phTake"))}</label><label class="alt phGal"><input type="file" accept="image/*" data-ph="${id}">${esc(t("phPick"))}</label></div>`}
+function shrinkPhoto(file,max,q){return new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{const im=new Image();im.onerror=no;im.onload=()=>{const k=Math.min(1,(max||1280)/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",q||0.7))};im.src=r.result};r.readAsDataURL(file)})}
+function bindPhoto(id,cb){document.querySelectorAll(`input[data-ph="${id}"]`).forEach(i=>i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;window.TMC.lastPhotoFrom=i.hasAttribute("capture")?"camera":"phone";shrinkPhoto(f).then(cb).catch(()=>{});i.value=""})}
+window.TMC.photoHTML=photoHTML;window.TMC.bindPhoto=bindPhoto;window.TMC.shrinkPhoto=shrinkPhoto;
+/* ---- REPORT: green company table (CONFIG REPORT_COLOR). rows=[[label,value],...] ---- */
+function reportHTML(title,rows){const tot=rows.reduce((a,r)=>a+(+r[1]||0),0);return `<div class="repH">📊 ${esc(title)}</div><table class="rep"><thead><tr><th>${esc(t("rpItem"))}</th><th>${esc(t("rpQty"))}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td>${tot}</td></tr></tfoot></table>`}
+window.TMC.reportHTML=reportHTML;
 /* ==================== APP FEATURES START ====================
    TMC MONEY v2: staff salary + loans per person (CFA / XAF only).
    Kinds: "s" = staff name read from TMC Rotation (server writes it, READ-ONLY import, never written back);
@@ -535,10 +549,16 @@ function viewHTML(u){
           "x" = short notes (kept from the base).
    Staff ADD only and see only their own money; Admin fixes with TMC.fix (Fix log). Person id = NK(name). */
 const MT={
- en:{mCB:"💵 Cash on hand",mCIn:"⬇️ Cash received",mTrip:"🛒 Cash to Purchases",mRet:"↩️ Change returned",mTook:"Who took it",mTripN:"Trip",mGiven:"Given",mBack:"Returned",mSpent:"Spent",mOpenT:"Open trips",mCurr:"Currency",mNoTrip:"No open trip",mClose:"✅ Close trip",mRefT:"Purchases reference (free text)",work:"Money",mPD:"📅 Day",mPW:"📅 Week",mPM:"📅 Month",mPQ:"📅 Quarter",mPY:"📅 Year",mSal:"💵 Salary paid",mLoan:"🤝 Loan given",mRep:"↩️ Loan repaid",mDed:"✂️ From salary",mCashR:"💵 Cash",mWho:"Person",mAmt:"Amount (CFA)",mDate:"Date",mNote:"Note",mRef:"Receipt no.",mHow:"Paid by",mSave:"💾 Save",mBad:"Type an amount",mList:"Records",mNone:"No records yet",mOwe:"Loan owed",mDue:"Salary due",mDueP:"Due this period",mPaid:"Paid",mDays:"Days worked",mDaySave:"💾 Save days",mRate:"Day rate",mHead:"Headcount",mFixed:"Fixed",mDayR:"Day rate",mPer2:"Every 2 weeks",mPerM:"Monthly",mPerR:"Per rotation",mPerG:"Group default",mStaff:"👥 Staff",mAddP:"➕ Add person",mName:"Full name",mSno:"Staff ID",mPos:"Position",mDept:"Department",mStart:"Start date",mGroup:"Group",mPer:"Pay period",mPType:"Pay type",mSalP:"Amount per period (CFA)",mMeth:"Payment method",mDet:"Bank / phone",mStat:"Status",mUnset:"not set",mRot:"🔄 Names from Rotation",mFromRot:"Rotation",mManual:"Manual",mGroups:"Groups",mCsvP:"⬇️ Payments CSV",mCsvS:"⬇️ Staff CSV",mTot:"Totals",mOut:"Loans outstanding",mRaise:"New amount from",mOpen:"Open",mDupe:"This name is already in the list",mMine:"My money",mNotes:"📝 Notes",mCalc:"days × rate",mWhoOwed:"Who is owed"},
- fr:{mCB:"💵 Caisse",mCIn:"⬇️ Argent reçu",mTrip:"🛒 Argent pour Achats",mRet:"↩️ Monnaie rendue",mTook:"Qui l'a pris",mTripN:"Course",mGiven:"Donné",mBack:"Rendu",mSpent:"Dépensé",mOpenT:"Courses ouvertes",mCurr:"Devise",mNoTrip:"Aucune course ouverte",mClose:"✅ Clôturer",mRefT:"Réf. Achats (texte libre)",work:"Argent",mPD:"📅 Jour",mPW:"📅 Semaine",mPM:"📅 Mois",mPQ:"📅 Trimestre",mPY:"📅 Année",mSal:"💵 Salaire payé",mLoan:"🤝 Prêt donné",mRep:"↩️ Prêt remboursé",mDed:"✂️ Sur salaire",mCashR:"💵 Espèces",mWho:"Personne",mAmt:"Montant (CFA)",mDate:"Date",mNote:"Note",mRef:"N° reçu",mHow:"Payé par",mSave:"💾 Enregistrer",mBad:"Tapez un montant",mList:"Écritures",mNone:"Rien encore",mOwe:"Prêt dû",mDue:"Salaire dû",mDueP:"Dû cette période",mPaid:"Payé",mDays:"Jours travaillés",mDaySave:"💾 Enregistrer jours",mRate:"Taux jour",mHead:"Effectif",mFixed:"Fixe",mDayR:"Par jour",mPer2:"Toutes les 2 semaines",mPerM:"Mensuel",mPerR:"Par rotation",mPerG:"Selon groupe",mStaff:"👥 Personnel",mAddP:"➕ Ajouter personne",mName:"Nom complet",mSno:"N° employé",mPos:"Poste",mDept:"Service",mStart:"Date début",mGroup:"Groupe",mPer:"Période de paie",mPType:"Type de paie",mSalP:"Montant par période (CFA)",mMeth:"Mode de paiement",mDet:"Banque / téléphone",mStat:"Statut",mUnset:"non fixé",mRot:"🔄 Noms de Rotation",mFromRot:"Rotation",mManual:"Manuel",mGroups:"Groupes",mCsvP:"⬇️ CSV paiements",mCsvS:"⬇️ CSV personnel",mTot:"Totaux",mOut:"Prêts en cours",mRaise:"Nouveau montant dès",mOpen:"Ouvrir",mDupe:"Ce nom est déjà dans la liste",mMine:"Mon argent",mNotes:"📝 Notes",mCalc:"jours × taux",mWhoOwed:"À qui on doit"},
- ar:{mCB:"💵 النقد المتوفر",mCIn:"⬇️ نقد مستلم",mTrip:"🛒 نقد للمشتريات",mRet:"↩️ الباقي المرتجع",mTook:"من أخذه",mTripN:"رحلة",mGiven:"المعطى",mBack:"المرتجع",mSpent:"المصروف",mOpenT:"رحلات مفتوحة",mCurr:"العملة",mNoTrip:"لا رحلة مفتوحة",mClose:"✅ إغلاق",mRefT:"مرجع المشتريات (نص حر)",work:"المال",mPD:"📅 يوم",mPW:"📅 أسبوع",mPM:"📅 شهر",mPQ:"📅 ربع",mPY:"📅 سنة",mSal:"💵 راتب مدفوع",mLoan:"🤝 سلفة",mRep:"↩️ سداد سلفة",mDed:"✂️ من الراتب",mCashR:"💵 نقدا",mWho:"الشخص",mAmt:"المبلغ (CFA)",mDate:"التاريخ",mNote:"ملاحظة",mRef:"رقم الإيصال",mHow:"طريقة الدفع",mSave:"💾 حفظ",mBad:"اكتب المبلغ",mList:"السجلات",mNone:"لا شيء بعد",mOwe:"سلفة مستحقة",mDue:"راتب مستحق",mDueP:"مستحق هذه الفترة",mPaid:"مدفوع",mDays:"أيام العمل",mDaySave:"💾 حفظ الأيام",mRate:"أجر اليوم",mHead:"العدد",mFixed:"ثابت",mDayR:"باليوم",mPer2:"كل أسبوعين",mPerM:"شهري",mPerR:"لكل دورة",mPerG:"حسب المجموعة",mStaff:"👥 الموظفون",mAddP:"➕ إضافة شخص",mName:"الاسم الكامل",mSno:"رقم الموظف",mPos:"الوظيفة",mDept:"القسم",mStart:"تاريخ البدء",mGroup:"المجموعة",mPer:"فترة الدفع",mPType:"نوع الأجر",mSalP:"المبلغ لكل فترة (CFA)",mMeth:"طريقة الدفع",mDet:"البنك / الهاتف",mStat:"الحالة",mUnset:"غير محدد",mRot:"🔄 الأسماء من Rotation",mFromRot:"Rotation",mManual:"يدوي",mGroups:"المجموعات",mCsvP:"⬇️ CSV المدفوعات",mCsvS:"⬇️ CSV الموظفين",mTot:"المجاميع",mOut:"السلف القائمة",mRaise:"مبلغ جديد من",mOpen:"فتح",mDupe:"هذا الاسم موجود",mMine:"مالي",mNotes:"📝 ملاحظات",mCalc:"أيام × أجر",mWhoOwed:"لمن ندين"}};
+ en:{mMonth:"This month",mRecv:"Cash received",mSpentM:"Spent",mLeft:"Left over",mCarry:"Carried over",mCarryH:"left over from earlier months (kept apart)",mMove:"➡️ Move carried-over into this month",mMoved:"Moved in from carried over",mPast:"Month-end summary",mMore:"More: salary & loans",mPaidTo:"Paid up to",mShowAll:"Show all",mMvBad:"More than carried over",mCB:"💵 Cash on hand",mCIn:"⬇️ Cash received",mTrip:"🛒 Cash to Purchases",mRet:"↩️ Change returned",mTook:"Who took it",mTripN:"Trip",mGiven:"Given",mBack:"Returned",mSpent:"Spent",mOpenT:"Open trips",mCurr:"Currency",mNoTrip:"No open trip",mClose:"✅ Close trip",mRefT:"Purchases reference (free text)",work:"Money",mPD:"📅 Day",mPW:"📅 Week",mPM:"📅 Month",mPQ:"📅 Quarter",mPY:"📅 Year",mSal:"💵 Salary paid",mLoan:"🤝 Loan given",mRep:"↩️ Loan repaid",mDed:"✂️ From salary",mCashR:"💵 Cash",mWho:"Person",mAmt:"Amount (CFA)",mDate:"Date",mNote:"Note",mRef:"Receipt no.",mHow:"Paid by",mSave:"💾 Save",mBad:"Type an amount",mList:"Records",mNone:"No records yet",mOwe:"Loan owed",mDue:"Salary due",mDueP:"Due this period",mPaid:"Paid",mDays:"Days worked",mDaySave:"💾 Save days",mRate:"Day rate",mHead:"Headcount",mFixed:"Fixed",mDayR:"Day rate",mPer2:"Every 2 weeks",mPerM:"Monthly",mPerR:"Per rotation",mPerG:"Group default",mStaff:"👥 Staff",mAddP:"➕ Add person",mName:"Full name",mSno:"Staff ID",mPos:"Position",mDept:"Department",mStart:"Start date",mGroup:"Group",mPer:"Pay period",mPType:"Pay type",mSalP:"Amount per period (CFA)",mMeth:"Payment method",mDet:"Bank / phone",mStat:"Status",mUnset:"not set",mRot:"🔄 Names from Rotation",mFromRot:"Rotation",mManual:"Manual",mGroups:"Groups",mCsvP:"⬇️ Payments CSV",mCsvS:"⬇️ Staff CSV",mTot:"Totals",mOut:"Loans outstanding",mRaise:"New amount from",mOpen:"Open",mDupe:"This name is already in the list",mMine:"My money",mNotes:"📝 Notes",mCalc:"days × rate",mWhoOwed:"Who is owed"},
+ fr:{mMonth:"Ce mois",mRecv:"Argent reçu",mSpentM:"Dépensé",mLeft:"Reste",mCarry:"Report",mCarryH:"reste des mois précédents (à part)",mMove:"➡️ Verser le report dans ce mois",mMoved:"Versé depuis le report",mPast:"Bilan fin de mois",mMore:"Plus : salaires et prêts",mPaidTo:"Payé jusqu'au",mShowAll:"Tout afficher",mMvBad:"Plus que le report",mCB:"💵 Caisse",mCIn:"⬇️ Argent reçu",mTrip:"🛒 Argent pour Achats",mRet:"↩️ Monnaie rendue",mTook:"Qui l'a pris",mTripN:"Course",mGiven:"Donné",mBack:"Rendu",mSpent:"Dépensé",mOpenT:"Courses ouvertes",mCurr:"Devise",mNoTrip:"Aucune course ouverte",mClose:"✅ Clôturer",mRefT:"Réf. Achats (texte libre)",work:"Argent",mPD:"📅 Jour",mPW:"📅 Semaine",mPM:"📅 Mois",mPQ:"📅 Trimestre",mPY:"📅 Année",mSal:"💵 Salaire payé",mLoan:"🤝 Prêt donné",mRep:"↩️ Prêt remboursé",mDed:"✂️ Sur salaire",mCashR:"💵 Espèces",mWho:"Personne",mAmt:"Montant (CFA)",mDate:"Date",mNote:"Note",mRef:"N° reçu",mHow:"Payé par",mSave:"💾 Enregistrer",mBad:"Tapez un montant",mList:"Écritures",mNone:"Rien encore",mOwe:"Prêt dû",mDue:"Salaire dû",mDueP:"Dû cette période",mPaid:"Payé",mDays:"Jours travaillés",mDaySave:"💾 Enregistrer jours",mRate:"Taux jour",mHead:"Effectif",mFixed:"Fixe",mDayR:"Par jour",mPer2:"Toutes les 2 semaines",mPerM:"Mensuel",mPerR:"Par rotation",mPerG:"Selon groupe",mStaff:"👥 Personnel",mAddP:"➕ Ajouter personne",mName:"Nom complet",mSno:"N° employé",mPos:"Poste",mDept:"Service",mStart:"Date début",mGroup:"Groupe",mPer:"Période de paie",mPType:"Type de paie",mSalP:"Montant par période (CFA)",mMeth:"Mode de paiement",mDet:"Banque / téléphone",mStat:"Statut",mUnset:"non fixé",mRot:"🔄 Noms de Rotation",mFromRot:"Rotation",mManual:"Manuel",mGroups:"Groupes",mCsvP:"⬇️ CSV paiements",mCsvS:"⬇️ CSV personnel",mTot:"Totaux",mOut:"Prêts en cours",mRaise:"Nouveau montant dès",mOpen:"Ouvrir",mDupe:"Ce nom est déjà dans la liste",mMine:"Mon argent",mNotes:"📝 Notes",mCalc:"jours × taux",mWhoOwed:"À qui on doit"},
+ ar:{mMonth:"هذا الشهر",mRecv:"النقد المستلم",mSpentM:"المصروف",mLeft:"المتبقي",mCarry:"المرحّل",mCarryH:"متبقي الأشهر السابقة (منفصل)",mMove:"➡️ نقل المرحّل إلى هذا الشهر",mMoved:"منقول من المرحّل",mPast:"ملخص نهاية الشهر",mMore:"المزيد: الرواتب والسلف",mPaidTo:"مدفوع حتى",mShowAll:"عرض الكل",mMvBad:"أكثر من المرحّل",mCB:"💵 النقد المتوفر",mCIn:"⬇️ نقد مستلم",mTrip:"🛒 نقد للمشتريات",mRet:"↩️ الباقي المرتجع",mTook:"من أخذه",mTripN:"رحلة",mGiven:"المعطى",mBack:"المرتجع",mSpent:"المصروف",mOpenT:"رحلات مفتوحة",mCurr:"العملة",mNoTrip:"لا رحلة مفتوحة",mClose:"✅ إغلاق",mRefT:"مرجع المشتريات (نص حر)",work:"المال",mPD:"📅 يوم",mPW:"📅 أسبوع",mPM:"📅 شهر",mPQ:"📅 ربع",mPY:"📅 سنة",mSal:"💵 راتب مدفوع",mLoan:"🤝 سلفة",mRep:"↩️ سداد سلفة",mDed:"✂️ من الراتب",mCashR:"💵 نقدا",mWho:"الشخص",mAmt:"المبلغ (CFA)",mDate:"التاريخ",mNote:"ملاحظة",mRef:"رقم الإيصال",mHow:"طريقة الدفع",mSave:"💾 حفظ",mBad:"اكتب المبلغ",mList:"السجلات",mNone:"لا شيء بعد",mOwe:"سلفة مستحقة",mDue:"راتب مستحق",mDueP:"مستحق هذه الفترة",mPaid:"مدفوع",mDays:"أيام العمل",mDaySave:"💾 حفظ الأيام",mRate:"أجر اليوم",mHead:"العدد",mFixed:"ثابت",mDayR:"باليوم",mPer2:"كل أسبوعين",mPerM:"شهري",mPerR:"لكل دورة",mPerG:"حسب المجموعة",mStaff:"👥 الموظفون",mAddP:"➕ إضافة شخص",mName:"الاسم الكامل",mSno:"رقم الموظف",mPos:"الوظيفة",mDept:"القسم",mStart:"تاريخ البدء",mGroup:"المجموعة",mPer:"فترة الدفع",mPType:"نوع الأجر",mSalP:"المبلغ لكل فترة (CFA)",mMeth:"طريقة الدفع",mDet:"البنك / الهاتف",mStat:"الحالة",mUnset:"غير محدد",mRot:"🔄 الأسماء من Rotation",mFromRot:"Rotation",mManual:"يدوي",mGroups:"المجموعات",mCsvP:"⬇️ CSV المدفوعات",mCsvS:"⬇️ CSV الموظفين",mTot:"المجاميع",mOut:"السلف القائمة",mRaise:"مبلغ جديد من",mOpen:"فتح",mDupe:"هذا الاسم موجود",mMine:"مالي",mNotes:"📝 ملاحظات",mCalc:"أيام × أجر",mWhoOwed:"لمن ندين"}};
 Object.keys(MT).forEach(l=>Object.assign(T[l],MT[l]));
+/* SPEED: one cache per task. Every list (records, profiles, balances) is built once per redraw, not once per row.
+   Cleared at the start of every screen build (homeMoney/workHTML) and after the current task. */
+let MC=null;const memo=(k,f)=>{if(!MC){MC={};Promise.resolve().then(()=>{MC=null})}return k in MC?MC[k]:(MC[k]=f())};const fresh=()=>{MC=null};
+const allM=k=>memo("all:"+k,()=>all(k));
+/* SPEED: sync calls never hang the phone on a slow network: 25 s timeout, then the normal retry. */
+(function(){const f0=window.fetch.bind(window);window.fetch=(u,o)=>{if(o&&!o.signal&&typeof u==="string"&&sUrl()&&u===sUrl()&&window.AbortController){const c=new AbortController(),tm=setTimeout(()=>c.abort(),25000);o=Object.assign({},o,{signal:c.signal});return f0(u,o).finally(()=>clearTimeout(tm))}return f0(u,o)}})();
 const CUR=()=>C.CURRENCY||{id:"XAF",label:"CFA"};
 const money=n=>{const v=Math.round(+n||0);return (v<0?"-":"")+String(Math.abs(v)).replace(/\B(?=(\d{3})+(?!\d))/g," ")+" "+CUR().label};
 const num=x=>{const n=parseFloat(String(x==null?"":x).replace(/\s/g,"").replace(",","."));return isFinite(n)?n:null};
@@ -546,14 +566,17 @@ const today=()=>new Date().toISOString().slice(0,10);
 const PERS=[["2w","mPer2"],["m","mPerM"],["rot","mPerR"]];
 /* person key: exact name key only (accents/case/spaces). Similar names are NEVER merged. */
 const PK=n=>NK(n);
-function groups(){const o={};(C.GROUPS||[]).forEach(g=>o[g.id]=Object.assign({},g));all("g").forEach(g=>{o[g.id]=Object.assign({},o[g.id]||{},g)});return o}
+function groups(){return memo("groups",()=>{const o={};(C.GROUPS||[]).forEach(g=>o[g.id]=Object.assign({},g));allM("g").forEach(g=>{o[g.id]=Object.assign({},o[g.id]||{},g)});return o})}
 const grpLab=id=>{const g=groups()[id];return g?(g[lang]||g.en||id):(id||"")};
-function profiles(){const o={};
+function profiles(){return memo("prof",()=>{const o={};
   /* staff list + pay data live on the server only (Admin: all; staff: own record) */
-  all("s").forEach(s=>{const id=String(s.id||PK(s.name));if(!o[id])o[id]={id:id,name:s.name,src:"rotation",status:"Active"};else o[id].rot=1});
-  all("p").forEach(p=>{const id=String(p.id);o[id]=Object.assign(o[id]||{id:id,src:"manual",status:"Active"},p)});
-  return Object.keys(o).map(k=>o[k]).sort((a,b)=>String(a.name).localeCompare(String(b.name)))}
-const prof=id=>profiles().find(p=>p.id===id);
+  allM("s").forEach(s=>{const id=String(s.id||PK(s.name));if(!o[id])o[id]={id:id,name:s.name,src:"rotation",status:"Active"};else o[id].rot=1});
+  allM("p").forEach(p=>{const id=String(p.id);o[id]=Object.assign(o[id]||{id:id,src:"manual",status:"Active"},p)});
+  return Object.keys(o).map(k=>o[k]).sort((a,b)=>String(a.name).localeCompare(String(b.name)))})}
+const prof=id=>memo("pmap",()=>{const m={};profiles().forEach(p=>m[p.id]=p);return m})[id];
+/* paid up to: Johan paid everyone up to this date; nothing before it shows as owed */
+const paidTo=p=>String((p&&p.paidTo)||C.PAID_TO_DEFAULT||"");
+const addDay=d=>new Date(Date.parse(d+"T12:00:00Z")+864e5).toISOString().slice(0,10);
 function perOf(p){return p&&p.per?p.per:((groups()[p&&p.group]||{}).per||C.PERIOD_DEFAULT||"m")}
 /* pay period key for a date: m = "YYYY-MM"; 2w = start day of the 2-week block from PERIOD_ANCHOR; rot = "R-YYYY-MM" */
 function ppOf(p,date){const d=String(date||today()).slice(0,10),per=perOf(p);
@@ -563,19 +586,25 @@ function ppLab(p,k){if(/^\d{4}-\d{2}-\d{2}$/.test(k)){const e=new Date(Date.pars
 /* amount per period in force on a date (hist = [{from,sal}] raises) */
 function salAt(p,date){let s=num(p.sal);(Array.isArray(p.hist)?p.hist:[]).slice().sort((a,b)=>String(a.from).localeCompare(String(b.from))).forEach(h=>{if(String(h.from)<=String(date))s=num(h.sal)});return s}
 const isDay=p=>p&&p.ptype==="day";
-function recs(){return all("m").slice().sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at)))}
-function daysOf(sid,pp){return all("d").filter(d=>d.sid===sid&&(!pp||d.pp===pp)).reduce((t,d)=>t+(num(d.days)||0),0)}
+function recs(){return memo("recs",()=>allM("m").slice().sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at))))}
+const recsOf=sid=>memo("rby",()=>{const m={};recs().forEach(r=>(m[r.sid]=m[r.sid]||[]).push(r));return m})[sid]||[];
+const daysL=sid=>memo("dby",()=>{const m={};allM("d").forEach(d=>(m[d.sid]=m[d.sid]||[]).push(d));return m})[sid]||[];
+function daysOf(sid,pp){return daysL(sid).filter(d=>(!pp||d.pp===pp)).reduce((t,d)=>t+(num(d.days)||0),0)}
 /* earned to date: day rate = all days × rate; fixed = every COMPLETED period since start × amount in force */
 /* part month: pro-rata by calendar days from the start day (default rule) */
 function partM(s,st){const d=+st.slice(8,10);if(d<=1||(C.PART_MONTH||"prorata")!=="prorata")return s;const n=new Date(Date.UTC(+st.slice(0,4),+st.slice(5,7),0)).getUTCDate();return Math.round(s*(n-d+1)/n)}
-function earned(p,asOf){asOf=asOf||today();
-  if(isDay(p)){const r=num(p.rate);if(r==null)return null;return all("d").filter(d=>d.sid===p.id).reduce((t,d)=>t+(num(d.days)||0)*r,0)}
+function earned(p,asOf){asOf=asOf||today();const pt=paidTo(p);
+  /* day rate: only days entered AFTER the paid-up-to date */
+  if(isDay(p)){const r=num(p.rate);if(r==null)return null;return daysL(p.id).filter(d=>!pt||String(d.at||"").slice(0,10)>pt).reduce((t,d)=>t+(num(d.days)||0)*r,0)}
   if(!p.start||perOf(p)==="rot")return null;let t=0,any=0;
+  /* fixed: count from the day after paid-up-to (pro-rata for the part month) */
+  if(pt&&addDay(pt)>p.start)p=Object.assign({},p,{start:addDay(pt)});
   if(perOf(p)==="m"){let y=+p.start.slice(0,4),m=+p.start.slice(5,7);const ny=+asOf.slice(0,4),nm=+asOf.slice(5,7);
     while(y*12+m<ny*12+nm){const k=y+"-"+String(m).padStart(2,"0"),first=k===p.start.slice(0,7),s=salAt(p,first?p.start:k+"-01");if(s==null)return null;t+=first?partM(s,p.start):s;any=1;m++;if(m>12){m=1;y++}}return t}
   let k=ppOf(p,p.start);while(true){const end=new Date(Date.parse(k+"T12:00:00Z")+14*864e5).toISOString().slice(0,10);if(end>asOf)break;const s=salAt(p,k);if(s==null)return null;t+=s;k=end}return t}
-function bal(p){const L_=recs().filter(r=>r.sid===p.id),sum=f=>L_.filter(f).reduce((t,r)=>t+(num(r.amt)||0),0);
-  const paid=sum(r=>r.type==="salary"),ded=sum(r=>r.type==="repay"&&r.rhow==="deduct"),loan=sum(r=>r.type==="loan"),rep=sum(r=>r.type==="repay");
+function bal(p){return memo("bal:"+p.id+":"+(p.paidTo||""),()=>bal0(p))}
+function bal0(p){const L_=recsOf(p.id),pt=paidTo(p),sum=f=>L_.filter(f).reduce((t,r)=>t+(num(r.amt)||0),0),aft=r=>!pt||String(r.date)>pt;
+  const paid=sum(r=>r.type==="salary"&&aft(r)),ded=sum(r=>r.type==="repay"&&r.rhow==="deduct"&&aft(r)),loan=sum(r=>r.type==="loan"),rep=sum(r=>r.type==="repay");
   const e=earned(p),pp=ppOf(p),setP=L_.filter(r=>(r.pp||ppOf(p,r.date))===pp&&(r.type==="salary"||(r.type==="repay"&&r.rhow==="deduct"))).reduce((t,r)=>t+(num(r.amt)||0),0);
   let duePP=null;if(isDay(p)){const r=num(p.rate);if(r!=null)duePP=daysOf(p.id,pp)*r-setP}else{const s=salAt(p,today());if(s!=null&&perOf(p)!=="rot")duePP=s-setP}
   return {paid:paid,ded:ded,loan:loan,rep:rep,owe:loan-rep,due:e==null?null:e-paid-ded,pp:pp,duePP:duePP,days:daysOf(p.id,pp)}}
@@ -600,18 +629,20 @@ let mForm=null,mRep=null,mSel=null,mAddP=false,mDays={},mRotMsg="";
 const perLab=p=>t((PERS.find(x=>x[0]===p)||[0,"mPerM"])[1]);
 function balBox(p,id){const b=bal(p);return `<div class="box mPBal" id="${id}" data-sid="${esc(p.id)}"><h2>${esc(p.name)}</h2>
   <p class="hint">${esc(grpLab(p.group))}${p.headcount?" · 👥 "+esc(p.headcount):""} · ${esc(perLab(perOf(p)))} · ${isDay(p)?esc(t("mDayR"))+" "+(num(p.rate)!=null?esc(money(p.rate)):esc(t("mUnset"))):(salAt(p,today())!=null?esc(money(salAt(p,today()))):esc(t("mUnset")))}</p>
+  <p class="hint mPaidToV">✅ ${esc(t("mPaidTo"))}: ${esc(paidTo(p)||"—")}</p>
   <div class="mBal mOweV ${b.owe>0?"neg":""}">🤝 ${esc(t("mOwe"))}: <b>${esc(money(b.owe))}</b></div>
   <div class="mRow"><span>${esc(t("mDue"))}: <b class="mDueV">${b.due==null?"—":esc(money(b.due))}</b></span><span>${esc(t("mDueP"))} (${esc(ppLab(p,b.pp))}): <b class="mDuePV">${b.duePP==null?"—":esc(money(b.duePP))}</b></span></div></div>`}
-function homeMoney(u){if(!canKind("m","view"))return "";if(u.admin){const cb=cashBox("hCash");const P=profiles(),o=P.reduce((t,p)=>t+bal(p).owe,0);return `<div class="box" id="hBal"><h2>💵 ${esc(t("mOut"))}</h2><div class="mBal" id="hOwe">${esc(money(o))}</div><p class="hint">${P.length} ${esc(t("mStaff").replace(/^\S+\s/,""))}</p>${oweList(P)}</div>${cb}`}
+/* HOME is light: only the monthly cash book (and open trips). Salary and loans live behind "More" in the Money tab. */
+function homeMoney(u){fresh();const cb=cashBox("hCash");if(cb)return cb;if(!canKind("m","view"))return "";
   const p=prof(myId());return p?balBox(p,"hBal"):""}
 /* Admin home: who is owed = pay due (earned − paid) per person, and loan balance */
-function oweList(P){const rows=P.map(p=>Object.assign({p:p},bal(p))).filter(b=>(b.due||0)!==0||(b.duePP||0)>0||b.owe!==0);
-  return `<h3>${esc(t("mWhoOwed"))}</h3><div id="hOweList">${rows.length?rows.map(b=>`<div class="urow hOwe1" data-sid="${esc(b.p.id)}"><span class="n">${esc(b.p.name)}</span><span class="hint">${esc(t("mDue"))}: <b class="hDue">${b.due==null?(b.duePP==null?"—":esc(money(b.duePP))):esc(money(b.due))}</b> · 🤝 ${esc(t("mOwe"))}: <b class="hLoan">${esc(money(b.owe))}</b></span></div>`).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}</div>`}
+function oweList(P){const rows=P.map(p=>Object.assign({p:p},bal(p))).filter(b=>(b.due||0)>0||b.owe!==0);
+  return `<h3>${esc(t("mWhoOwed"))}</h3><div id="hOweList">${rows.length?rows.map(b=>`<div class="urow hOwe1" data-sid="${esc(b.p.id)}"><span class="n">${esc(b.p.name)}</span><span class="hint">${esc(t("mDue"))}: <b class="hDue">${b.due==null?"—":esc(money(b.due))}</b> · 🤝 ${esc(t("mOwe"))}: <b class="hLoan">${esc(money(b.owe))}</b></span></div>`).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}</div>`}
 function repHTML(per){const L_=recs(),now=perKey(today(),per),cur=tot(L_.filter(r=>perKey(r.date||r.at,per)===now)),P=profiles();
   return `<div id="mRepTab" data-per="${esc(per)}"><h3 class="mRepH">${esc(now)}</h3>
   <div class="mRow mNow"><span>💵 <b class="rSal">${esc(money(cur.sal))}</b></span><span>🤝 <b class="rLoan">${esc(money(cur.loan))}</b></span><span>↩️ <b class="rRep">${esc(money(cur.rep))}</b></span><span>${esc(t("mOut"))}: <b class="rOut">${esc(money(P.reduce((t,p)=>t+bal(p).owe,0)))}</b></span></div>
-  <table class="mTab mPerTab"><tr><th>📅</th><th>💵</th><th>🤝</th><th>↩️</th></tr>${byPeriod(L_,per).slice(0,12).map(r=>`<tr><td>${esc(r.k)}</td><td>${esc(money(r.sal))}</td><td>${esc(money(r.loan))}</td><td>${esc(money(r.rep))}</td></tr>`).join("")}</table>
-  <table class="mTab mPplTab"><tr><th>👤</th><th>📅</th><th>${esc(t("mDueP"))}</th><th>${esc(t("mDue"))}</th><th>🤝</th></tr>${P.map(p=>{const b=bal(p);return `<tr data-sid="${esc(p.id)}"><td>${esc(p.name)}</td><td>${esc(perLab(perOf(p)))}</td><td>${b.duePP==null?"—":esc(money(b.duePP))}</td><td>${b.due==null?"—":esc(money(b.due))}</td><td>${esc(money(b.owe))}</td></tr>`}).join("")}</table></div>`}
+  <div class="repH mRepG">📊 ${esc(t("repT").replace("📊 ",""))}</div><table class="mTab rep mPerTab"><thead><tr><th>📅</th><th>💵</th><th>🤝</th><th>↩️</th></tr></thead><tbody>${byPeriod(L_,per).slice(0,12).map(r=>`<tr><td>${esc(r.k)}</td><td>${esc(money(r.sal))}</td><td>${esc(money(r.loan))}</td><td>${esc(money(r.rep))}</td></tr>`).join("")}</tbody><tfoot>${(()=>{const T=byPeriod(L_,per).slice(0,12).reduce((a,r)=>({sal:a.sal+r.sal,loan:a.loan+r.loan,rep:a.rep+r.rep}),{sal:0,loan:0,rep:0});return `<tr><td>${esc(t("rpTot"))}</td><td>${esc(money(T.sal))}</td><td>${esc(money(T.loan))}</td><td>${esc(money(T.rep))}</td></tr>`})()}</tfoot></table>
+  <table class="mTab rep mPplTab"><thead><tr><th>👤</th><th>📅</th><th>${esc(t("mDueP"))}</th><th>${esc(t("mDue"))}</th><th>🤝</th></tr></thead><tbody>${P.map(p=>{const b=bal(p);return `<tr data-sid="${esc(p.id)}"><td>${esc(p.name)}</td><td>${esc(perLab(perOf(p)))}</td><td>${b.duePP==null?"—":esc(money(b.duePP))}</td><td>${b.due==null?"—":esc(money(b.due))}</td><td>${esc(money(b.owe))}</td></tr>`}).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td></td><td></td><td>${esc(money(P.reduce((a,p)=>a+(bal(p).due||0),0)))}</td><td>${esc(money(P.reduce((a,p)=>a+bal(p).owe,0)))}</td></tr></tfoot></table></div>`}
 function recRow(r){const p=prof(r.sid)||{name:r.sname||r.sid},ic={salary:"💵",loan:"🤝",repay:"↩️"}[r.type]||"•";
   return `<div class="urow mRec" data-id="${esc(r.id)}" data-type="${esc(r.type)}"><span class="n">${ic} <b class="mA">${esc(money(r.amt))}</b> · ${esc(p.name)}</span><span class="hint">${esc(r.date)} · ${esc(ppLab(p,r.pp))}${r.type==="repay"?" · "+esc(t(r.rhow==="deduct"?"mDed":"mCashR")):""}${r.note?" · "+esc(r.note):""} · ${esc(r.by)}</span>${fixBtn("m",r.id,"amt")}${fixBtn("m",r.id,"date")}${fixBtn("m",r.id,"note")}${fixedNote(r)}</div>`}
 function formHTML(u){const P=profiles().filter(p=>p.status!=="Inactive"),sel=mSel||(u.admin?"":myId()),p=prof(sel)||P[0];if(!p)return "";const b=bal(p);
@@ -640,8 +671,8 @@ function staffHTML(u){if(!u.admin)return "";const P=profiles(),G=groups();
   if(mAddP)h+=`<div id="mNewP"><label>${esc(t("mName"))}</label><input id="mNPName" autocomplete="off"><select id="mNPGroup"><option value=""></option>${Object.keys(G).map(g=>`<option value="${esc(g)}">${esc(grpLab(g))}</option>`).join("")}</select><p class="err" id="mNPErr"></p><button type="button" id="mNPSave">${esc(t("mSave"))}</button></div>`;
   h+=`<h3>${esc(t("mGroups"))}</h3>${Object.keys(G).map(g=>`<div class="urow"><span class="n">${esc(grpLab(g))}</span><select class="mGPer" data-g="${esc(g)}">${PERS.map(x=>`<option value="${x[0]}"${G[g].per===x[0]?" selected":""}>${esc(t(x[1]))}</option>`).join("")}</select></div>`).join("")}</div>`;
   const p=mSel&&prof(mSel);
-  if(p){const F=[["sno","mSno"],["name","mName"],["pos","mPos"],["dept","mDept"],["start","mStart"],["rate","mRate"],["sal","mSalP"],["headcount","mHead"],["how","mMeth"],["det","mDet"],["note","mNote"]];
-   h+=`<div class="box" id="mPEdit" data-sid="${esc(p.id)}"><h3>${esc(p.name)}</h3>${F.map(f=>`<label>${esc(t(f[1]))}</label><input class="mPF" data-f="${f[0]}" value="${esc(p[f[0]]==null?"":p[f[0]])}" autocomplete="off"${f[0]==="start"?' type="date"':""}>`).join("")}
+  if(p){const F=[["sno","mSno"],["name","mName"],["pos","mPos"],["dept","mDept"],["start","mStart"],["rate","mRate"],["sal","mSalP"],["headcount","mHead"],["paidTo","mPaidTo"],["how","mMeth"],["det","mDet"],["note","mNote"]];
+   h+=`<div class="box" id="mPEdit" data-sid="${esc(p.id)}"><h3>${esc(p.name)}</h3>${F.map(f=>`<label>${esc(t(f[1]))}</label><input class="mPF" data-f="${f[0]}" value="${esc(p[f[0]]==null?(f[0]==="paidTo"?paidTo(p):""):p[f[0]])}" autocomplete="off"${f[0]==="start"||f[0]==="paidTo"?' type="date"':""}>`).join("")}
    <label>${esc(t("mGroup"))}</label><select class="mPF" data-f="group"><option value=""></option>${Object.keys(G).map(g=>`<option value="${esc(g)}"${p.group===g?" selected":""}>${esc(grpLab(g))}</option>`).join("")}</select>
    <label>${esc(t("mPer"))}</label><select class="mPF" data-f="per"><option value="">${esc(t("mPerG"))}</option>${PERS.map(x=>`<option value="${x[0]}"${p.per===x[0]?" selected":""}>${esc(t(x[1]))}</option>`).join("")}</select>
    <label>${esc(t("mPType"))}</label><select class="mPF" data-f="ptype"><option value=""></option><option value="day"${p.ptype==="day"?" selected":""}>${esc(t("mDayR"))}</option><option value="fixed"${p.ptype==="fixed"?" selected":""}>${esc(t("mFixed"))}</option></select>
@@ -651,11 +682,17 @@ function staffHTML(u){if(!u.admin)return "";const P=profiles(),G=groups();
    <button type="button" id="mPSave">${esc(t("mSave"))}</button><button type="button" class="sec" id="mPX">${esc(t("close"))}</button>${fixedNote(p)}</div>`;
    h+=balBox(p,"mSelBal")}
   return h}
-function workHTML(u){
-  let h="";const mp=prof(myId());
+let mMore=false,mAllRec=false;
+function workHTML(u){fresh();
+  let h=bookHTML(u);const mp=prof(myId());
+  if(canKind("m","view")||canKind("m","add")||canKind("d","add"))h+=`<button type="button" class="sec sm" id="mMoreB" aria-expanded="${mMore}">${mMore?"▾":"▸"} ${esc(t("mMore"))}</button>`;
+  if(mMore)h+=moreHTML(u,mp);
+  /* notes box (kept from base; the base tests use #exTxt / #exAdd) */
+  h+=notesHTML(u);
+  return h}
+function moreHTML(u,mp){let h="";
   if(!u.admin&&mp&&canKind("m","view"))h+=balBox(mp,"mBalBox");
-  if(u.admin&&canKind("m","view")){const P=profiles();h+=`<div class="box" id="mBalBox"><h2>💵 ${esc(t("mOut"))}</h2><div class="mBal">${esc(money(P.reduce((t,p)=>t+bal(p).owe,0)))}</div></div>`}
-  h+=bookHTML(u);
+  if(u.admin&&canKind("m","view")){const P=profiles();h+=`<div class="box" id="mBalBox"><h2>💵 ${esc(t("mOut"))}</h2><div class="mBal" id="hOwe">${esc(money(P.reduce((t,p)=>t+bal(p).owe,0)))}</div>${oweList(P)}</div>`}
   if(canKind("m","add"))h+=`<div class="tiles"><button type="button" class="tile" id="mSalB"><b>💵</b>${esc(t("mSal").slice(2))}</button><button type="button" class="tile" id="mLoanB"><b>🤝</b>${esc(t("mLoan").slice(2))}</button><button type="button" class="tile" id="mRepB"><b>↩️</b>${esc(t("mRep").slice(2))}</button></div>`;
   if(mForm&&canKind("m","add"))h+=formHTML(u);
   h+=daysHTML(u);
@@ -663,14 +700,16 @@ function workHTML(u){
     h+=`<div class="box"><div class="mPer">${PER.map(x=>`<button type="button" class="sec mPerB${mRep===x[0]?" on":""}" data-per="${x[0]}">${esc(t(x[1]))}</button>`).join("")}</div>
     <button type="button" class="sec" id="mCsv">${esc(t("mCsvP"))}</button><button type="button" class="sec" id="mCsvS">${esc(t("mCsvS"))}</button>${mRep?repHTML(mRep):""}</div>`}
   h+=staffHTML(u);
-  if(canKind("m","view")){const L_=visRecs();h+=`<div class="box" id="mListBox"><h3>${esc(t(u.admin?"mList":"mMine"))}</h3>${L_.length?L_.map(recRow).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}</div>`}
-  /* notes box (kept from base; the base tests use #exTxt / #exAdd) */
-  const notes=all("x").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  if(canKind("m","view")){const L_=visRecs(),S=mAllRec?L_:L_.slice(0,30);h+=`<div class="box" id="mListBox"><h3>${esc(t(u.admin?"mList":"mMine"))} (${L_.length})</h3>${S.length?S.map(recRow).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}${S.length<L_.length?`<button type="button" class="sec sm" id="mAllRec">${esc(t("mShowAll"))}</button>`:""}</div>`}
+  return h}
+function notesHTML(u){let h="";
+  const notes=allM("x").slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)));
   h+=`<div class="box"><h3>${esc(t("mNotes"))}</h3>
   ${canKind("x","add")?`<textarea id="exTxt" rows="2" data-draft="exTxt" autocomplete="off" spellcheck="true" autocorrect="on" autocapitalize="sentences"></textarea><p class="hint" id="drNote" style="display:none">${esc(t("draft"))}</p>
   <button type="button" id="exAdd">${esc(t("exAdd"))}</button>`:""}
   ${canKind("x","view")?notes.map(n=>`<div class="urow" data-id="${esc(n.id)}"><span class="n">${esc(n.text)}</span><span class="hint">${esc(n.by)}</span>${fixBtn("x",n.id,"text")}${fixedNote(n)}</div>`).join(""):""}</div>`;
   if(can("reports")||can("export"))h+=`<div class="box"><button type="button" class="sec" id="exRep">${esc(t("repT"))}</button>${can("export")?`<button type="button" class="sec" id="exExp">${esc(t("expT"))}</button>`:""}<p class="hint" id="exOut"></p></div>`;
+  h+=`<div class="box"><h3>${esc(t("phDemo"))}</h3>${photoHTML("exPh")}<img id="exPhImg" class="phPrev" alt="" style="display:none"></div>`;
   return h;
 }
 /* Admin saves pay details: new person = put; existing "p" record = one TMC.fix per changed field (Fix log) */
@@ -684,43 +723,68 @@ window.TMC.money.saveProf=saveProf;
 const CC=()=>C.CASH_CURRENCIES&&C.CASH_CURRENCIES.length?C.CASH_CURRENCIES:[CUR()];
 const cLab=id=>(CC().find(c=>c.id===id)||{label:id||CUR().label}).label;
 const cmoney=(n,cu)=>money(n).replace(/ CFA$/," "+cLab(cu||"XAF"));
-function book(){return all("b").slice().sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at)))}
-function trips(){const o={};book().filter(r=>r.type==="trip").forEach(r=>o[r.trip]={trip:r.trip,id:r.id,who:r.who,cur:r.cur||"XAF",given:num(r.amt)||0,ret:0,date:r.date,ref:r.ref,closed:!!r.closed});
+function book(){return memo("book",()=>allM("b").slice().sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at))))}
+function trips(){return memo("trips",trips0)}
+function trips0(){const o={};book().filter(r=>r.type==="trip").forEach(r=>o[r.trip]={trip:r.trip,id:r.id,who:r.who,cur:r.cur||"XAF",given:num(r.amt)||0,ret:0,date:r.date,ref:r.ref,closed:!!r.closed});
   book().filter(r=>r.type==="ret").forEach(r=>{const x=o[r.trip];if(x)x.ret+=num(r.amt)||0});
   return Object.keys(o).map(k=>Object.assign(o[k],{spent:o[k].given-o[k].ret})).sort((a,b)=>String(b.trip).localeCompare(String(a.trip)))}
 const openTrips=()=>trips().filter(x=>!x.closed);
-function nextTrip(){const n=all("b").filter(r=>r.type==="trip").map(r=>parseInt(String(r.trip).replace(/\D/g,""),10)||0);return "T-"+String((n.length?Math.max.apply(null,n):0)+1).padStart(3,"0")}
-function cashOn(cu){const B=book().filter(r=>(r.cur||"XAF")===cu),s=f=>B.filter(f).reduce((t,r)=>t+(num(r.amt)||0),0);let v=s(r=>r.type==="in")-s(r=>r.type==="trip")+s(r=>r.type==="ret");
-  if(cu==="XAF"){const M=all("m"),m=f=>M.filter(f).reduce((t,r)=>t+(num(r.amt)||0),0);v+=-m(r=>r.type==="salary")-m(r=>r.type==="loan")+m(r=>r.type==="repay"&&r.rhow==="cash")}return v}
-const usedCC=()=>CC().map(c=>c.id).filter((id,i)=>i===0||all("b").some(r=>r.cur===id));
-function cashBox(id){if(!canKind("b","view"))return "";return `<div class="box" id="${id}"><h2>${esc(t("mCB"))}</h2>${usedCC().map(cu=>`<div class="mCur" data-cur="${esc(cu)}"><div class="mBal mCashV">${esc(cmoney(cashOn(cu),cu))}</div></div>`).join("")}${tripList(true)}</div>`}
+function nextTrip(){const n=allM("b").filter(r=>r.type==="trip").map(r=>parseInt(String(r.trip).replace(/\D/g,""),10)||0);return "T-"+String((n.length?Math.max.apply(null,n):0)+1).padStart(3,"0")}
+/* MONTHLY CASH BOOK per currency (never mixed). Month = YYYY-MM of the record date.
+   received = cash in (+ loan repaid in cash, CFA);  spent = given to trips − change returned (+ salary and loans paid, CFA);
+   left over = received + moved in − spent.  At each month end the left-over goes automatically into CARRIED OVER (kept apart);
+   the new month starts at 0 received / 0 spent.  Admin can move carried-over money into this month: a logged "mv" record. */
+const ym=d=>String(d||"").slice(0,7);
+function months(cu){return memo("mon:"+cu,()=>{const o={},g=k=>o[k]=o[k]||{k:k,rec:0,spent:0,mv:0},a=r=>num(r.amt)||0;
+  book().forEach(r=>{if((r.cur||"XAF")!==cu)return;const m=g(ym(r.date||r.at));if(r.type==="in")m.rec+=a(r);else if(r.type==="trip")m.spent+=a(r);else if(r.type==="ret")m.spent-=a(r);else if(r.type==="mv")m.mv+=a(r)});
+  if(cu==="XAF")recs().forEach(r=>{const m=g(ym(r.date||r.at));if(r.type==="salary"||r.type==="loan")m.spent+=a(r);else if(r.type==="repay"&&r.rhow==="cash")m.rec+=a(r)});
+  Object.keys(o).forEach(k=>o[k].left=o[k].rec+o[k].mv-o[k].spent);return o})}
+function monthNow(cu,mon){mon=mon||ym(today());const M=months(cu),cur=M[mon]||{k:mon,rec:0,spent:0,mv:0,left:0};let carry=0;
+  Object.keys(M).forEach(k=>{if(k<mon)carry+=M[k].rec-M[k].spent;if(k<=mon)carry-=M[k].mv});
+  return {k:mon,rec:cur.rec,spent:cur.spent,mv:cur.mv,left:cur.left,carry:carry,past:Object.keys(M).filter(k=>k<mon).sort().reverse().map(k=>M[k])}}
+/* total cash on hand = carried over + this month's left over */
+function cashOn(cu){const m=monthNow(cu);return m.carry+m.left}
+const usedCC=()=>CC().map(c=>c.id).filter((id,i)=>i===0||allM("b").some(r=>r.cur===id));
+function cashBox(id){if(!canKind("b","view"))return "";return `<div class="box" id="${id}"><h2>${esc(t("mCB"))} · ${esc(ym(today()))}</h2>${usedCC().map(cu=>{const m=monthNow(cu),c=x=>esc(cmoney(x,cu));
+  return `<div class="mCur" data-cur="${esc(cu)}"><h3>${esc(t("mMonth"))} (${esc(cLab(cu))})</h3>
+  <div class="mRow"><span>⬇️ ${esc(t("mRecv"))}: <b class="mRecV">${c(m.rec)}</b></span><span>🛒 ${esc(t("mSpentM"))}: <b class="mSpV">${c(m.spent)}</b></span></div>
+  ${m.mv?`<p class="hint">➡️ ${esc(t("mMoved"))}: <b class="mMvV">${c(m.mv)}</b></p>`:""}
+  <div class="mBal mLeftV${m.left<0?" neg":""}">${esc(t("mLeft"))}: ${c(m.left)}</div>
+  <div class="mCarry"><b>📦 ${esc(t("mCarry"))}: <span class="mCarryV">${c(m.carry)}</span></b> <span class="hint">${esc(t("mCarryH"))}</span></div>
+  ${m.past.length?`<details class="mPast"><summary>${esc(t("mPast"))} (${m.past.length})</summary>${m.past.slice(0,24).map(x=>`<div class="hint mPast1" data-m="${esc(x.k)}"><b>${esc(x.k)}</b> · ⬇️ ${c(x.rec)} · 🛒 ${c(x.spent)}${x.mv?" · ➡️ "+c(x.mv):""} · = <b>${c(x.left)}</b></div>`).join("")}</details>`:""}</div>`}).join("")}${tripList(true)}</div>`}
 function tripList(onlyOpen){const L_=onlyOpen?openTrips():trips();return `<h3>${esc(t(onlyOpen?"mOpenT":"mTripN"))}</h3><div class="mTrips">${L_.length?L_.map(x=>`<div class="urow mTrip1" data-trip="${esc(x.trip)}"><span class="n">🛒 <b>${esc(x.trip)}</b> · ${esc(x.who)} · ${esc(x.date)}${x.ref?" · "+esc(x.ref):""}</span><span class="hint">${esc(t("mGiven"))}: <b class="tG">${esc(cmoney(x.given,x.cur))}</b> · ${esc(t("mBack"))}: <b class="tR">${esc(cmoney(x.ret,x.cur))}</b> · ${esc(t("mSpent"))}: <b class="tS">${esc(cmoney(x.spent,x.cur))}</b></span>${!onlyOpen&&!x.closed&&canFix()?`<button type="button" class="sec sm mTClose" data-id="${esc(x.id)}">${esc(t("mClose"))}</button>`:""}${fixBtn("b",x.id,"amt")}</div>`).join(""):`<p class="hint">${esc(t("mNoTrip"))}</p>`}</div>`}
-let bForm=null;
+let bForm=null,bPhoto="";
+function cashRepHTML(){return usedCC().map(cu=>{const M=Object.values(months(cu)).sort((x,y)=>y.k.localeCompare(x.k));if(!M.length)return "";const c=x=>esc(cmoney(x,cu)),T=M.reduce((a,x)=>({rec:a.rec+x.rec,spent:a.spent+x.spent}),{rec:0,spent:0});
+  return `<div class="repH mCashRepH">📊 ${esc(t("mCB"))} (${esc(cu)})</div><table class="rep mCashRep" data-cur="${esc(cu)}"><thead><tr><th>📅</th><th>⬇️</th><th>🛒</th><th>=</th></tr></thead><tbody>${M.slice(0,24).map(x=>`<tr><td>${esc(x.k)}</td><td>${c(x.rec)}</td><td>${c(x.spent)}</td><td>${c(x.rec-x.spent)}</td></tr>`).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td>${c(T.rec)}</td><td>${c(T.spent)}</td><td>${c(T.rec-T.spent)}</td></tr></tfoot></table>`}).join("")}
 function bookHTML(u){if(!canKind("b","view")&&!canKind("b","add"))return "";let h=cashBox("mCashBox");
-  if(canKind("b","add")){h+=`<div class="tiles"><button type="button" class="tile" id="bInB"><b>⬇️</b>${esc(t("mCIn").slice(3))}</button><button type="button" class="tile" id="bTripB"><b>🛒</b>${esc(t("mTrip").slice(3))}</button><button type="button" class="tile" id="bRetB"><b>↩️</b>${esc(t("mRet").slice(3))}</button></div>`;
-   if(bForm){const OT=openTrips();h+=`<div class="box" id="bForm" data-type="${esc(bForm)}"><h3>${esc(t({in:"mCIn",trip:"mTrip",ret:"mRet"}[bForm]))}</h3>
+  if(canKind("b","add")){h+=`<div class="tiles"><button type="button" class="tile" id="bInB"><b>⬇️</b>${esc(t("mCIn").slice(3))}</button><button type="button" class="tile" id="bTripB"><b>🛒</b>${esc(t("mTrip").slice(3))}</button><button type="button" class="tile" id="bRetB"><b>↩️</b>${esc(t("mRet").slice(3))}</button></div>${u.admin?`<button type="button" class="sec" id="bMvB">${esc(t("mMove"))}</button>`:""}`;
+   if(bForm){const OT=openTrips();h+=`<div class="box" id="bForm" data-type="${esc(bForm)}"><h3>${esc(t({in:"mCIn",trip:"mTrip",ret:"mRet",mv:"mMove"}[bForm]))}</h3>
     ${bForm==="trip"?`<p class="hint">${esc(t("mTripN"))}: <b id="bTripNo">${esc(nextTrip())}</b></p><label>${esc(t("mTook"))}</label><input id="bWho" autocomplete="off" value="${esc(u.name)}">`:""}
     ${bForm==="ret"?(OT.length?`<label>${esc(t("mTripN"))}</label><select id="bTrip">${OT.map(x=>`<option value="${esc(x.trip)}">${esc(x.trip)} · ${esc(x.who)} · ${esc(cmoney(x.given-x.ret,x.cur))}</option>`).join("")}</select>`:`<p class="hint" id="bNoTrip">${esc(t("mNoTrip"))}</p>`):""}
     <label>${esc(t("mAmt").replace(" (CFA)",""))}</label><input id="bAmt" inputmode="numeric" autocomplete="off">
     ${bForm!=="ret"?`<label>${esc(t("mCurr"))}</label><select id="bCur">${CC().map(c=>`<option value="${esc(c.id)}">${esc(c.label)}</option>`).join("")}</select>`:""}
     <label>${esc(t(bForm==="trip"?"mRefT":"mNote"))}</label><input id="bNote" autocomplete="off" spellcheck="true">
     <label>${esc(t("mDate"))}</label><input id="bDate" type="date" value="${today()}">
+    ${bForm!=="mv"?`<label>🧾</label>${photoHTML("bPh")}<img id="bPhImg" class="phPrev" alt="" style="display:none;max-width:100%">`:""}
     <p class="err" id="bErr"></p><button type="button" id="bSave">${esc(t("mSave"))}</button><button type="button" class="sec" id="bX">${esc(t("close"))}</button></div>`}}
-  if(canKind("b","view"))h+=`<div class="box" id="bAllTrips">${tripList(false)}</div>`;
+  if(canKind("b","view")){const cr=cashRepHTML();if(cr)h+=`<div class="box" id="bCashRep">${cr}</div>`;h+=`<div class="box" id="bAllTrips">${tripList(false)}</div>`}
   return h}
 function bindBook(u){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  on("bInB",()=>{bForm="in";render()});on("bTripB",()=>{bForm="trip";render()});on("bRetB",()=>{bForm="ret";render()});on("bX",()=>{bForm=null;render()});
+  on("bInB",()=>{bForm="in";render()});on("bTripB",()=>{bForm="trip";render()});on("bRetB",()=>{bForm="ret";render()});on("bMvB",()=>{if(u.admin){bForm="mv";render()}});on("bX",()=>{bForm=null;bPhoto="";render()});
+  document.querySelectorAll('input[data-ph="bPh"]').forEach(i=>i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;window.TMC.lastPhotoFrom=i.hasAttribute("capture")?"camera":"phone";shrinkPhoto(f,800,0.6).then(d=>{bPhoto=d;window.TMC.lastPhoto=d;const im=$("bPhImg");if(im){im.src=d;im.style.display="block"}}).catch(()=>{});i.value=""});
   on("bSave",()=>{const a=num($("bAmt").value),e=$("bErr");if(!(a>0)){e.textContent=t("mBad");e.style.display="block";return}
-    const id="b"+Date.now()+Math.random().toString(36).slice(2,5),d={id:id,type:bForm,amt:a,date:$("bDate").value||today(),note:$("bNote").value.trim(),by:u.name,at:new Date().toISOString()};
+    const id="b"+Date.now()+Math.random().toString(36).slice(2,5),d={id:id,type:bForm,amt:a,date:$("bDate").value||today(),note:$("bNote").value.trim(),by:u.name,at:new Date().toISOString()};if(bPhoto&&bForm!=="mv")d.ph=bPhoto;
     if(bForm==="trip"){d.trip=nextTrip();d.who=$("bWho").value.trim()||u.name;d.ref=d.note;d.cur=$("bCur").value}
     else if(bForm==="ret"){const s=$("bTrip");if(!s)return;const x=openTrips().find(z=>z.trip===s.value);d.trip=s.value;d.cur=x?x.cur:"XAF";d.who=x?x.who:""}
     else d.cur=$("bCur").value;
-    if(put("b",id,d)===false)return;bForm=null;render()});
+    if(bForm==="mv"){if(!u.admin)return;if(a>monthNow(d.cur).carry){e.textContent=t("mMvBad");e.style.display="block";return}d.date=today();d.note=d.note||"carry → "+ym(today())}
+    if(put("b",id,d)===false)return;bForm=null;bPhoto="";render()});
   document.querySelectorAll(".mTClose").forEach(b=>b.onclick=()=>{fix("b",b.dataset.id,"closed",1);render()})}
-window.TMC.money.cash={cashOn:cashOn,trips:trips,openTrips:openTrips,nextTrip:nextTrip,book:book};
+window.TMC.money.cash={monthNow:monthNow,months:months,cashOn:cashOn,trips:trips,openTrips:openTrips,nextTrip:nextTrip,book:book};
 
 function bindWork(u){
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
+  on("mMoreB",()=>{mMore=!mMore;render()});on("mAllRec",()=>{mAllRec=true;render()});
   on("mSalB",()=>{mForm="salary";render()});on("mLoanB",()=>{mForm="loan";render()});on("mRepB",()=>{mForm="repay";mDays.rh="deduct";render()});on("mX",()=>{mForm=null;render()});
   const ws=$("mWhoS");if(ws)ws.onchange=()=>{mSel=ws.value;render()};
   document.querySelectorAll(".mRH").forEach(b=>b.onclick=()=>{mDays.rh=b.dataset.rh;render()});
@@ -746,8 +810,9 @@ function bindWork(u){
     saveProf(id,v);render()});
   on("mRotB",()=>{const o=$("mRotOut");if(!sUrl()){o.textContent=t("ncT");return}o.textContent="…";api({action:"staffRefresh",token:sTok()||undefined,since:0,changes:[]}).then(j=>{mRotMsg=j.ok?"✅ "+((j.rot||{}).names||0)+" / "+((j.rot||{}).changed||0):(j.error==="rotation_read"?"⚠️ Rotation: "+(j.msg||""):t("noAccess"));o.textContent=mRotMsg;syncNow().then(()=>render())}).catch(()=>{mRotMsg=t("ncT");o.textContent=mRotMsg})});
   on("exAdd",()=>{const v=$("exTxt").value.trim();if(!v)return;const id="x"+Date.now();put("x",id,{id:id,text:v,by:u.name,at:new Date().toISOString()});draftClear("exTxt");render()});
-  const srv=a=>{const o=$("exOut");api({action:a,token:sTok()||undefined,code:sCode()||undefined}).then(j=>{o.textContent=j.ok?(a==="report"?JSON.stringify(j.counts):(j.rows||[]).length+" rows"):t("noAccess")}).catch(()=>{o.textContent=t("ncT")})};
+  const srv=a=>{const o=$("exOut");api({action:a,token:sTok()||undefined,code:sCode()||undefined}).then(j=>{if(j.ok&&a==="report")o.innerHTML=reportHTML(t("repT").replace("📊 ",""),Object.entries(j.counts||{}));else o.textContent=j.ok?(j.rows||[]).length+" rows":t("noAccess")}).catch(()=>{o.textContent=t("ncT")})};
   on("exRep",()=>srv("report"));on("exExp",()=>srv("export"));
+  bindPhoto("exPh",d=>{const im=$("exPhImg");if(im){im.src=d;im.style.display="block"}window.TMC.lastPhoto=d});
   bindBook(u);bindFix();
 }
 /* ==================== APP FEATURES END ==================== */
