@@ -23,8 +23,8 @@
  "APP_ID": "tmcmoney",
  "NAME": "TMC Money",
  "SHORT": "TMC Money",
- "VER": 8,
-  "REPORT_COLOR": "#1B7F3B",
+ "VER": 9,
+ "REPORT_COLOR": "#1B7F3B",
  "COLOR": "#15803d",
  "COLOR_DARK": "#14532d",
  "BG": "#f1f5f9",
@@ -72,7 +72,7 @@
   "view",
   "add"
  ],
- "PERM_KINDS_NOTE": "s (Rotation names), p (staff pay details), g (group pay period) need admincat (not tickable) = Admin only. m = payments, d = days worked. b = cash book (cash received, cash to Purchases trips, change returned).",
+ "PERM_KINDS_NOTE": "s (Rotation names), p (staff pay details), g (group pay period) need admincat (not tickable) = Admin only. m = payments, d = days worked. b = cash book (cash received, cash to Purchases trips, change returned, adj = balance adjust by the main Admin only, v2t = 2nd vehicle trip (no cash), v2 = 2nd vehicle payment linked to the trip (cash out)). w = Who took it names (Admin only adds/removes; seeded once on the server). r = 2nd vehicle settings: route prices + 1st part (Admin edits; seeded once on the server; not in this file).",
  "PERM_KINDS": {
   "m": {
    "view": "view",
@@ -95,9 +95,17 @@
   "g": {
    "add": "admincat"
   },
+  "w": {
+   "view": "view",
+   "add": "admincat"
+  },
   "b": {
    "view": "view",
    "add": "add"
+  },
+  "r": {
+   "view": "view",
+   "add": "admincat"
   }
  },
  "CACHE_PREFIX": "tmc-money",
@@ -183,12 +191,13 @@ nav.tabs button .ticon{font-size:24px}nav.tabs button.on{color:var(--c);border-t
 .loBand{width:100%;min-height:56px;margin:0 0 10px;font-size:18px;font-weight:700}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
 .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;margin:0;padding:12px 6px;background:#fff;color:#0f172a;border:2px solid #bbf7d0;border-radius:16px;box-shadow:0 2px 8px #0000000f;font-size:17px;font-weight:700}
-.tile.sec{background:#fff}.tile:active{background:#f0fdf4}.tile b{font-size:40px;line-height:1}
+.tile.sec{background:#fff}.tile:active{background:#f0fdf4}.tile b{font-size:40px;line-height:1}.v2P{font-size:18px;font-weight:800;color:#15803d}#v2Box .mBal{font-size:22px}.v2TRow{text-align:start;min-height:64px;line-height:1.4}
 .phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
 .rep{width:100%;border-collapse:collapse;font-size:17px;margin:6px 0}.rep th{background:var(--rc);color:#fff;text-align:left;padding:12px 10px}.rep td{padding:12px 10px;border-bottom:1px solid #d1e7d8}.rep tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--rc) 10%,#fff)}.rep tfoot td{background:color-mix(in srgb,var(--rc) 22%,#fff);color:var(--rc);font-weight:800;border-top:3px solid var(--rc)}.repH{background:var(--rc);color:#fff;border-radius:10px;padding:12px;font-weight:800;font-size:19px;margin:6px 0}
 nav.tabs .tlab{font-size:13px;line-height:1.1;text-align:center;overflow-wrap:anywhere;max-width:100%}
 .rpBar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.rpBar button{margin:0;padding:6px 4px;font-size:16px}.rpBar button.on{background:var(--rc);color:#fff}
-.rpDates{display:grid;grid-template-columns:1fr 1fr;gap:6px}.rpDates label{margin:4px 0 0}
+.rpDates{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}.rpDates>div{min-width:0}.rpDates input{width:100%;min-width:0;max-width:100%;box-sizing:border-box}.rpDates label{margin:4px 0 0}
+.mCarryB{min-height:64px;font-size:20px;background:#fff;color:#0f172a;border:2px solid #bbf7d0;border-radius:14px}.mCarryBox .mBal{font-size:34px}.tiles.one{grid-template-columns:1fr}.tiles.one .tile{min-height:110px}.bSigns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bSigns button{margin:0;min-height:64px;font-size:20px}.bSign.on{background:var(--c);color:#fff}#wBox .urow button{min-height:56px;min-width:56px}
 .rpAct{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rpAct button{margin:0}.rpAct .rpBk{grid-column:1/-1}
 .rpXls{background:var(--rc)}.rpList button{text-align:start}
 .mBal,.mTIn,.mTOut,.mBankV,.mPlus,.mMinus,.rIn,.rOut,.rNet,.mKRes b{unicode-bidi:isolate;direction:ltr;display:inline-block}.mBal{display:block}.mTab td,.mKRes,.mRec .hint{unicode-bidi:plaintext}
@@ -262,7 +271,7 @@ waitT:"Waiting for approval",waitH:"%n, the Admin must approve you. Ask the Admi
 rejT:"Not approved",rejH:"The Admin did not approve this name. Ask the Admin.",blkT:"Blocked",blkH:"This name is blocked. Ask the Admin.",
 netT:"Internet needed",netH:"Connect to the internet once so the app can load the users.",retry:"🔄 Try again",loading:"Loading…",
 home:"Home",work:"Work",users:"Users",settings:"Settings",share:"Share app",syncNow:"🔄 Sync now",
-phT:"🧩 APP FEATURES GO HERE",phH:"This tab is a placeholder. Each app puts its own screens here.",exT:"Example note (demo)",exAdd:"Save note",fix:"✏️ Fix",fixT:"✏️ Fix a mistake (Admin)",fixSave:"💾 Save fix",fixOnly:"Only the Admin can fix a saved record.",fixed:"fixed by",can:"What I can do",canH:"Ticked = allowed. Ask the Admin to change it.",canEd:"✅ Allowed for",dupT:"Already asked - wait for Admin",dupH:"This name already asked once. Wait for the Admin. If you were approved, type your name and PIN to sign in.",canAdm:"⭐ Admin only: ✏️ Fix, 👥 Approve users",lkFix:"✏️ Fix",lkApp:"👥 Approve users",admOnly:"Admin only",canAll:"⭐ Admin: you can do everything.",noAccess:"You are not allowed to do this.",repT:"📊 Report",expT:"📤 Export",exNone:"No notes yet.",
+phT:"🧩 APP FEATURES GO HERE",phH:"This tab is a placeholder. Each app puts its own screens here.",exT:"Example note (demo)",exAdd:"Save note",fix:"✏️ Fix",fixT:"✏️ Fix a mistake (Admin)",fixSave:"💾 Save fix",fixOnly:"Only the Admin can fix a saved record.",fixRef:"⚠️ Your fix was not saved. Only the Admin can fix. Sign in as the Admin and try again.",fixed:"fixed by",can:"What I can do",canH:"Ticked = allowed. Ask the Admin to change it.",canEd:"✅ Allowed for",dupT:"Already asked - wait for Admin",dupH:"This name already asked once. Wait for the Admin. If you were approved, type your name and PIN to sign in.",canAdm:"⭐ Admin only: ✏️ Fix, 👥 Approve users",lkFix:"✏️ Fix",lkApp:"👥 Approve users",admOnly:"Admin only",canAll:"⭐ Admin: you can do everything.",noAccess:"You are not allowed to do this.",repT:"📊 Report",expT:"📤 Export",exNone:"No notes yet.",
 synced:"Synced",syncErr:"Sync problem",syncOff:"Sync not set up",offline:"Offline",last:"Last sync",
 pwT:"⚠️ %n change(s) not sent to the Sheet yet",pwOff:"No internet — they will be sent when you are online.",pwDel:"Tap 🔄 Sync now before deleting the app or clearing data, or these changes will be lost.",
 updT:"🆕 A new version is ready",updB:"⬆️ Update now",updChk:"Check for update",updNone:"You have the latest version.",ver:"Version",
@@ -282,7 +291,7 @@ waitT:"En attente d'approbation",waitH:"%n, l'Admin doit vous approuver. Demande
 rejT:"Non approuvé",rejH:"L'Admin n'a pas approuvé ce nom. Demandez à l'Admin.",blkT:"Bloqué",blkH:"Ce nom est bloqué. Demandez à l'Admin.",
 netT:"Internet nécessaire",netH:"Connectez-vous une fois à internet pour charger les utilisateurs.",retry:"🔄 Réessayer",loading:"Chargement…",
 home:"Accueil",work:"Travail",users:"Utilisateurs",settings:"Réglages",share:"Partager l'app",syncNow:"🔄 Synchroniser",
-phT:"🧩 LES FONCTIONS DE L'APP VONT ICI",phH:"Cet onglet est un emplacement. Chaque app y met ses écrans.",exT:"Note d'exemple (démo)",exAdd:"Enregistrer la note",fix:"✏️ Corriger",fixT:"✏️ Corriger une erreur (Admin)",fixSave:"💾 Enregistrer",fixOnly:"Seul l'Admin peut corriger un enregistrement.",fixed:"corrigé par",can:"Mes droits",canH:"Coché = autorisé. Demandez à l'Admin pour changer.",canEd:"✅ Autorisé pour",dupT:"Déjà demandé - attendez l'Admin",dupH:"Ce nom a déjà demandé. Attendez l'Admin. Si vous êtes accepté, tapez votre nom et PIN.",canAdm:"⭐ Admin seulement : ✏️ Corriger, 👥 Approuver",lkFix:"✏️ Corriger",lkApp:"👥 Approuver",admOnly:"Admin seulement",canAll:"⭐ Admin : vous pouvez tout faire.",noAccess:"Vous n'avez pas le droit de faire ceci.",repT:"📊 Rapport",expT:"📤 Exporter",exNone:"Pas encore de notes.",
+phT:"🧩 LES FONCTIONS DE L'APP VONT ICI",phH:"Cet onglet est un emplacement. Chaque app y met ses écrans.",exT:"Note d'exemple (démo)",exAdd:"Enregistrer la note",fix:"✏️ Corriger",fixT:"✏️ Corriger une erreur (Admin)",fixSave:"💾 Enregistrer",fixOnly:"Seul l'Admin peut corriger un enregistrement.",fixRef:"⚠️ Votre correction n'est pas enregistrée. Seul l'Admin peut corriger. Connectez-vous comme Admin et réessayez.",fixed:"corrigé par",can:"Mes droits",canH:"Coché = autorisé. Demandez à l'Admin pour changer.",canEd:"✅ Autorisé pour",dupT:"Déjà demandé - attendez l'Admin",dupH:"Ce nom a déjà demandé. Attendez l'Admin. Si vous êtes accepté, tapez votre nom et PIN.",canAdm:"⭐ Admin seulement : ✏️ Corriger, 👥 Approuver",lkFix:"✏️ Corriger",lkApp:"👥 Approuver",admOnly:"Admin seulement",canAll:"⭐ Admin : vous pouvez tout faire.",noAccess:"Vous n'avez pas le droit de faire ceci.",repT:"📊 Rapport",expT:"📤 Exporter",exNone:"Pas encore de notes.",
 synced:"Synchronisé",syncErr:"Problème de synchro",syncOff:"Synchro non configurée",offline:"Hors ligne",last:"Dernière synchro",
 pwT:"⚠️ %n modification(s) pas encore envoyée(s) à la feuille",pwOff:"Pas d'internet — elles seront envoyées dès que vous serez en ligne.",pwDel:"Touchez 🔄 Synchroniser avant de supprimer l'application ou d'effacer les données, sinon ces modifications seront perdues.",
 updT:"🆕 Une nouvelle version est prête",updB:"⬆️ Mettre à jour",updChk:"Chercher une mise à jour",updNone:"Vous avez la dernière version.",ver:"Version",
@@ -302,7 +311,7 @@ waitT:"بانتظار الموافقة",waitH:"%n، يجب أن يوافق ال�
 rejT:"غير موافق عليه",rejH:"لم يوافق المسؤول على هذا الاسم. اسأل المسؤول.",blkT:"محظور",blkH:"هذا الاسم محظور. اسأل المسؤول.",
 netT:"يلزم الإنترنت",netH:"اتصل بالإنترنت مرة واحدة ليتم تحميل المستخدمين.",retry:"🔄 حاول مرة أخرى",loading:"جار التحميل…",
 home:"الرئيسية",work:"العمل",users:"المستخدمون",settings:"الإعدادات",share:"مشاركة التطبيق",syncNow:"🔄 مزامنة الآن",
-phT:"🧩 ميزات التطبيق توضع هنا",phH:"هذا التبويب مكان مخصص. كل تطبيق يضع شاشاته هنا.",exT:"ملاحظة مثال (تجربة)",exAdd:"حفظ الملاحظة",fix:"✏️ تصحيح",fixT:"✏️ تصحيح خطأ (المدير)",fixSave:"💾 حفظ التصحيح",fixOnly:"المدير فقط يمكنه تصحيح سجل محفوظ.",fixed:"صححه",can:"ما يمكنني فعله",canH:"المؤشَّر = مسموح. اطلب من المدير التغيير.",canEd:"✅ مسموح لـ",dupT:"تم الطلب - انتظر المدير",dupH:"هذا الاسم طلب من قبل. انتظر المدير. إذا تمت الموافقة، اكتب اسمك والرقم السري.",canAdm:"⭐ للمدير فقط: ✏️ تصحيح، 👥 قبول المستخدمين",lkFix:"✏️ تصحيح",lkApp:"👥 قبول المستخدمين",admOnly:"للمدير فقط",canAll:"⭐ المدير: يمكنك فعل كل شيء.",noAccess:"غير مسموح لك بهذا.",repT:"📊 تقرير",expT:"📤 تصدير",exNone:"لا توجد ملاحظات بعد.",
+phT:"🧩 ميزات التطبيق توضع هنا",phH:"هذا التبويب مكان مخصص. كل تطبيق يضع شاشاته هنا.",exT:"ملاحظة مثال (تجربة)",exAdd:"حفظ الملاحظة",fix:"✏️ تصحيح",fixT:"✏️ تصحيح خطأ (المدير)",fixSave:"💾 حفظ التصحيح",fixOnly:"المدير فقط يمكنه تصحيح سجل محفوظ.",fixRef:"⚠️ لم يُحفظ تصحيحك. المدير فقط يمكنه التصحيح. سجّل الدخول كمدير وحاول مرة أخرى.",fixed:"صححه",can:"ما يمكنني فعله",canH:"المؤشَّر = مسموح. اطلب من المدير التغيير.",canEd:"✅ مسموح لـ",dupT:"تم الطلب - انتظر المدير",dupH:"هذا الاسم طلب من قبل. انتظر المدير. إذا تمت الموافقة، اكتب اسمك والرقم السري.",canAdm:"⭐ للمدير فقط: ✏️ تصحيح، 👥 قبول المستخدمين",lkFix:"✏️ تصحيح",lkApp:"👥 قبول المستخدمين",admOnly:"للمدير فقط",canAll:"⭐ المدير: يمكنك فعل كل شيء.",noAccess:"غير مسموح لك بهذا.",repT:"📊 تقرير",expT:"📤 تصدير",exNone:"لا توجد ملاحظات بعد.",
 synced:"تمت المزامنة",syncErr:"مشكلة في المزامنة",syncOff:"المزامنة غير مُعدة",offline:"غير متصل",last:"آخر مزامنة",
 pwT:"⚠️ %n تغيير لم يُرسل إلى الجدول بعد",pwOff:"لا يوجد إنترنت — سيتم الإرسال عند الاتصال.",pwDel:"اضغط 🔄 مزامنة الآن قبل حذف التطبيق أو مسح البيانات، وإلا ستضيع هذه التغييرات.",
 updT:"🆕 نسخة جديدة جاهزة",updB:"⬆️ تحديث الآن",updChk:"البحث عن تحديث",updNone:"لديك آخر نسخة.",ver:"النسخة",
@@ -338,7 +347,9 @@ function permsOf(u){return u&&Array.isArray(u.perms)?u.perms:(C.PERM_DEFAULT||[]
 function can(p,u){u=u||me();return !!u&&(!!u.admin||permsOf(u).indexOf(p)>=0)}
 function canKind(kind,what,u){const k=(C.PERM_KINDS||{})[kind];return !k||!k[what]||can(k[what],u)}
 function permLab(p){return p[lang]||p.en}
-function canFix(){const m=me();return !!(m&&m.admin)}
+/* VER 9 = base VER 6 ADMIN FIX RULE (phone): role + token decide, never the team code alone. Admin with a token = fix, even if a team code is saved.
+   A team-code phone with no token counts as staff (the server refuses its fixes). See tmc-base tests/admin_fix_test_spec.md. */
+function canFix(){const m=me();if(!(m&&m.admin))return false;return !!(sTok()||!sCode())}
 function put(kind,id,data){const k=kind+":"+id;if(kind!=="u"&&R[k]&&!R[k].del&&!canFix()){alert(t("fixOnly"));return false}if(kind!=="u"&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:0,data:data};dirty[k]=1;saveR();syncSoon();}
 function remove(kind,id){const k=kind+":"+id;if(kind==="u")return false;if(kind!=="u"&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();}
 /* fix(): Admin changes one field; old value, Admin name and time are kept in data._fix (audit column) and the server "Fix log" tab. */
@@ -364,25 +375,31 @@ window.TMC.api=api;
 const pending=()=>Object.keys(dirty).length;
 let sState="",busy=null,tmr=null,fails=0;
 function syncSoon(ms){clearTimeout(tmr);tmr=setTimeout(()=>syncNow(),ms==null?800:ms)}
-let relog=null;
+let relog=null,relogNo=0,force={};
 function syncNow(){
   // token phone signed in offline (or token lost): get a new token with this phone's own stored PIN hash
-  if(tokMode()&&!sTok()){const u=me();if(!u||!u.pinH)return Promise.resolve(false);
-    if(!relog)relog=api({action:"login",id:u.id,pinH:u.pinH}).then(j=>{relog=null;if(j&&j.ok){L.set("tok",j.token);return syncNow()}if(j&&j.error!=="locked"){signOut();render()}return false},()=>{relog=null;syncSoon(30000);return false});
+  // VER 9 (base VER 6): an Admin on a team-code phone also gets its own token (so its fixes count as Admin). If that fails, it keeps syncing by code.
+  const adm=me(),codeAdm=!tokMode()&&sUrl()&&sCode()&&adm&&adm.admin&&adm.pinH&&!relogNo;
+  if((tokMode()||codeAdm)&&!sTok()){const u=me();if(!u||!u.pinH)return Promise.resolve(false);
+    if(!relog)relog=api({action:"login",id:u.id,pinH:u.pinH}).then(j=>{relog=null;if(j&&j.ok){L.set("tok",j.token);return syncNow()}if(codeAdm){relogNo=1;return syncNow()}if(j&&j.error!=="locked"){signOut();render()}return false},()=>{relog=null;if(codeAdm){relogNo=1;return syncNow()}syncSoon(30000);return false});
     return relog}
   if(!syncOn())return Promise.resolve(false);
   if(busy)return busy;
   const keys=Object.keys(dirty),sent={};
   const changes=keys.map(k=>{const r=R[k];sent[k]=r.u;return {kind:r.kind,id:r.id,u:r.u,del:r.del,data:r.data}});
   sState="busy";paintSync();
-  busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sCode()||undefined,token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes})})
+  busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sTok()?undefined:(sCode()||undefined),token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes})})
   .then(r=>r.json()).then(j=>{
-    if(j&&!j.ok&&(j.error==="bad_token"||j.error==="not_active")&&!sCode()){L.del("tok")}
+    if(j&&!j.ok&&(j.error==="bad_token"||j.error==="not_active")){const hadTok=!!sTok();L.del("tok");if(sCode()&&hadTok){relogNo=0;syncSoon(300)}}
     if(!j||!j.ok)throw new Error(j&&j.error||"sync");
     Object.keys(sent).forEach(k=>{if(R[k]&&R[k].u===sent[k])delete dirty[k]});
-    (j.records||[]).forEach(s=>{const k=s.kind+":"+s.id,u=+s.u||0,loc=R[k];if(loc&&(loc.u>u||(dirty[k]&&loc.u>=u)))return;
+    const F=force;force={};
+    (j.records||[]).forEach(s=>{const k=s.kind+":"+s.id,u=+s.u||0,loc=R[k];if(F[k]&&!dirty[k]){delete F[k]}else if(loc&&(loc.u>u||(dirty[k]&&loc.u>=u)))return;
       let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del)return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
-    L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;return true})
+    L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;
+    /* the server refused a fix (admin_only_fix / main_admin_only): tell the user and take the server copy back, so no phone keeps a fix only it has */
+    if(j.refused&&(j.refusedWhy==="admin_only_fix"||j.refusedWhy==="main_admin_only")){Object.keys(sent).forEach(k=>{if(k.indexOf("u:")!==0&&!dirty[k])force[k]=1});L.set("since","0");toast(t("fixRef"));syncSoon(200)}
+    return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5e3*Math.pow(2,fails-1)):60000);return false})
   .then(ok=>{busy=null;paintSync();try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
   return busy;
@@ -406,7 +423,7 @@ const hasAdmin=()=>users().some(u=>approved(u)&&u.admin);
 async function H(pin,salt){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+":"+pin));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("")}
 function me(){const id=L.get("uid"),ok=L.get("uok");if(!id||!ok)return null;const u=users().find(x=>x.id===id);if(!u||!approved(u)||ok!==u.id+":"+u.pinH)return null;return u}
 window.TMC.me=me;
-function signOut(){L.del("uid");L.del("uok");if(tokMode())L.del("tok")}
+function signOut(){L.del("uid");L.del("uok");L.del("tok");relogNo=0}  // always drop the token, so the next person on this phone never gets the Admin's token
 function fails_(k){const F=L.j("pinFail",{}),now=Date.now();return (F[k]||[]).filter(x=>now-x<36e5)}
 function addFail(k){const F=L.j("pinFail",{});F[k]=fails_(k).concat([Date.now()]);L.sj("pinFail",F)}
 function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
@@ -421,14 +438,16 @@ function render(){
   const u=me();
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
-  if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
+  if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if((tab==="tSal"||tab==="tLoan")&&!payOk(u))tab="home";if(tab==="veh2"&&!extraTabs(u).length)tab="home";if(tab==="carry"&&!carryOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
   A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
 }
-/* ONE list feeds the bottom tabs AND the Home tiles (same screens, icons, names, order) */
-function tabsOf(u){return [["home","🏠"],...(workOk(u)?[["work","💰"]]:[]),...(repOk(u)&&REPORTS.length?[["reports","📊"]]:[]),["can","✅"],...(u.admin?[["users","👥",users().filter(x=>x.status==="pending").length]]:[]),["settings","⚙️"]]}
+/* v9: bottom bar = at most 5 tabs (Home, Money, Reports, Users, Settings). Home tiles = every screen; where a tile is also a tab it has the same screen, icon, name and order. */
+function tabsOf(u){return [["home","🏠"],...(workOk(u)?[["work","💰"]]:[]),...(repOk(u)&&REPORTS.length?[["reports","📊"]]:[]),...(u.admin?[["users","👥",users().filter(x=>x.status==="pending").length]]:[]),["settings","⚙️"]]}
+function homeTiles(u){return [...(workOk(u)?[["work","💰"]]:[]),...(payOk(u)?[["tSal","💵"],["tLoan","🤝"]]:[]),...extraTabs(u),...(carryOk(u)?[["carry","📦"]]:[]),...(repOk(u)&&REPORTS.length?[["reports","📊"]]:[]),["can","✅"],...(u.admin?[["users","👥",users().filter(x=>x.status==="pending").length]]:[]),["settings","⚙️"]]}
+function carryOk(u){return workOk(u)&&canKind("b","view")}
 function repOk(u){u=u||me();return !!u&&(!!u.admin||can("reports",u))}
 function workOk(u){return (C.PERMS||[]).length===0||["view","add","reports","export"].some(p=>can(p,u))}
 function navBtn(k,ic,n){return `<button type="button" data-tab="${k}" class="${tab===k?"on":""}"><span class="ticon">${ic}</span><span class="tlab">${esc(t(k))}</span>${n?`<span class="badge">${n}</span>`:""}</button>`}
@@ -532,13 +551,17 @@ async function setPin(){
 /* ---------------- Main views ---------------- */
 function viewHTML(u){
   if(tab==="work")return workHTML(u);
+  if(tab==="tSal")return salHTML(u);
+  if(tab==="tLoan")return loanHTML(u);
+  if(tab==="veh2")return v2HTML(u);
+  if(tab==="carry")return `<div class="box" id="csBox"><h2>📦 ${esc(t("carry"))}</h2>${carryHTML("cs",1)}</div>`;
   if(tab==="users")return usersHTML(u);
   if(tab==="settings")return settingsHTML(u);
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
   return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
-  <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>${homeMoney(u)}`;
+  <div class="tiles">${homeTiles(u).map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>${homeMoney(u)}`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
    photoHTML(id) -> HTML; bindPhoto(id, cb) -> cb(dataUrl) after resize/compress (max 1280px, JPEG 0.7). */
@@ -629,9 +652,9 @@ Object.assign(window.TMC,{addReport:addReport,REPORTS:REPORTS,XL:XL,repXlsx:repX
           "x" = short notes (kept from the base).
    Staff ADD only and see only their own money; Admin fixes with TMC.fix (Fix log). Person id = NK(name). */
 const MT={
- en:{mMonth:"This month",mRecv:"Cash received",mSpentM:"Spent",mLeft:"Left over",mCarry:"Carried over",mCarryH:"left over from earlier months (kept apart)",mMove:"➡️ Move carried-over into this month",mMoved:"Moved in from carried over",mPast:"Month-end summary",mMore:"More: salary & loans",mPaidTo:"Paid up to",mShowAll:"Show all",mMvBad:"More than carried over",mCB:"💵 Cash on hand",mCIn:"⬇️ Cash received",mTrip:"🛒 Cash to Purchases",mRet:"↩️ Change returned",mTook:"Who took it",mTripN:"Trip",mGiven:"Given",mBack:"Returned",mSpent:"Spent",mOpenT:"Open trips",mCurr:"Currency",mNoTrip:"No open trip",mClose:"✅ Close trip",mRefT:"Purchases reference (free text)",work:"Money",mPD:"📅 Day",mPW:"📅 Week",mPM:"📅 Month",mPQ:"📅 Quarter",mPY:"📅 Year",mSal:"💵 Salary paid",mLoan:"🤝 Loan given",mRep:"↩️ Loan repaid",mDed:"✂️ From salary",mCashR:"💵 Cash",mWho:"Person",mAmt:"Amount (CFA)",mDate:"Date",mNote:"Note",mRef:"Receipt no.",mHow:"Paid by",mSave:"💾 Save",mBad:"Type an amount",mList:"Records",mNone:"No records yet",mOwe:"Loan owed",mDue:"Salary due",mDueP:"Due this period",mPaid:"Paid",mDays:"Days worked",mDaySave:"💾 Save days",mRate:"Day rate",mHead:"Headcount",mFixed:"Fixed",mDayR:"Day rate",mPer2:"Every 2 weeks",mPerM:"Monthly",mPerR:"Per rotation",mPerG:"Group default",mStaff:"👥 Staff",mAddP:"➕ Add person",mName:"Full name",mSno:"Staff ID",mPos:"Position",mDept:"Department",mStart:"Start date",mGroup:"Group",mPer:"Pay period",mPType:"Pay type",mSalP:"Amount per period (CFA)",mMeth:"Payment method",mDet:"Bank / phone",mStat:"Status",mUnset:"not set",mRot:"🔄 Names from Rotation",mFromRot:"Rotation",mManual:"Manual",mGroups:"Groups",mCsvP:"⬇️ Payments CSV",mCsvS:"⬇️ Staff CSV",mTot:"Totals",mOut:"Loans outstanding",mRaise:"New amount from",mOpen:"Open",mDupe:"This name is already in the list",mMine:"My money",mNotes:"📝 Notes",mCalc:"days × rate",mWhoOwed:"Who is owed"},
- fr:{mMonth:"Ce mois",mRecv:"Argent reçu",mSpentM:"Dépensé",mLeft:"Reste",mCarry:"Report",mCarryH:"reste des mois précédents (à part)",mMove:"➡️ Verser le report dans ce mois",mMoved:"Versé depuis le report",mPast:"Bilan fin de mois",mMore:"Plus : salaires et prêts",mPaidTo:"Payé jusqu'au",mShowAll:"Tout afficher",mMvBad:"Plus que le report",mCB:"💵 Caisse",mCIn:"⬇️ Argent reçu",mTrip:"🛒 Argent pour Achats",mRet:"↩️ Monnaie rendue",mTook:"Qui l'a pris",mTripN:"Course",mGiven:"Donné",mBack:"Rendu",mSpent:"Dépensé",mOpenT:"Courses ouvertes",mCurr:"Devise",mNoTrip:"Aucune course ouverte",mClose:"✅ Clôturer",mRefT:"Réf. Achats (texte libre)",work:"Argent",mPD:"📅 Jour",mPW:"📅 Semaine",mPM:"📅 Mois",mPQ:"📅 Trimestre",mPY:"📅 Année",mSal:"💵 Salaire payé",mLoan:"🤝 Prêt donné",mRep:"↩️ Prêt remboursé",mDed:"✂️ Sur salaire",mCashR:"💵 Espèces",mWho:"Personne",mAmt:"Montant (CFA)",mDate:"Date",mNote:"Note",mRef:"N° reçu",mHow:"Payé par",mSave:"💾 Enregistrer",mBad:"Tapez un montant",mList:"Écritures",mNone:"Rien encore",mOwe:"Prêt dû",mDue:"Salaire dû",mDueP:"Dû cette période",mPaid:"Payé",mDays:"Jours travaillés",mDaySave:"💾 Enregistrer jours",mRate:"Taux jour",mHead:"Effectif",mFixed:"Fixe",mDayR:"Par jour",mPer2:"Toutes les 2 semaines",mPerM:"Mensuel",mPerR:"Par rotation",mPerG:"Selon groupe",mStaff:"👥 Personnel",mAddP:"➕ Ajouter personne",mName:"Nom complet",mSno:"N° employé",mPos:"Poste",mDept:"Service",mStart:"Date début",mGroup:"Groupe",mPer:"Période de paie",mPType:"Type de paie",mSalP:"Montant par période (CFA)",mMeth:"Mode de paiement",mDet:"Banque / téléphone",mStat:"Statut",mUnset:"non fixé",mRot:"🔄 Noms de Rotation",mFromRot:"Rotation",mManual:"Manuel",mGroups:"Groupes",mCsvP:"⬇️ CSV paiements",mCsvS:"⬇️ CSV personnel",mTot:"Totaux",mOut:"Prêts en cours",mRaise:"Nouveau montant dès",mOpen:"Ouvrir",mDupe:"Ce nom est déjà dans la liste",mMine:"Mon argent",mNotes:"📝 Notes",mCalc:"jours × taux",mWhoOwed:"À qui on doit"},
- ar:{mMonth:"هذا الشهر",mRecv:"النقد المستلم",mSpentM:"المصروف",mLeft:"المتبقي",mCarry:"المرحّل",mCarryH:"متبقي الأشهر السابقة (منفصل)",mMove:"➡️ نقل المرحّل إلى هذا الشهر",mMoved:"منقول من المرحّل",mPast:"ملخص نهاية الشهر",mMore:"المزيد: الرواتب والسلف",mPaidTo:"مدفوع حتى",mShowAll:"عرض الكل",mMvBad:"أكثر من المرحّل",mCB:"💵 النقد المتوفر",mCIn:"⬇️ نقد مستلم",mTrip:"🛒 نقد للمشتريات",mRet:"↩️ الباقي المرتجع",mTook:"من أخذه",mTripN:"رحلة",mGiven:"المعطى",mBack:"المرتجع",mSpent:"المصروف",mOpenT:"رحلات مفتوحة",mCurr:"العملة",mNoTrip:"لا رحلة مفتوحة",mClose:"✅ إغلاق",mRefT:"مرجع المشتريات (نص حر)",work:"المال",mPD:"📅 يوم",mPW:"📅 أسبوع",mPM:"📅 شهر",mPQ:"📅 ربع",mPY:"📅 سنة",mSal:"💵 راتب مدفوع",mLoan:"🤝 سلفة",mRep:"↩️ سداد سلفة",mDed:"✂️ من الراتب",mCashR:"💵 نقدا",mWho:"الشخص",mAmt:"المبلغ (CFA)",mDate:"التاريخ",mNote:"ملاحظة",mRef:"رقم الإيصال",mHow:"طريقة الدفع",mSave:"💾 حفظ",mBad:"اكتب المبلغ",mList:"السجلات",mNone:"لا شيء بعد",mOwe:"سلفة مستحقة",mDue:"راتب مستحق",mDueP:"مستحق هذه الفترة",mPaid:"مدفوع",mDays:"أيام العمل",mDaySave:"💾 حفظ الأيام",mRate:"أجر اليوم",mHead:"العدد",mFixed:"ثابت",mDayR:"باليوم",mPer2:"كل أسبوعين",mPerM:"شهري",mPerR:"لكل دورة",mPerG:"حسب المجموعة",mStaff:"👥 الموظفون",mAddP:"➕ إضافة شخص",mName:"الاسم الكامل",mSno:"رقم الموظف",mPos:"الوظيفة",mDept:"القسم",mStart:"تاريخ البدء",mGroup:"المجموعة",mPer:"فترة الدفع",mPType:"نوع الأجر",mSalP:"المبلغ لكل فترة (CFA)",mMeth:"طريقة الدفع",mDet:"البنك / الهاتف",mStat:"الحالة",mUnset:"غير محدد",mRot:"🔄 الأسماء من Rotation",mFromRot:"Rotation",mManual:"يدوي",mGroups:"المجموعات",mCsvP:"⬇️ CSV المدفوعات",mCsvS:"⬇️ CSV الموظفين",mTot:"المجاميع",mOut:"السلف القائمة",mRaise:"مبلغ جديد من",mOpen:"فتح",mDupe:"هذا الاسم موجود",mMine:"مالي",mNotes:"📝 ملاحظات",mCalc:"أيام × أجر",mWhoOwed:"لمن ندين"}};
+ en:{carry:"Carried over",v2P1:"Pay 1st part (departure)",v2P2:"Pay balance (return)",v2First:"1st part",v2Bal:"Balance",v2Paid:"Paid",v2Pr:"Price",v2Full:"✅ Paid in full",v2Owe:"Still owing",v2Trips:"Trips",v2Pays:"Payments",v2Short:"Short route",v2Long:"Long route",v2Prices:"⚙️ Route prices",v2Det:"Trip details",v2DetBad:"Write the trip details",v2Note:"Note (optional)",veh2:"2nd Vehicle",v2Pay:"Pay 2nd vehicle",v2Why:"Rotation: staff to Bardai airport and back to HQ",tSal:"Salaries",tLoan:"Loans",mAdj:"⚖️ Fix balance",mAdjAdd:"➕ Add",mAdjSub:"➖ Take off",mWhy:"Why? (must write)",mWhyBad:"Write why",mAdjd:"Balance adjusted",wNames:"👥 Names",wAdd:"➕ Add name",wNew:"New name",wDupe:"Already in the list",wDelQ:"Remove %n?",mMonth:"This month",mRecv:"Cash received",mSpentM:"Spent",mLeft:"Left over",mCarry:"Carried over",mCarryH:"left over from earlier months (kept apart)",mMove:"➡️ Move carried-over into this month",mMoved:"Moved in from carried over",mPast:"Month-end summary",mMore:"More: salary & loans",mPaidTo:"Paid up to",mShowAll:"Show all",mMvBad:"More than carried over",mCB:"💵 Cash on hand",mCIn:"⬇️ Cash received",mTrip:"🛒 Cash to Purchases",mRet:"↩️ Change returned",mTook:"Who took it",mTripN:"Trip",mGiven:"Given",mBack:"Returned",mSpent:"Spent",mOpenT:"Open trips",mCurr:"Currency",mNoTrip:"No open trip",mClose:"✅ Close trip",mRefT:"Purchases reference (free text)",work:"Money",mPD:"📅 Day",mPW:"📅 Week",mPM:"📅 Month",mPQ:"📅 Quarter",mPY:"📅 Year",mSal:"💵 Salary paid",mLoan:"🤝 Loan given",mRep:"↩️ Loan repaid",mDed:"✂️ From salary",mCashR:"💵 Cash",mWho:"Person",mAmt:"Amount (CFA)",mDate:"Date",mNote:"Note",mRef:"Receipt no.",mHow:"Paid by",mSave:"💾 Save",mBad:"Type an amount",mList:"Records",mNone:"No records yet",mOwe:"Loan owed",mDue:"Salary due",mDueP:"Due this period",mPaid:"Paid",mDays:"Days worked",mDaySave:"💾 Save days",mRate:"Day rate",mHead:"Headcount",mFixed:"Fixed",mDayR:"Day rate",mPer2:"Every 2 weeks",mPerM:"Monthly",mPerR:"Per rotation",mPerG:"Group default",mStaff:"👥 Staff",mAddP:"➕ Add person",mName:"Full name",mSno:"Staff ID",mPos:"Position",mDept:"Department",mStart:"Start date",mGroup:"Group",mPer:"Pay period",mPType:"Pay type",mSalP:"Amount per period (CFA)",mMeth:"Payment method",mDet:"Bank / phone",mStat:"Status",mUnset:"not set",mRot:"🔄 Names from Rotation",mFromRot:"Rotation",mManual:"Manual",mGroups:"Groups",mCsvP:"⬇️ Payments CSV",mCsvS:"⬇️ Staff CSV",mTot:"Totals",mOut:"Loans outstanding",mRaise:"New amount from",mOpen:"Open",mDupe:"This name is already in the list",mMine:"My money",mNotes:"📝 Notes",mCalc:"days × rate",mWhoOwed:"Who is owed"},
+ fr:{carry:"Report",v2P1:"Payer la 1re partie (départ)",v2P2:"Payer le solde (retour)",v2First:"1re partie",v2Bal:"Solde",v2Paid:"Payé",v2Pr:"Prix",v2Full:"✅ Payé en entier",v2Owe:"Reste à payer",v2Trips:"Trajets",v2Pays:"Paiements",v2Short:"Trajet court",v2Long:"Trajet long",v2Prices:"⚙️ Prix des trajets",v2Det:"Détails du trajet",v2DetBad:"Écrivez les détails du trajet",v2Note:"Note (facultatif)",veh2:"2e véhicule",v2Pay:"Payer le 2e véhicule",v2Why:"Rotation : personnel à l'aéroport de Bardai et retour à la base",tSal:"Salaires",tLoan:"Prêts",mAdj:"⚖️ Ajuster le solde",mAdjAdd:"➕ Ajouter",mAdjSub:"➖ Retirer",mWhy:"Pourquoi ? (obligatoire)",mWhyBad:"Écrivez pourquoi",mAdjd:"Solde ajusté",wNames:"👥 Noms",wAdd:"➕ Ajouter le nom",wNew:"Nouveau nom",wDupe:"Déjà dans la liste",wDelQ:"Retirer %n ?",mMonth:"Ce mois",mRecv:"Argent reçu",mSpentM:"Dépensé",mLeft:"Reste",mCarry:"Report",mCarryH:"reste des mois précédents (à part)",mMove:"➡️ Verser le report dans ce mois",mMoved:"Versé depuis le report",mPast:"Bilan fin de mois",mMore:"Plus : salaires et prêts",mPaidTo:"Payé jusqu'au",mShowAll:"Tout afficher",mMvBad:"Plus que le report",mCB:"💵 Caisse",mCIn:"⬇️ Argent reçu",mTrip:"🛒 Argent pour Achats",mRet:"↩️ Monnaie rendue",mTook:"Qui l'a pris",mTripN:"Course",mGiven:"Donné",mBack:"Rendu",mSpent:"Dépensé",mOpenT:"Courses ouvertes",mCurr:"Devise",mNoTrip:"Aucune course ouverte",mClose:"✅ Clôturer",mRefT:"Réf. Achats (texte libre)",work:"Argent",mPD:"📅 Jour",mPW:"📅 Semaine",mPM:"📅 Mois",mPQ:"📅 Trimestre",mPY:"📅 Année",mSal:"💵 Salaire payé",mLoan:"🤝 Prêt donné",mRep:"↩️ Prêt remboursé",mDed:"✂️ Sur salaire",mCashR:"💵 Espèces",mWho:"Personne",mAmt:"Montant (CFA)",mDate:"Date",mNote:"Note",mRef:"N° reçu",mHow:"Payé par",mSave:"💾 Enregistrer",mBad:"Tapez un montant",mList:"Écritures",mNone:"Rien encore",mOwe:"Prêt dû",mDue:"Salaire dû",mDueP:"Dû cette période",mPaid:"Payé",mDays:"Jours travaillés",mDaySave:"💾 Enregistrer jours",mRate:"Taux jour",mHead:"Effectif",mFixed:"Fixe",mDayR:"Par jour",mPer2:"Toutes les 2 semaines",mPerM:"Mensuel",mPerR:"Par rotation",mPerG:"Selon groupe",mStaff:"👥 Personnel",mAddP:"➕ Ajouter personne",mName:"Nom complet",mSno:"N° employé",mPos:"Poste",mDept:"Service",mStart:"Date début",mGroup:"Groupe",mPer:"Période de paie",mPType:"Type de paie",mSalP:"Montant par période (CFA)",mMeth:"Mode de paiement",mDet:"Banque / téléphone",mStat:"Statut",mUnset:"non fixé",mRot:"🔄 Noms de Rotation",mFromRot:"Rotation",mManual:"Manuel",mGroups:"Groupes",mCsvP:"⬇️ CSV paiements",mCsvS:"⬇️ CSV personnel",mTot:"Totaux",mOut:"Prêts en cours",mRaise:"Nouveau montant dès",mOpen:"Ouvrir",mDupe:"Ce nom est déjà dans la liste",mMine:"Mon argent",mNotes:"📝 Notes",mCalc:"jours × taux",mWhoOwed:"À qui on doit"},
+ ar:{carry:"المرحّل",v2P1:"دفع الجزء الأول (الذهاب)",v2P2:"دفع الباقي (العودة)",v2First:"الجزء الأول",v2Bal:"الباقي",v2Paid:"المدفوع",v2Pr:"السعر",v2Full:"✅ مدفوع بالكامل",v2Owe:"ما زال مستحقاً",v2Trips:"الرحلات",v2Pays:"الدفعات",v2Short:"المسار القصير",v2Long:"المسار الطويل",v2Prices:"⚙️ أسعار المسارات",v2Det:"تفاصيل الرحلة",v2DetBad:"اكتب تفاصيل الرحلة",v2Note:"ملاحظة (اختياري)",veh2:"السيارة الثانية",v2Pay:"دفع السيارة الثانية",v2Why:"التناوب: نقل الموظفين إلى مطار برداي والعودة إلى المقر",tSal:"الرواتب",tLoan:"القروض",mAdj:"⚖️ تعديل الرصيد",mAdjAdd:"➕ إضافة",mAdjSub:"➖ خصم",mWhy:"لماذا؟ (إلزامي)",mWhyBad:"اكتب السبب",mAdjd:"تم تعديل الرصيد",wNames:"👥 الأسماء",wAdd:"➕ إضافة اسم",wNew:"اسم جديد",wDupe:"موجود في القائمة",wDelQ:"حذف %n؟",mMonth:"هذا الشهر",mRecv:"النقد المستلم",mSpentM:"المصروف",mLeft:"المتبقي",mCarry:"المرحّل",mCarryH:"متبقي الأشهر السابقة (منفصل)",mMove:"➡️ نقل المرحّل إلى هذا الشهر",mMoved:"منقول من المرحّل",mPast:"ملخص نهاية الشهر",mMore:"المزيد: الرواتب والسلف",mPaidTo:"مدفوع حتى",mShowAll:"عرض الكل",mMvBad:"أكثر من المرحّل",mCB:"💵 النقد المتوفر",mCIn:"⬇️ نقد مستلم",mTrip:"🛒 نقد للمشتريات",mRet:"↩️ الباقي المرتجع",mTook:"من أخذه",mTripN:"رحلة",mGiven:"المعطى",mBack:"المرتجع",mSpent:"المصروف",mOpenT:"رحلات مفتوحة",mCurr:"العملة",mNoTrip:"لا رحلة مفتوحة",mClose:"✅ إغلاق",mRefT:"مرجع المشتريات (نص حر)",work:"المال",mPD:"📅 يوم",mPW:"📅 أسبوع",mPM:"📅 شهر",mPQ:"📅 ربع",mPY:"📅 سنة",mSal:"💵 راتب مدفوع",mLoan:"🤝 سلفة",mRep:"↩️ سداد سلفة",mDed:"✂️ من الراتب",mCashR:"💵 نقدا",mWho:"الشخص",mAmt:"المبلغ (CFA)",mDate:"التاريخ",mNote:"ملاحظة",mRef:"رقم الإيصال",mHow:"طريقة الدفع",mSave:"💾 حفظ",mBad:"اكتب المبلغ",mList:"السجلات",mNone:"لا شيء بعد",mOwe:"سلفة مستحقة",mDue:"راتب مستحق",mDueP:"مستحق هذه الفترة",mPaid:"مدفوع",mDays:"أيام العمل",mDaySave:"💾 حفظ الأيام",mRate:"أجر اليوم",mHead:"العدد",mFixed:"ثابت",mDayR:"باليوم",mPer2:"كل أسبوعين",mPerM:"شهري",mPerR:"لكل دورة",mPerG:"حسب المجموعة",mStaff:"👥 الموظفون",mAddP:"➕ إضافة شخص",mName:"الاسم الكامل",mSno:"رقم الموظف",mPos:"الوظيفة",mDept:"القسم",mStart:"تاريخ البدء",mGroup:"المجموعة",mPer:"فترة الدفع",mPType:"نوع الأجر",mSalP:"المبلغ لكل فترة (CFA)",mMeth:"طريقة الدفع",mDet:"البنك / الهاتف",mStat:"الحالة",mUnset:"غير محدد",mRot:"🔄 الأسماء من Rotation",mFromRot:"Rotation",mManual:"يدوي",mGroups:"المجموعات",mCsvP:"⬇️ CSV المدفوعات",mCsvS:"⬇️ CSV الموظفين",mTot:"المجاميع",mOut:"السلف القائمة",mRaise:"مبلغ جديد من",mOpen:"فتح",mDupe:"هذا الاسم موجود",mMine:"مالي",mNotes:"📝 ملاحظات",mCalc:"أيام × أجر",mWhoOwed:"لمن ندين"}};
 Object.keys(MT).forEach(l=>Object.assign(T[l],MT[l]));
 /* SPEED: one cache per task. Every list (records, profiles, balances) is built once per redraw, not once per row.
    Cleared at the start of every screen build (homeMoney/workHTML) and after the current task. */
@@ -762,26 +785,87 @@ function staffHTML(u){if(!u.admin)return "";const P=profiles(),G=groups();
    <button type="button" id="mPSave">${esc(t("mSave"))}</button><button type="button" class="sec" id="mPX">${esc(t("close"))}</button>${fixedNote(p)}</div>`;
    h+=balBox(p,"mSelBal")}
   return h}
-let mMore=false,mAllRec=false;
+let mAllRec=false;
 function workHTML(u){fresh();
   let h=bookHTML(u);const mp=prof(myId());
-  if(canKind("m","view")||canKind("m","add")||canKind("d","add"))h+=`<button type="button" class="sec sm" id="mMoreB" aria-expanded="${mMore}">${mMore?"▾":"▸"} ${esc(t("mMore"))}</button>`;
-  if(mMore)h+=moreHTML(u,mp);
   /* notes box (kept from base; the base tests use #exTxt / #exAdd) */
   h+=notesHTML(u);
   return h}
-function moreHTML(u,mp){let h="";
+/* v9: 💵 Salaries and 🤝 Loans are their own screens (big Home tiles = bottom tabs). */
+function payOk(u){u=u||me();return !!u&&workOk(u)&&(canKind("m","view",u)||canKind("m","add",u)||canKind("d","add",u))}
+/* v9: 🚐 2ND VEHICLE — paying a second vehicle for rotation transport (outgoing staff to Bardai airport, incoming staff back to HQ).
+   Pick a route → a TRIP record b{type:"v2t", vno "V-001", route, price (route price at that time), date, who, det, note} (no cash).
+   Payments are their own records b{type:"v2", vt:<trip id>, part:"first"|"bal", amt} = cash out; own line in the cash box + reports.
+   Settings = kind "r" (ids short, long, first): Money's own data, seeded once on the server from the private SeedData.gs; Admin edits. */
+function extraTabs(u){u=u||me();return u&&workOk(u)&&(canKind("b","add",u)||canKind("b","view",u))?[["veh2","🚐"]]:[]}
+const V2R=["short","long"],V2S=["short","long","first"];let v2Route="",v2Ed=false,v2Open="";
+const v2Set=id=>{const r=allM("r").find(x=>x&&x.id===id);return r?num(r.amt)||0:0},v2Price=v2Set;
+const v2RL=r=>t(r==="long"?"v2Long":"v2Short");
+const v2Recs=()=>book().filter(r=>r.type==="v2").slice().sort((x,y)=>String(y.date||y.at).localeCompare(String(x.date||x.at))||String(y.at).localeCompare(String(x.at)));
+function v2Trips(){return memo("v2t",()=>{const P={},F={};book().forEach(r=>{if(r.type==="v2"&&r.vt){P[r.vt]=(P[r.vt]||0)+(num(r.amt)||0);if(r.part==="first")F[r.vt]=1}});
+  return book().filter(r=>r.type==="v2t").map(r=>{const price=num(r.price)||0,paid=P[r.id]||0;return Object.assign({},r,{price:price,paid:paid,bal:Math.max(0,price-paid),first:!!F[r.id]})})
+    .sort((x,y)=>String(y.date||y.at).localeCompare(String(x.date||x.at))||String(y.vno).localeCompare(String(x.vno)))})}
+const v2Owing=()=>v2Trips().filter(x=>x.bal>0);
+function nextV2(){const n=allM("b").filter(r=>r.type==="v2t").map(r=>parseInt(String(r.vno).replace(/\D/g,""),10)||0);return "V-"+String((n.length?Math.max.apply(null,n):0)+1).padStart(3,"0")}
+const v2FirstAmt=x=>Math.min(v2Set("first"),x.bal);
+function v2Row(x,cls){const c=v=>esc(cmoney(v,x.cur||"XAF"));return `<button type="button" class="sec v2TRow ${cls}" data-id="${esc(x.id)}"><b>🚐 ${esc(x.vno)}</b> · ${esc(v2RL(x.route))} · ${esc(String(x.date||"").slice(0,10))} · ${esc(x.who||"")}<br><span class="hint">${esc(t("v2Paid"))}: ${c(x.paid)} · ${esc(t("v2Bal"))}: <b class="v2B">${c(x.bal)}</b></span></button>`}
+function v2HTML(u){fresh();const cu=CC()[0].id,mon=ym(today()),c=v=>esc(cmoney(v,cu)),tot=v2Recs().filter(r=>(r.cur||"XAF")===cu&&ym(r.date||r.at)===mon).reduce((a,r)=>a+(num(r.amt)||0),0),add=canKind("b","add");
+  let h=`<div class="box" id="v2Box"><h2>🚐 ${esc(t("veh2"))}</h2><p class="hint" id="v2Why">${esc(t("v2Why"))}</p><div class="mBal" id="v2Tot">${esc(t("mMonth"))}: ${c(tot)}</div>`;
+  const x=v2Open&&v2Trips().find(z=>z.id===v2Open);
+  if(x){const P=v2Recs().filter(r=>r.vt===x.id);
+    h+=`<div class="box" id="v2Trip" data-id="${esc(x.id)}"><h3>🚐 ${esc(x.vno)} · ${esc(v2RL(x.route))}</h3><p class="hint">📅 ${esc(String(x.date||"").slice(0,10))} · 👤 ${esc(x.who||"")}</p>${x.det?`<p id="v2TDet">${esc(x.det)}</p>`:""}${x.note?`<p class="hint">${esc(x.note)}</p>`:""}
+    <div class="mRow"><span>${esc(t("v2Pr"))}: <b id="v2TPr">${c(x.price)}</b></span><span>${esc(t("v2Paid"))}: <b id="v2TPaid">${c(x.paid)}</b></span></div><div class="mBal${x.bal?" neg":""}" id="v2TBal">${esc(t("v2Bal"))}: ${c(x.bal)}</div>
+    ${add&&x.bal>0?`<div class="tiles one">${!x.first&&v2FirstAmt(x)>0?`<button type="button" class="tile" id="v2P1"><b>🛫</b>${esc(t("v2P1"))}<span class="v2P">${c(v2FirstAmt(x))}</span></button>`:""}<button type="button" class="tile" id="v2P2"><b>🛬</b>${esc(t("v2P2"))}<span class="v2P">${c(x.bal)}</span></button></div>`:""}
+    ${x.bal<=0?`<p class="mBal" id="v2Full">${esc(t("v2Full"))}</p>`:""}
+    ${P.length?`<h3>${esc(t("v2Pays"))}</h3>${P.map(r=>`<div class="urow v2Pay1" data-id="${esc(r.id)}"><span class="n">${r.part==="first"?"🛫":"🛬"} <b>${esc(cmoney(num(r.amt)||0,r.cur||"XAF"))}</b> · ${esc(t(r.part==="first"?"v2First":"v2Bal"))} · ${esc(String(r.date||r.at).slice(0,10))} · ${esc(r.by||"")}</span>${fixBtn("b",r.id,"amt")}</div>`).join("")}`:""}
+    <button type="button" class="sec" id="v2Back">${esc(t("close"))}</button></div>`}
+  else if(add&&bForm==="v2"){const pr=v2Price(v2Route);
+    h+=`<div class="box" id="v2Form" data-r="${esc(v2Route)}"><h3>🚐 ${esc(nextV2())} · ${esc(v2RL(v2Route))}</h3><p class="hint">${esc(t("v2Pr"))}: <b id="v2FPr">${pr?c(pr):"—"}</b></p>
+    <label>${esc(t("mDate"))}</label><input id="v2Date" type="date" value="${today()}"><label>${esc(t("mTook"))}</label>${whoSel(u)}${namesHTML()}
+    <label>${esc(t("v2Det"))}</label><input id="v2Det" autocomplete="off" spellcheck="true"><label>${esc(t("v2Note"))}</label><input id="v2Note" autocomplete="off" spellcheck="true">
+    <p class="err" id="v2Err"></p><button type="button" id="v2Save">${esc(t("mSave"))}</button><button type="button" class="sec" id="bX">${esc(t("close"))}</button></div>`}
+  else if(add)h+=`<div class="tiles v2Rts">${V2R.map(id=>{const pr=v2Price(id);return `<button type="button" class="tile v2Rt" data-r="${id}" id="v2${id==="short"?"S":"L"}"><b>🚐</b>${esc(v2RL(id))}<span class="v2P">${pr?c(pr):"—"}</span></button>`}).join("")}</div>`;
+  if(u.admin&&canKind("r","add")&&!x){h+=`<button type="button" class="sec" id="v2PrB" aria-expanded="${v2Ed}">${esc(t("v2Prices"))} ${v2Ed?"▾":"▸"}</button>`;
+    if(v2Ed)h+=`<div class="box" id="v2PrBox">${V2S.map(id=>`<label>${esc(id==="first"?t("v2P1"):v2RL(id))} (${esc(cLab(cu))})</label><input id="v2P_${id}" class="v2PIn" data-r="${id}" inputmode="numeric" autocomplete="off" value="${v2Set(id)||""}">`).join("")}<p class="err" id="v2PErr"></p><button type="button" id="v2PSave">${esc(t("mSave"))}</button></div>`}
+  h+=`</div>`;
+  if(canKind("b","view")&&!x){const O=v2Owing(),A=v2Trips();
+    h+=`<div class="box" id="v2Owe"><h3>⏳ ${esc(t("v2Owe"))} (${O.length})</h3>${O.length?O.map(z=>v2Row(z,"v2OweRow")).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}</div>`;
+    h+=`<div class="box" id="v2List"><h3>🚐 ${esc(t("v2Trips"))} (${A.length})</h3>${A.length?A.slice(0,50).map(z=>v2Row(z,"v2Row")).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}</div>`}
+  return h}
+function bindV2(u){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
+  {const vd=$("v2Det"),ve=$("v2Err");if(vd&&ve)vd.oninput=()=>{ve.style.display="none"}}document.querySelectorAll(".v2Rt").forEach(b=>b.onclick=()=>{v2Route=b.dataset.r;bForm="v2";v2Open="";render()});
+  document.querySelectorAll(".v2TRow").forEach(b=>b.onclick=()=>{v2Open=b.dataset.id;bForm=null;render();scrollTo(0,0)});
+  on("v2Back",()=>{v2Open="";render()});on("v2PrB",()=>{v2Ed=!v2Ed;render()});
+  on("v2PSave",()=>{if(!(u.admin&&canKind("r","add")))return;const e=$("v2PErr"),v={};for(const i of document.querySelectorAll(".v2PIn")){const a=num(i.value);if(!(a>0)){e.textContent=t("mBad");e.style.display="block";return}v[i.dataset.r]=a}
+    for(const id of V2S){if(v[id]!==v2Set(id)&&put("r",id,{id:id,amt:v[id],cur:CC()[0].id,by:u.name,at:new Date().toISOString()})===false)return}v2Ed=false;render()});
+  on("v2Save",()=>{if(!canKind("b","add"))return;const e=$("v2Err"),det=$("v2Det").value.trim(),pr=v2Price(v2Route);
+    if(!det){e.textContent=t("v2DetBad");e.style.display="block";return}if(!(pr>0)){e.textContent=t("mBad");e.style.display="block";return}
+    const id="v"+Date.now()+Math.random().toString(36).slice(2,5),d={id:id,type:"v2t",vno:nextV2(),route:v2Route||"short",price:pr,amt:0,cur:CC()[0].id,date:$("v2Date").value||today(),who:String($("bWho").value||"").trim()||u.name,det:det,note:$("v2Note").value.trim(),by:u.name,at:new Date().toISOString()};
+    if(put("b",id,d)===false)return;bForm=null;v2Route="";v2Open=id;render()});
+  const pay=part=>{const x=v2Trips().find(z=>z.id===v2Open);if(!x||!canKind("b","add"))return;const a=part==="first"?(x.first?0:v2FirstAmt(x)):x.bal;if(!(a>0))return;
+    if(!confirm(t(part==="first"?"v2P1":"v2P2")+": "+cmoney(a,x.cur||"XAF")+"?"))return;
+    const id="b"+Date.now()+Math.random().toString(36).slice(2,5);if(put("b",id,{id:id,type:"v2",vt:x.id,vno:x.vno,part:part,route:x.route,amt:a,cur:x.cur||"XAF",date:today(),who:x.who,note:"",by:u.name,at:new Date().toISOString()})===false)return;render()};
+  on("v2P1",()=>pay("first"));on("v2P2",()=>pay("bal"))}
+function recBox(u,types){if(!canKind("m","view"))return "";const L_=visRecs().filter(r=>types.indexOf(r.type)>=0),S=mAllRec?L_:L_.slice(0,30);
+  return `<div class="box" id="mListBox"><h3>${esc(t(u.admin?"mList":"mMine"))} (${L_.length})</h3>${S.length?S.map(recRow).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}${S.length<L_.length?`<button type="button" class="sec sm" id="mAllRec">${esc(t("mShowAll"))}</button>`:""}</div>`}
+function salHTML(u){fresh();const mp=prof(myId());let h="";
   if(!u.admin&&mp&&canKind("m","view"))h+=balBox(mp,"mBalBox");
-  if(u.admin&&canKind("m","view")){const P=profiles();h+=`<div class="box" id="mBalBox"><h2>💵 ${esc(t("mOut"))}</h2><div class="mBal" id="hOwe">${esc(money(P.reduce((t,p)=>t+bal(p).owe,0)))}</div>${oweList(P)}</div>`}
-  if(canKind("m","add"))h+=`<div class="tiles"><button type="button" class="tile" id="mSalB"><b>💵</b>${esc(t("mSal").slice(2))}</button><button type="button" class="tile" id="mLoanB"><b>🤝</b>${esc(t("mLoan").slice(2))}</button><button type="button" class="tile" id="mRepB"><b>↩️</b>${esc(t("mRep").slice(2))}</button></div>`;
-  if(mForm&&canKind("m","add"))h+=formHTML(u);
+  if(u.admin&&canKind("m","view"))h+=`<div class="box" id="mOweBox">${oweList(profiles())}</div>`;
+  if(canKind("m","add"))h+=`<div class="tiles one"><button type="button" class="tile" id="mSalB"><b>💵</b>${esc(t("mSal").slice(2))}</button></div>`;
+  if(mForm==="salary"&&canKind("m","add"))h+=formHTML(u);
   h+=daysHTML(u);
   if(u.admin){const PER=[["d","mPD"],["w","mPW"],["m","mPM"],["q","mPQ"],["y","mPY"]];
     h+=`<div class="box"><div class="mPer">${PER.map(x=>`<button type="button" class="sec mPerB${mRep===x[0]?" on":""}" data-per="${x[0]}">${esc(t(x[1]))}</button>`).join("")}</div>
     <button type="button" class="sec" id="mCsv">${esc(t("mCsvP"))}</button><button type="button" class="sec" id="mCsvS">${esc(t("mCsvS"))}</button>${mRep?repHTML(mRep):""}</div>`}
   h+=staffHTML(u);
-  if(canKind("m","view")){const L_=visRecs(),S=mAllRec?L_:L_.slice(0,30);h+=`<div class="box" id="mListBox"><h3>${esc(t(u.admin?"mList":"mMine"))} (${L_.length})</h3>${S.length?S.map(recRow).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}${S.length<L_.length?`<button type="button" class="sec sm" id="mAllRec">${esc(t("mShowAll"))}</button>`:""}</div>`}
-  return h}
+  return h+recBox(u,["salary"])}
+function loanHTML(u){fresh();const mp=prof(myId());let h="";
+  if(!u.admin&&mp&&canKind("m","view"))h+=balBox(mp,"mBalBox");
+  if(u.admin&&canKind("m","view")){const P=profiles(),O=P.map(p=>({p:p,o:bal(p).owe})).filter(x=>x.o!==0);
+    h+=`<div class="box" id="mBalBox"><h2>🤝 ${esc(t("mOut"))}</h2><div class="mBal" id="hOwe">${esc(money(P.reduce((t,p)=>t+bal(p).owe,0)))}</div><div id="mLoanList">${O.length?O.map(x=>`<div class="urow hOwe1" data-sid="${esc(x.p.id)}"><span class="n">${esc(x.p.name)}</span><b class="hLoan">${esc(money(x.o))}</b></div>`).join(""):`<p class="hint">${esc(t("mNone"))}</p>`}</div></div>`}
+  if(canKind("m","add"))h+=`<div class="tiles"><button type="button" class="tile" id="mLoanB"><b>🤝</b>${esc(t("mLoan").slice(2))}</button><button type="button" class="tile" id="mRepB"><b>↩️</b>${esc(t("mRep").slice(2))}</button></div>`;
+  if((mForm==="loan"||mForm==="repay")&&canKind("m","add"))h+=formHTML(u);
+  return h+recBox(u,["loan","repay"])}
 function notesHTML(u){let h="";
   const notes=allM("x").slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)));
   h+=`<div class="box"><h3>${esc(t("mNotes"))}</h3>
@@ -815,61 +899,92 @@ function nextTrip(){const n=allM("b").filter(r=>r.type==="trip").map(r=>parseInt
    left over = received + moved in − spent.  At each month end the left-over goes automatically into CARRIED OVER (kept apart);
    the new month starts at 0 received / 0 spent.  Admin can move carried-over money into this month: a logged "mv" record. */
 const ym=d=>String(d||"").slice(0,7);
-function months(cu){return memo("mon:"+cu,()=>{const o={},g=k=>o[k]=o[k]||{k:k,rec:0,spent:0,mv:0},a=r=>num(r.amt)||0;
-  book().forEach(r=>{if((r.cur||"XAF")!==cu)return;const m=g(ym(r.date||r.at));if(r.type==="in")m.rec+=a(r);else if(r.type==="trip")m.spent+=a(r);else if(r.type==="ret")m.spent-=a(r);else if(r.type==="mv")m.mv+=a(r)});
+function months(cu){return memo("mon:"+cu,()=>{const o={},g=k=>o[k]=o[k]||{k:k,rec:0,spent:0,mv:0,adj:0,v2:0},a=r=>num(r.amt)||0;
+  book().forEach(r=>{if((r.cur||"XAF")!==cu)return;const m=g(ym(r.date||r.at));if(r.type==="in")m.rec+=a(r);else if(r.type==="trip")m.spent+=a(r);else if(r.type==="v2"){m.spent+=a(r);m.v2+=a(r)}else if(r.type==="ret")m.spent-=a(r);else if(r.type==="mv")m.mv+=a(r);else if(r.type==="adj")m.adj+=a(r)});
   if(cu==="XAF")recs().forEach(r=>{const m=g(ym(r.date||r.at));if(r.type==="salary"||r.type==="loan")m.spent+=a(r);else if(r.type==="repay"&&r.rhow==="cash")m.rec+=a(r)});
-  Object.keys(o).forEach(k=>o[k].left=o[k].rec+o[k].mv-o[k].spent);return o})}
-function monthNow(cu,mon){mon=mon||ym(today());const M=months(cu),cur=M[mon]||{k:mon,rec:0,spent:0,mv:0,left:0};let carry=0;
-  Object.keys(M).forEach(k=>{if(k<mon)carry+=M[k].rec-M[k].spent;if(k<=mon)carry-=M[k].mv});
-  return {k:mon,rec:cur.rec,spent:cur.spent,mv:cur.mv,left:cur.left,carry:carry,past:Object.keys(M).filter(k=>k<mon).sort().reverse().map(k=>M[k])}}
+  Object.keys(o).forEach(k=>o[k].left=o[k].rec+o[k].mv+o[k].adj-o[k].spent);return o})}
+function monthNow(cu,mon){mon=mon||ym(today());const M=months(cu),cur=M[mon]||{k:mon,rec:0,spent:0,mv:0,adj:0,v2:0,left:0};let carry=0;
+  Object.keys(M).forEach(k=>{if(k<mon)carry+=M[k].rec-M[k].spent+M[k].adj;if(k<=mon)carry-=M[k].mv});
+  return {k:mon,rec:cur.rec,spent:cur.spent,mv:cur.mv,adj:cur.adj,v2:cur.v2||0,left:cur.left,carry:carry,past:Object.keys(M).filter(k=>k<mon).sort().reverse().map(k=>M[k])}}
 /* total cash on hand = carried over + this month's left over */
 function cashOn(cu){const m=monthNow(cu);return m.carry+m.left}
 const usedCC=()=>CC().map(c=>c.id).filter((id,i)=>i===0||allM("b").some(r=>r.cur===id));
 function cashBox(id){if(!canKind("b","view"))return "";return `<div class="box" id="${id}"><h2>${esc(t("mCB"))} · ${esc(ym(today()))}</h2>${usedCC().map(cu=>{const m=monthNow(cu),c=x=>esc(cmoney(x,cu));
   return `<div class="mCur" data-cur="${esc(cu)}"><h3>${esc(t("mMonth"))} (${esc(cLab(cu))})</h3>
   <div class="mRow"><span>⬇️ ${esc(t("mRecv"))}: <b class="mRecV">${c(m.rec)}</b></span><span>🛒 ${esc(t("mSpentM"))}: <b class="mSpV">${c(m.spent)}</b></span></div>
-  ${m.mv?`<p class="hint">➡️ ${esc(t("mMoved"))}: <b class="mMvV">${c(m.mv)}</b></p>`:""}
+  ${m.mv?`<p class="hint">➡️ ${esc(t("mMoved"))}: <b class="mMvV">${c(m.mv)}</b></p>`:""}${m.adj?`<p class="hint">⚖️ ${esc(t("mAdjd"))}: <b class="mAdjV">${c(m.adj)}</b></p>`:""}${m.v2?`<p class="hint mV2">🚐 ${esc(t("veh2"))}: <b class="mV2V">${c(m.v2)}</b></p>`:""}
   <div class="mBal mLeftV${m.left<0?" neg":""}">${esc(t("mLeft"))}: ${c(m.left)}</div>
-  <div class="mCarry"><b>📦 ${esc(t("mCarry"))}: <span class="mCarryV">${c(m.carry)}</span></b> <span class="hint">${esc(t("mCarryH"))}</span></div>
-  ${m.past.length?`<details class="mPast"><summary>${esc(t("mPast"))} (${m.past.length})</summary>${m.past.slice(0,24).map(x=>`<div class="hint mPast1" data-m="${esc(x.k)}"><b>${esc(x.k)}</b> · ⬇️ ${c(x.rec)} · 🛒 ${c(x.spent)}${x.mv?" · ➡️ "+c(x.mv):""} · = <b>${c(x.left)}</b></div>`).join("")}</details>`:""}</div>`}).join("")}${tripList(true)}</div>`}
+</div>`}).join("")}${tripList(true)}</div>`}
+/* v9: CARRIED OVER is not on the screen any more: one big button opens the figure (per currency), the month-end list and (Admin) the move. */
+let cOpen=false;
+function carryHTML(id,scr){const u=me();if(scr)return carryBody(id,u);let h=`<button type="button" class="mCarryB" id="${id}CarryB" aria-expanded="${cOpen}">📦 ${esc(t("mCarry"))} ${cOpen?"▾":"▸"}</button>`;
+  if(!cOpen)return h;
+  return h+carryBody(id,u)}
+function carryBody(id,u){return `<div class="box mCarryBox" id="${id}Carry">${usedCC().map(cu=>{const m=monthNow(cu),c=x=>esc(cmoney(x,cu));
+    return `<div class="mCarry" data-cur="${esc(cu)}"><h3>📦 ${esc(t("mCarry"))} (${esc(cLab(cu))})</h3><div class="mBal mCarryV${m.carry<0?" neg":""}">${c(m.carry)}</div><p class="hint">${esc(t("mCarryH"))}</p>
+    ${m.past.length?`<details class="mPast"><summary>${esc(t("mPast"))} (${m.past.length})</summary>${m.past.slice(0,24).map(x=>`<div class="hint mPast1" data-m="${esc(x.k)}"><b>${esc(x.k)}</b> · ⬇️ ${c(x.rec)} · 🛒 ${c(x.spent)}${x.mv?" · ➡️ "+c(x.mv):""}${x.adj?" · ⚖️ "+c(x.adj):""} · = <b>${c(x.left)}</b></div>`).join("")}</details>`:""}</div>`}).join("")}
+    ${u&&u.admin&&canKind("b","add")?`<button type="button" class="sec" id="bMvB">${esc(t("mMove"))}</button>`:""}</div>`}
+/* v9: "Who took it" = Money's own name list (kind "w", seeded once on the server from the Purchases user names; Admin adds/removes). */
+let wOpen=false;
+function takers(){return memo("takers",()=>allM("w").filter(w=>w&&w.name).slice().sort((a,b)=>String(a.name).localeCompare(String(b.name))))}
+function whoSel(u){const L_=takers().map(w=>w.name);if(!L_.some(n=>NK(n)===NK(u.name)))L_.unshift(u.name);
+  return `<select id="bWho">${L_.map(n=>`<option value="${esc(n)}"${NK(n)===NK(u.name)?" selected":""}>${esc(n)}</option>`).join("")}</select>`}
+function namesHTML(){if(!canKind("w","add"))return "";const W=takers();let h=`<button type="button" class="sec" id="wEdB" aria-expanded="${wOpen}">${esc(t("wNames"))} (${W.length}) ${wOpen?"▾":"▸"}</button>`;
+  if(!wOpen)return h;
+  return h+`<div class="box" id="wBox">${W.map(w=>`<div class="urow wRow" data-id="${esc(w.id)}"><span class="n">${esc(w.name)}</span><button type="button" class="red sm wDel" data-id="${esc(w.id)}" aria-label="❌">❌</button></div>`).join("")}
+    <label>${esc(t("wNew"))}</label><input id="wName" autocomplete="off" spellcheck="false"><p class="err" id="wErr"></p><button type="button" id="wAdd">${esc(t("wAdd"))}</button></div>`}
+/* v9: BALANCE ADJUSTER — main Admin only; signed amount + required note; server checks again and writes it in the Fix log. */
+const isMain=u=>{u=u||me();return !!(u&&u.admin&&NK(u.name)===ADMIN_KEY)};
+let bSign=1;
 function tripList(onlyOpen){const L_=onlyOpen?openTrips():trips();return `<h3>${esc(t(onlyOpen?"mOpenT":"mTripN"))}</h3><div class="mTrips">${L_.length?L_.map(x=>`<div class="urow mTrip1" data-trip="${esc(x.trip)}"><span class="n">🛒 <b>${esc(x.trip)}</b> · ${esc(x.who)} · ${esc(x.date)}${x.ref?" · "+esc(x.ref):""}</span><span class="hint">${esc(t("mGiven"))}: <b class="tG">${esc(cmoney(x.given,x.cur))}</b> · ${esc(t("mBack"))}: <b class="tR">${esc(cmoney(x.ret,x.cur))}</b> · ${esc(t("mSpent"))}: <b class="tS">${esc(cmoney(x.spent,x.cur))}</b></span>${!onlyOpen&&!x.closed&&canFix()?`<button type="button" class="sec sm mTClose" data-id="${esc(x.id)}">${esc(t("mClose"))}</button>`:""}${fixBtn("b",x.id,"amt")}</div>`).join(""):`<p class="hint">${esc(t("mNoTrip"))}</p>`}</div>`}
 let bForm=null,bPhoto="";
-function cashRepHTML(){return usedCC().map(cu=>{const M=Object.values(months(cu)).sort((x,y)=>y.k.localeCompare(x.k));if(!M.length)return "";const c=x=>esc(cmoney(x,cu)),T=M.reduce((a,x)=>({rec:a.rec+x.rec,spent:a.spent+x.spent}),{rec:0,spent:0});
-  return `<div class="repH mCashRepH">📊 ${esc(t("mCB"))} (${esc(cu)})</div><table class="rep mCashRep" data-cur="${esc(cu)}"><thead><tr><th>📅</th><th>⬇️</th><th>🛒</th><th>=</th></tr></thead><tbody>${M.slice(0,24).map(x=>`<tr><td>${esc(x.k)}</td><td>${c(x.rec)}</td><td>${c(x.spent)}</td><td>${c(x.rec-x.spent)}</td></tr>`).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td>${c(T.rec)}</td><td>${c(T.spent)}</td><td>${c(T.rec-T.spent)}</td></tr></tfoot></table>`}).join("")}
+function cashRepHTML(){return usedCC().map(cu=>{const M=Object.values(months(cu)).sort((x,y)=>y.k.localeCompare(x.k));if(!M.length)return "";const c=x=>esc(cmoney(x,cu)),T=M.reduce((a,x)=>({rec:a.rec+x.rec,spent:a.spent+x.spent,adj:a.adj+(x.adj||0)}),{rec:0,spent:0,adj:0});
+  return `<div class="repH mCashRepH">📊 ${esc(t("mCB"))} (${esc(cu)})</div><table class="rep mCashRep" data-cur="${esc(cu)}"><thead><tr><th>📅</th><th>⬇️</th><th>🛒</th><th>=</th></tr></thead><tbody>${M.slice(0,24).map(x=>`<tr><td>${esc(x.k)}</td><td>${c(x.rec)}</td><td>${c(x.spent)}</td><td>${c(x.rec-x.spent+(x.adj||0))}</td></tr>`).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td>${c(T.rec)}</td><td>${c(T.spent)}</td><td>${c(T.rec-T.spent+T.adj)}</td></tr></tfoot></table>`}).join("")}
 function bookHTML(u){if(!canKind("b","view")&&!canKind("b","add"))return "";let h=cashBox("mCashBox");
-  if(canKind("b","add")){h+=`<div class="tiles"><button type="button" class="tile" id="bInB"><b>⬇️</b>${esc(t("mCIn").slice(3))}</button><button type="button" class="tile" id="bTripB"><b>🛒</b>${esc(t("mTrip").slice(3))}</button><button type="button" class="tile" id="bRetB"><b>↩️</b>${esc(t("mRet").slice(3))}</button></div>${u.admin?`<button type="button" class="sec" id="bMvB">${esc(t("mMove"))}</button>`:""}`;
-   if(bForm){const OT=openTrips();h+=`<div class="box" id="bForm" data-type="${esc(bForm)}"><h3>${esc(t({in:"mCIn",trip:"mTrip",ret:"mRet",mv:"mMove"}[bForm]))}</h3>
-    ${bForm==="trip"?`<p class="hint">${esc(t("mTripN"))}: <b id="bTripNo">${esc(nextTrip())}</b></p><label>${esc(t("mTook"))}</label><input id="bWho" autocomplete="off" value="${esc(u.name)}">`:""}
+  if(canKind("b","add")){h+=`<div class="tiles"><button type="button" class="tile" id="bInB"><b>⬇️</b>${esc(t("mCIn").slice(3))}</button><button type="button" class="tile" id="bTripB"><b>🛒</b>${esc(t("mTrip").slice(3))}</button><button type="button" class="tile" id="bRetB"><b>↩️</b>${esc(t("mRet").slice(3))}</button></div>${isMain(u)?`<button type="button" class="sec" id="bAdjB">${esc(t("mAdj"))}</button>`:""}`;
+   if(bForm&&bForm!=="v2")h+=bFormHTML(u)}
+  if(canKind("b","view")){const cr=cashRepHTML();if(cr)h+=`<div class="box" id="bCashRep">${cr}</div>`;h+=`<div class="box" id="bAllTrips">${tripList(false)}</div>`}
+  return h}
+function bFormHTML(u){const OT=openTrips();return `<div class="box" id="bForm" data-type="${esc(bForm)}"><h3>${esc(t({in:"mCIn",trip:"mTrip",ret:"mRet",mv:"mMove",adj:"mAdj"}[bForm]))}</h3>
+    ${bForm==="adj"?`<div class="bSigns"><button type="button" class="sec bSign${bSign>0?" on":""}" data-s="1">${esc(t("mAdjAdd"))}</button><button type="button" class="sec bSign${bSign<0?" on":""}" data-s="-1">${esc(t("mAdjSub"))}</button></div>`:""}
+    ${bForm==="trip"?`<p class="hint">${esc(t("mTripN"))}: <b id="bTripNo">${esc(nextTrip())}</b></p><label>${esc(t("mTook"))}</label>${whoSel(u)}${namesHTML()}`:""}
     ${bForm==="ret"?(OT.length?`<label>${esc(t("mTripN"))}</label><select id="bTrip">${OT.map(x=>`<option value="${esc(x.trip)}">${esc(x.trip)} · ${esc(x.who)} · ${esc(cmoney(x.given-x.ret,x.cur))}</option>`).join("")}</select>`:`<p class="hint" id="bNoTrip">${esc(t("mNoTrip"))}</p>`):""}
     <label>${esc(t("mAmt").replace(" (CFA)",""))}</label><input id="bAmt" inputmode="numeric" autocomplete="off">
     ${bForm!=="ret"?`<label>${esc(t("mCurr"))}</label><select id="bCur">${CC().map(c=>`<option value="${esc(c.id)}">${esc(c.label)}</option>`).join("")}</select>`:""}
-    <label>${esc(t(bForm==="trip"?"mRefT":"mNote"))}</label><input id="bNote" autocomplete="off" spellcheck="true">
+    <label>${esc(t(bForm==="trip"?"mRefT":bForm==="adj"?"mWhy":"mNote"))}</label><input id="bNote" autocomplete="off" spellcheck="true"${bForm==="adj"?" required":""}>
     <label>${esc(t("mDate"))}</label><input id="bDate" type="date" value="${today()}">
-    ${bForm!=="mv"?`<label>🧾</label>${photoHTML("bPh")}<img id="bPhImg" class="phPrev" alt="" style="display:none;max-width:100%">`:""}
-    <p class="err" id="bErr"></p><button type="button" id="bSave">${esc(t("mSave"))}</button><button type="button" class="sec" id="bX">${esc(t("close"))}</button></div>`}}
-  if(canKind("b","view")){const cr=cashRepHTML();if(cr)h+=`<div class="box" id="bCashRep">${cr}</div>`;h+=`<div class="box" id="bAllTrips">${tripList(false)}</div>`}
-  return h}
+    ${bForm!=="mv"&&bForm!=="adj"?`<label>🧾</label>${photoHTML("bPh")}<img id="bPhImg" class="phPrev" alt="" style="display:none;max-width:100%">`:""}
+    <p class="err" id="bErr"></p><button type="button" id="bSave">${esc(t("mSave"))}</button><button type="button" class="sec" id="bX">${esc(t("close"))}</button></div>`}
 function bindBook(u){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  on("bInB",()=>{bForm="in";render()});on("bTripB",()=>{bForm="trip";render()});on("bRetB",()=>{bForm="ret";render()});on("bMvB",()=>{if(u.admin){bForm="mv";render()}});on("bX",()=>{bForm=null;bPhoto="";render()});
+  on("bInB",()=>{bForm="in";render()});on("bTripB",()=>{bForm="trip";render()});on("bRetB",()=>{bForm="ret";render()});on("bMvB",()=>{if(u.admin){bForm="mv";tab="work";render()}});on("bAdjB",()=>{if(isMain(u)){bForm="adj";bSign=1;render()}});
+  document.querySelectorAll(".mCarryB").forEach(b=>b.onclick=()=>{cOpen=!cOpen;render()});
+  document.querySelectorAll(".bSign").forEach(b=>b.onclick=()=>{bSign=+b.dataset.s<0?-1:1;document.querySelectorAll(".bSign").forEach(x=>x.classList.toggle("on",x===b))});
+  on("wEdB",()=>{wOpen=!wOpen;render()});
+  on("wAdd",()=>{const n=$("wName").value.trim().replace(/\s+/g," "),e=$("wErr");if(!n||!canKind("w","add"))return;const id=NK(n);
+    if(takers().some(w=>w.id===id||NK(w.name)===id)){e.textContent=t("wDupe");e.style.display="block";return}
+    if(put("w",id,{id:id,name:n,src:"manual",by:u.name,at:new Date().toISOString()})===false)return;render()});
+  document.querySelectorAll(".wDel").forEach(b=>b.onclick=()=>{const w=takers().find(x=>x.id===b.dataset.id);if(!w||!confirm(t("wDelQ").replace("%n",w.name)))return;remove("w",w.id);render()});on("bX",()=>{bForm=null;bPhoto="";v2Route="";render()});bindV2(u);
   document.querySelectorAll('input[data-ph="bPh"]').forEach(i=>i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;window.TMC.lastPhotoFrom=i.hasAttribute("capture")?"camera":"phone";shrinkPhoto(f,800,0.6).then(d=>{bPhoto=d;window.TMC.lastPhoto=d;const im=$("bPhImg");if(im){im.src=d;im.style.display="block"}}).catch(()=>{});i.value=""});
+  {const bn=$("bNote"),be=$("bErr");if(bn&&be)bn.oninput=()=>{be.style.display="none"}}
   on("bSave",()=>{const a=num($("bAmt").value),e=$("bErr");if(!(a>0)){e.textContent=t("mBad");e.style.display="block";return}
-    const id="b"+Date.now()+Math.random().toString(36).slice(2,5),d={id:id,type:bForm,amt:a,date:$("bDate").value||today(),note:$("bNote").value.trim(),by:u.name,at:new Date().toISOString()};if(bPhoto&&bForm!=="mv")d.ph=bPhoto;
-    if(bForm==="trip"){d.trip=nextTrip();d.who=$("bWho").value.trim()||u.name;d.ref=d.note;d.cur=$("bCur").value}
+    const id="b"+Date.now()+Math.random().toString(36).slice(2,5),d={id:id,type:bForm,amt:a,date:$("bDate").value||today(),note:$("bNote").value.trim(),by:u.name,at:new Date().toISOString()};if(bPhoto&&bForm!=="mv"&&bForm!=="adj")d.ph=bPhoto;
+    if(bForm==="trip"){d.trip=nextTrip();d.who=String($("bWho").value||"").trim()||u.name;d.ref=d.note;d.cur=$("bCur").value}
     else if(bForm==="ret"){const s=$("bTrip");if(!s)return;const x=openTrips().find(z=>z.trip===s.value);d.trip=s.value;d.cur=x?x.cur:"XAF";d.who=x?x.who:""}
     else d.cur=$("bCur").value;
     if(bForm==="mv"){if(!u.admin)return;if(a>monthNow(d.cur).carry){e.textContent=t("mMvBad");e.style.display="block";return}d.date=today();d.note=d.note||"carry → "+ym(today())}
+    if(bForm==="adj"){if(!isMain(u))return;if(!d.note){e.textContent=t("mWhyBad");e.style.display="block";return}d.amt=bSign*a}
     if(put("b",id,d)===false)return;bForm=null;bPhoto="";render()});
   document.querySelectorAll(".mTClose").forEach(b=>b.onclick=()=>{fix("b",b.dataset.id,"closed",1);render()})}
 window.TMC.money.cash={monthNow:monthNow,months:months,cashOn:cashOn,trips:trips,openTrips:openTrips,nextTrip:nextTrip,book:book};
 
 /* ==== STANDARD 📊 REPORTS (base TMC.addReport): cash book, Purchases trips, salary and loans ==== */
 const inR=(d,f,to)=>{d=String(d||"").slice(0,10);return d>=f&&d<=to};
-function cashRange(cu,f,to){let c=0,rec=0,sp=0;const a=r=>num(r.amt)||0,add=(d,v,isRec)=>{d=String(d||"").slice(0,10);if(d<f)c+=isRec?v:-v;else if(d<=to){if(isRec)rec+=v;else sp+=v}};
-  book().forEach(r=>{if((r.cur||"XAF")!==cu)return;const d=r.date||r.at;if(r.type==="in")add(d,a(r),1);else if(r.type==="trip")add(d,a(r),0);else if(r.type==="ret")add(d,-a(r),0)});
+function cashRange(cu,f,to){let c=0,rec=0,sp=0,adj=0,v2=0;const a=r=>num(r.amt)||0,add=(d,v,isRec)=>{d=String(d||"").slice(0,10);if(d<f)c+=isRec?v:-v;else if(d<=to){if(isRec)rec+=v;else sp+=v}};
+  book().forEach(r=>{if((r.cur||"XAF")!==cu)return;const d=r.date||r.at;if(r.type==="in")add(d,a(r),1);else if(r.type==="trip")add(d,a(r),0);else if(r.type==="v2"){add(d,a(r),0);const x=String(d||"").slice(0,10);if(x>=f&&x<=to)v2+=a(r)}else if(r.type==="ret")add(d,-a(r),0);else if(r.type==="adj"){const x=String(d||"").slice(0,10);if(x<f)c+=a(r);else if(x<=to)adj+=a(r)}});
   if(cu==="XAF")recs().forEach(r=>{const d=r.date||r.at;if(r.type==="salary"||r.type==="loan")add(d,a(r),0);else if(r.type==="repay"&&r.rhow==="cash")add(d,a(r),1)});
-  return {cur:cLab(cu),carry:c,rec:rec,spent:sp,left:rec-sp,hand:c+rec-sp}}
+  return {cur:cLab(cu),carry:c,rec:rec,spent:sp,v2:v2,adj:adj,left:rec-sp+adj,hand:c+rec-sp+adj}}
 addReport({id:"cash",title:{en:"Cash book",fr:"Livre de caisse",ar:"دفتر النقد"},
-  cols:[{key:"cur",label:{en:"Currency",fr:"Devise",ar:"العملة"}},{key:"carry",label:{en:"Carried over",fr:"Report",ar:"المرحل"},num:true},{key:"rec",label:{en:"Received",fr:"Reçu",ar:"المستلم"},num:true},{key:"spent",label:{en:"Spent",fr:"Dépensé",ar:"المصروف"},num:true},{key:"left",label:{en:"Left over",fr:"Reste",ar:"المتبقي"},num:true},{key:"hand",label:{en:"Cash on hand",fr:"En caisse",ar:"النقد المتوفر"},num:true}],
+  cols:[{key:"cur",label:{en:"Currency",fr:"Devise",ar:"العملة"}},{key:"carry",label:{en:"Carried over",fr:"Report",ar:"المرحل"},num:true},{key:"rec",label:{en:"Received",fr:"Reçu",ar:"المستلم"},num:true},{key:"spent",label:{en:"Spent",fr:"Dépensé",ar:"المصروف"},num:true},{key:"v2",label:{en:"of which 2nd vehicle",fr:"dont 2e véhicule",ar:"منها السيارة الثانية"},num:true},{key:"adj",label:{en:"Adjusted",fr:"Ajusté",ar:"التعديل"},num:true},{key:"left",label:{en:"Left over",fr:"Reste",ar:"المتبقي"},num:true},{key:"hand",label:{en:"Cash on hand",fr:"En caisse",ar:"النقد المتوفر"},num:true}],
   rows:(f,to)=>canKind("b","view")?usedCC().map(cu=>cashRange(cu,f,to)):[]});
 addReport({id:"trips",title:{en:"Purchases trips",fr:"Courses Achats",ar:"رحلات المشتريات"},
   cols:[{key:"trip",label:{en:"Trip",fr:"Course",ar:"الرحلة"}},{key:"date",label:{en:"Date",fr:"Date",ar:"التاريخ"}},{key:"cur",label:{en:"Currency",fr:"Devise",ar:"العملة"}},{key:"given",label:{en:"Given",fr:"Donné",ar:"المعطى"},num:true,sum:true},{key:"ret",label:{en:"Change back",fr:"Monnaie rendue",ar:"الباقي المرجع"},num:true,sum:true},{key:"spent",label:{en:"Spent",fr:"Dépensé",ar:"المصروف"},num:true,sum:true}],
@@ -877,13 +992,22 @@ addReport({id:"trips",title:{en:"Purchases trips",fr:"Courses Achats",ar:"رحل
 addReport({id:"pay",title:{en:"Salary and loans",fr:"Salaires et prêts",ar:"الرواتب والقروض"},
   cols:[{key:"date",label:{en:"Date",fr:"Date",ar:"التاريخ"}},{key:"name",label:{en:"Name",fr:"Nom",ar:"الاسم"}},{key:"sal",label:{en:"Salary",fr:"Salaire",ar:"الراتب"},num:true,sum:true},{key:"loan",label:{en:"Loan",fr:"Prêt",ar:"قرض"},num:true,sum:true},{key:"rep",label:{en:"Repaid",fr:"Remboursé",ar:"المسدد"},num:true,sum:true}],
   rows:(f,to)=>{if(!canKind("m","view"))return [];const P={};profiles().forEach(p=>P[p.id]=p);return visRecs().filter(r=>inR(r.date||r.at,f,to)).map(r=>{const a=num(r.amt)||0;return {date:String(r.date||r.at).slice(0,10),name:(P[r.sid]||{}).name||r.sname||r.sid,sal:r.type==="salary"?a:0,loan:r.type==="loan"?a:0,rep:r.type==="repay"?a:0}}).reverse()}});
+addReport({id:"v2",title:{en:"2nd Vehicle payments",fr:"Paiements 2e véhicule",ar:"دفعات السيارة الثانية"},
+  cols:[{key:"date",label:{en:"Date",fr:"Date",ar:"التاريخ"}},{key:"vno",label:{en:"Trip",fr:"Trajet",ar:"الرحلة"}},{key:"part",label:{en:"Payment",fr:"Paiement",ar:"الدفعة"}},{key:"route",label:{en:"Route",fr:"Trajet",ar:"المسار"}},{key:"who",label:{en:"Who took it",fr:"Qui l'a pris",ar:"من أخذه"}},{key:"amt",label:{en:"Amount",fr:"Montant",ar:"المبلغ"},num:true,sum:true},{key:"by",label:{en:"By",fr:"Par",ar:"بواسطة"}}],
+  rows:(f,to)=>canKind("b","view")?v2Recs().filter(r=>inR(r.date||r.at,f,to)).map(r=>({date:String(r.date||r.at).slice(0,10),vno:r.vno||"",part:t(r.part==="first"?"v2First":"v2Bal"),route:r.route?v2RL(r.route):"",who:r.who||"",amt:num(r.amt)||0,by:r.by||""})):[]});
+addReport({id:"v2owe",title:{en:"2nd Vehicle: still owing",fr:"2e véhicule : reste à payer",ar:"السيارة الثانية: ما زال مستحقاً"},
+  cols:[{key:"vno",label:{en:"Trip",fr:"Trajet",ar:"الرحلة"}},{key:"date",label:{en:"Date",fr:"Date",ar:"التاريخ"}},{key:"route",label:{en:"Route",fr:"Trajet",ar:"المسار"}},{key:"who",label:{en:"Who took it",fr:"Qui l'a pris",ar:"من أخذه"}},{key:"det",label:{en:"Trip details",fr:"Détails du trajet",ar:"تفاصيل الرحلة"}},{key:"price",label:{en:"Price",fr:"Prix",ar:"السعر"},num:true,sum:true},{key:"paid",label:{en:"Paid",fr:"Payé",ar:"المدفوع"},num:true,sum:true},{key:"bal",label:{en:"Balance",fr:"Solde",ar:"الباقي"},num:true,sum:true}],
+  rows:(f,to)=>canKind("b","view")?v2Owing().filter(x=>String(x.date||"").slice(0,10)<=to).map(x=>({vno:x.vno,date:String(x.date||"").slice(0,10),route:v2RL(x.route),who:x.who||"",det:x.det||"",price:x.price,paid:x.paid,bal:x.bal})):[]});
+addReport({id:"adj",title:{en:"Balance adjustments",fr:"Ajustements du solde",ar:"تعديلات الرصيد"},
+  cols:[{key:"date",label:{en:"Date",fr:"Date",ar:"التاريخ"}},{key:"cur",label:{en:"Currency",fr:"Devise",ar:"العملة"}},{key:"amt",label:{en:"Amount",fr:"Montant",ar:"المبلغ"},num:true,sum:true},{key:"note",label:{en:"Why",fr:"Pourquoi",ar:"السبب"}},{key:"by",label:{en:"By",fr:"Par",ar:"بواسطة"}}],
+  rows:(f,to)=>canKind("b","view")?book().filter(r=>r.type==="adj"&&inR(r.date||r.at,f,to)).map(r=>({date:String(r.date||r.at).slice(0,10),cur:cLab(r.cur||"XAF"),amt:num(r.amt)||0,note:r.note||"",by:r.by||""})):[]});
 /* notes report (kept from base with the notes box; must stay first: base tests) */
 addReport({id:"demo",title:"rpDemo",cols:[{key:"date",label:"rpDate"},{key:"by",label:"rpPerson"},{key:"n",label:"rpNotes",num:true,sum:true},{key:"ch",label:"rpChars",num:true,sum:true}],
  rows:(f,to)=>{const g={};all("x").forEach(x=>{const d=x.at?ymd(new Date(x.at)):"";if(!d||d<f||d>to)return;const k=d+"|"+(x.by||"");g[k]=g[k]||{date:d,by:x.by||"",n:0,ch:0};g[k].n++;g[k].ch+=String(x.text||"").length});return Object.keys(g).sort().map(k=>g[k])}});
 REPORTS.unshift(REPORTS.pop());
 function bindWork(u){
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  on("mMoreB",()=>{mMore=!mMore;render()});on("mAllRec",()=>{mAllRec=true;render()});
+  on("mAllRec",()=>{mAllRec=true;render()});
   on("mSalB",()=>{mForm="salary";render()});on("mLoanB",()=>{mForm="loan";render()});on("mRepB",()=>{mForm="repay";mDays.rh="deduct";render()});on("mX",()=>{mForm=null;render()});
   const ws=$("mWhoS");if(ws)ws.onchange=()=>{mSel=ws.value;render()};
   document.querySelectorAll(".mRH").forEach(b=>b.onclick=()=>{mDays.rh=b.dataset.rh;render()});
@@ -909,7 +1033,7 @@ function bindWork(u){
     saveProf(id,v);render()});
   on("mRotB",()=>{const o=$("mRotOut");if(!sUrl()){o.textContent=t("ncT");return}o.textContent="…";api({action:"staffRefresh",token:sTok()||undefined,since:0,changes:[]}).then(j=>{mRotMsg=j.ok?"✅ "+((j.rot||{}).names||0)+" / "+((j.rot||{}).changed||0):(j.error==="rotation_read"?"⚠️ Rotation: "+(j.msg||""):t("noAccess"));o.textContent=mRotMsg;syncNow().then(()=>render())}).catch(()=>{mRotMsg=t("ncT");o.textContent=mRotMsg})});
   on("exAdd",()=>{const v=$("exTxt").value.trim();if(!v)return;const id="x"+Date.now();put("x",id,{id:id,text:v,by:u.name,at:new Date().toISOString()});draftClear("exTxt");render()});
-  const srv=a=>{const o=$("exOut");api({action:a,token:sTok()||undefined,code:sCode()||undefined}).then(j=>{if(j.ok&&a==="report")o.innerHTML=reportHTML(t("repT").replace("📊 ",""),Object.entries(j.counts||{}));else o.textContent=j.ok?(j.rows||[]).length+" rows":t("noAccess")}).catch(()=>{o.textContent=t("ncT")})};
+  const srv=a=>{const o=$("exOut");api({action:a,token:sTok()||undefined,code:sTok()?undefined:(sCode()||undefined)}).then(j=>{if(j.ok&&a==="report")o.innerHTML=reportHTML(t("repT").replace("📊 ",""),Object.entries(j.counts||{}));else o.textContent=j.ok?(j.rows||[]).length+" rows":t("noAccess")}).catch(()=>{o.textContent=t("ncT")})};
   on("exRep",()=>srv("report"));on("exExp",()=>srv("export"));
   bindPhoto("exPh",d=>{const im=$("exPhImg");if(im){im.src=d;im.style.display="block"}window.TMC.lastPhoto=d});
   bindBook(u);bindFix();
@@ -966,10 +1090,10 @@ function bindMain(u){
   document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   on("hSync",()=>syncNow());on("hShare",shareModal);
-  on("sSave",()=>{L.set("syurl",$("sUrl").value.trim());L.set("sycode",$("sCode").value.trim());L.del("since");syncNow().then(render)});
+  on("sSave",()=>{relogNo=0;L.set("syurl",$("sUrl").value.trim());L.set("sycode",$("sCode").value.trim());L.del("since");syncNow().then(render)});
   on("uChk",()=>checkUpdate(true));
   on("sOut",logout);on("hOut",logout);on("sWipe",wipe);
-  if(tab==="work")bindWork(u);if(tab==="reports")bindRep(u);if(tab==="users")bindUsers();
+  if(["home","work","tSal","tLoan","veh2","carry"].indexOf(tab)>=0)bindWork(u);if(tab==="reports")bindRep(u);if(tab==="users")bindUsers();
   draftBind(u);
 }
 async function logout(){
@@ -1015,6 +1139,9 @@ function paintSync(){paintNc();
   $("pwB").onclick=()=>syncNow();
 }
 setInterval(paintSync,2000);addEventListener("online",paintSync);addEventListener("offline",paintSync);
+/* VER 6: small plain message at the bottom (no OK button) */
+function toast(m){let w=$("tmcToast");if(!w){w=document.createElement("div");w.id="tmcToast";w.setAttribute("role","status");w.style.cssText="position:fixed;left:12px;right:12px;bottom:84px;z-index:9999;background:#7c2d12;color:#fff;padding:14px 16px;border-radius:12px;font-size:17px;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center";document.body.appendChild(w)}w.textContent=m;w.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>{w.style.display="none"},7000)}
+window.TMC.toast=toast;
 function onData(){const u=me();if(flow&&flow.s==="wait"&&!u){/* stay */}if(!u&&L.get("uid")){signOut();render();return}
   const a=document.activeElement;if(u&&!(a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA")))render()}
 
