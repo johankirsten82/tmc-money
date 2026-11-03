@@ -23,7 +23,7 @@
  "APP_ID": "tmcmoney",
  "NAME": "TMC Money",
  "SHORT": "TMC Money",
- "VER": 11,
+ "VER": 12,
  "REPORT_COLOR": "#1B7F3B",
  "COLOR": "#15803d",
  "COLOR_DARK": "#14532d",
@@ -189,7 +189,7 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .badge{position:absolute;top:4px;inset-inline-end:18%;background:#dc2626;color:#fff;border-radius:9px;padding:0 5px;font-size:12px;line-height:18px;font-weight:700}
 .hhero{display:flex;align-items:center;gap:14px}.hhero img{border-radius:14px;flex:none}.hhero h2{margin:0;font-size:21px}#hDate{color:#475569;margin-top:2px}.hhi{font-size:18px;font-weight:700;color:#0f766e;margin-top:2px}
 .loBand{width:100%;min-height:56px;margin:0 0 10px;font-size:18px;font-weight:700}
-.sfBig{font-size:40px}.mNoteBig{font-size:17px}.mPayP{text-align:start;min-height:56px}#mPayList h3{margin-top:12px}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sfBig{font-size:40px}.mNoteBig{font-size:17px}.mPayP{text-align:start;min-height:64px;font-size:19px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.mPayAmt{font-size:17px}#salSetB{margin-top:14px}#salRemB,#salRemY{min-height:60px;font-size:19px;margin-top:14px}#salPDue{margin:10px 0}#mPayList h3{margin-top:12px}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tile{min-height:110px;font-size:19px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0;background:#fff;color:#0f172a;border:2px solid var(--c);border-radius:16px;box-shadow:0 2px 8px #0000000f;font-weight:700}
 .tile.sec{background:#fff;color:#0f172a}.tile:active{background:#f0fdf4}.tile b{font-size:38px}.v2P{font-size:18px;font-weight:800;color:#15803d}#v2Box .mBal{font-size:22px}.v2TRow{text-align:start;min-height:64px;line-height:1.4}
 .phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
@@ -227,6 +227,7 @@ nav.tabs .tlab{font-size:13px;line-height:1.1;text-align:center;overflow-wrap:an
 .canR{display:flex;align-items:center;gap:12px;min-height:58px;font-size:20px;font-weight:700;border-bottom:1px solid #e2e8f0}.canR.no{color:#94a3b8}.canR .ci{font-size:26px}
 .fixB{width:auto;min-width:120px;min-height:56px;background:#b45309;font-size:18px}.fixN{width:100%}
 .dsc h2{color:#b91c1c}.dsc button{min-height:60px;font-size:20px}
+#updGo{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:18px}#updGo img{width:96px;height:96px;border-radius:20px}#updGo b{font-size:30px;line-height:1.25;color:#0f172a}#updGo span{font-size:20px;color:#475569}#updGo i{width:64px;height:64px;border:7px solid #e2e8f0;border-top-color:#0f766e;border-radius:50%;animation:updSp 1s linear infinite}@keyframes updSp{to{transform:rotate(360deg)}}
 .modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
 .ncW{background:#fee2e2;border:1px solid #dc2626;color:#7f1d1d}
 .qr{width:240px;height:240px;max-width:80vw;max-height:80vw;background:#fff}
@@ -282,7 +283,7 @@ home:"Home",work:"Work",users:"Users",settings:"Settings",share:"Share app",sync
 phT:"🧩 APP FEATURES GO HERE",phH:"This tab is a placeholder. Each app puts its own screens here.",exT:"Example note (demo)",exAdd:"Save note",fix:"✏️ Fix",fixT:"✏️ Fix a mistake (Admin)",fixSave:"💾 Save fix",fixOnly:"Only the Admin can fix a saved record.",fixRef:"⚠️ Your fix was not saved. Only the Admin can fix. Sign in as the Admin and try again.",fixed:"fixed by",can:"What I can do",canH:"Ticked = allowed. Ask the Admin to change it.",canEd:"✅ Allowed for",dupT:"Already asked - wait for Admin",dupH:"This name already asked once. Wait for the Admin. If you were approved, type your name and PIN to sign in.",canAdm:"⭐ Admin only: ✏️ Fix, 👥 Approve users",lkFix:"✏️ Fix",lkApp:"👥 Approve users",admOnly:"Admin only",canAll:"⭐ Admin: you can do everything.",noAccess:"You are not allowed to do this.",repT:"📊 Report",expT:"📤 Export",exNone:"No notes yet.",
 synced:"Synced",syncErr:"Sync problem",syncOff:"Sync not set up",offline:"Offline",last:"Last sync",
 pwT:"⚠️ %n change(s) not sent to the Sheet yet",pwOff:"No internet — they will be sent when you are online.",pwDel:"Tap 🔄 Sync now before deleting the app or clearing data, or these changes will be lost.",
-updT:"🆕 A new version is ready",updB:"⬆️ Update now",updChk:"Check for update",updNone:"You have the latest version.",ver:"Version",
+updT:"🆕 A new version is ready",updB:"⬆️ Update now",updChk:"Check for update",updNone:"You have the latest version.",updGo:"Updating… please wait",updGo2:"Do not close the app. Your saved work is kept.",ver:"Version",
 insBtn:"📲 Install app",insIos:"Tap Share ⬆️ then Add to Home Screen ➕",
 shareH:"Scan this code with the other phone, or send the link.",shareB:"📤 Send link",copy:"📋 Copy link",copied:"Copied",close:"Close",
 pend:"Waiting",act:"Approved",rej:"Rejected",blk:"Blocked",approve:"✅ Approve",reject:"❌ Reject",block:"⛔ Block",unblock:"↩️ Unblock",resetPin:"🔑 Reset PIN",admin:"Admin",noPend:"No one is waiting.",dscBT:"⛔ Block and remove %n?",dscRT:"❌ Reject and remove %n?",dscH:"%n is taken off the list. Their old PIN stops working. They can send a new request later.",dscY:"🗑️ Yes, remove",dscN:"↩️ Back",dscOld:"🗑️ Remove",dscDone:"%n was removed.",dscSelf:"You cannot remove yourself.",dscLast:"You cannot remove the last Admin.",dscTok:"Sign in again with your PIN to remove people.",goneT:"Not approved",goneH:"The Admin removed this request. You can send a new one.",again:"📨 Send a new request",
@@ -302,7 +303,7 @@ home:"Accueil",work:"Travail",users:"Utilisateurs",settings:"Réglages",share:"P
 phT:"🧩 LES FONCTIONS DE L'APP VONT ICI",phH:"Cet onglet est un emplacement. Chaque app y met ses écrans.",exT:"Note d'exemple (démo)",exAdd:"Enregistrer la note",fix:"✏️ Corriger",fixT:"✏️ Corriger une erreur (Admin)",fixSave:"💾 Enregistrer",fixOnly:"Seul l'Admin peut corriger un enregistrement.",fixRef:"⚠️ Votre correction n'est pas enregistrée. Seul l'Admin peut corriger. Connectez-vous comme Admin et réessayez.",fixed:"corrigé par",can:"Mes droits",canH:"Coché = autorisé. Demandez à l'Admin pour changer.",canEd:"✅ Autorisé pour",dupT:"Déjà demandé - attendez l'Admin",dupH:"Ce nom a déjà demandé. Attendez l'Admin. Si vous êtes accepté, tapez votre nom et PIN.",canAdm:"⭐ Admin seulement : ✏️ Corriger, 👥 Approuver",lkFix:"✏️ Corriger",lkApp:"👥 Approuver",admOnly:"Admin seulement",canAll:"⭐ Admin : vous pouvez tout faire.",noAccess:"Vous n'avez pas le droit de faire ceci.",repT:"📊 Rapport",expT:"📤 Exporter",exNone:"Pas encore de notes.",
 synced:"Synchronisé",syncErr:"Problème de synchro",syncOff:"Synchro non configurée",offline:"Hors ligne",last:"Dernière synchro",
 pwT:"⚠️ %n modification(s) pas encore envoyée(s) à la feuille",pwOff:"Pas d'internet — elles seront envoyées dès que vous serez en ligne.",pwDel:"Touchez 🔄 Synchroniser avant de supprimer l'application ou d'effacer les données, sinon ces modifications seront perdues.",
-updT:"🆕 Une nouvelle version est prête",updB:"⬆️ Mettre à jour",updChk:"Chercher une mise à jour",updNone:"Vous avez la dernière version.",ver:"Version",
+updT:"🆕 Une nouvelle version est prête",updB:"⬆️ Mettre à jour",updChk:"Chercher une mise à jour",updNone:"Vous avez la dernière version.",updGo:"Mise à jour… veuillez patienter",updGo2:"Ne fermez pas l’app. Votre travail enregistré est gardé.",ver:"Version",
 insBtn:"📲 Installer l'application",insIos:"Touchez Partager ⬆️ puis Sur l'écran d'accueil ➕",
 shareH:"Scannez ce code avec l'autre téléphone, ou envoyez le lien.",shareB:"📤 Envoyer le lien",copy:"📋 Copier le lien",copied:"Copié",close:"Fermer",
 pend:"En attente",act:"Approuvé",rej:"Refusé",blk:"Bloqué",approve:"✅ Approuver",reject:"❌ Refuser",block:"⛔ Bloquer",unblock:"↩️ Débloquer",resetPin:"🔑 Réinitialiser PIN",admin:"Admin",noPend:"Personne n'attend.",dscBT:"⛔ Bloquer et retirer %n ?",dscRT:"❌ Refuser et retirer %n ?",dscH:"%n est retiré de la liste. Son ancien PIN ne marche plus. Il peut envoyer une nouvelle demande plus tard.",dscY:"🗑️ Oui, retirer",dscN:"↩️ Retour",dscOld:"🗑️ Retirer",dscDone:"%n a été retiré.",dscSelf:"Vous ne pouvez pas vous retirer vous-même.",dscLast:"Vous ne pouvez pas retirer le dernier Admin.",dscTok:"Reconnectez-vous avec votre PIN pour retirer quelqu'un.",goneT:"Non approuvé",goneH:"L'Admin a retiré cette demande. Vous pouvez en envoyer une nouvelle.",again:"📨 Nouvelle demande",
@@ -322,7 +323,7 @@ home:"الرئيسية",work:"العمل",users:"المستخدمون",settings:
 phT:"🧩 ميزات التطبيق توضع هنا",phH:"هذا التبويب مكان مخصص. كل تطبيق يضع شاشاته هنا.",exT:"ملاحظة مثال (تجربة)",exAdd:"حفظ الملاحظة",fix:"✏️ تصحيح",fixT:"✏️ تصحيح خطأ (المدير)",fixSave:"💾 حفظ التصحيح",fixOnly:"المدير فقط يمكنه تصحيح سجل محفوظ.",fixRef:"⚠️ لم يُحفظ تصحيحك. المدير فقط يمكنه التصحيح. سجّل الدخول كمدير وحاول مرة أخرى.",fixed:"صححه",can:"ما يمكنني فعله",canH:"المؤشَّر = مسموح. اطلب من المدير التغيير.",canEd:"✅ مسموح لـ",dupT:"تم الطلب - انتظر المدير",dupH:"هذا الاسم طلب من قبل. انتظر المدير. إذا تمت الموافقة، اكتب اسمك والرقم السري.",canAdm:"⭐ للمدير فقط: ✏️ تصحيح، 👥 قبول المستخدمين",lkFix:"✏️ تصحيح",lkApp:"👥 قبول المستخدمين",admOnly:"للمدير فقط",canAll:"⭐ المدير: يمكنك فعل كل شيء.",noAccess:"غير مسموح لك بهذا.",repT:"📊 تقرير",expT:"📤 تصدير",exNone:"لا توجد ملاحظات بعد.",
 synced:"تمت المزامنة",syncErr:"مشكلة في المزامنة",syncOff:"المزامنة غير مُعدة",offline:"غير متصل",last:"آخر مزامنة",
 pwT:"⚠️ %n تغيير لم يُرسل إلى الجدول بعد",pwOff:"لا يوجد إنترنت — سيتم الإرسال عند الاتصال.",pwDel:"اضغط 🔄 مزامنة الآن قبل حذف التطبيق أو مسح البيانات، وإلا ستضيع هذه التغييرات.",
-updT:"🆕 نسخة جديدة جاهزة",updB:"⬆️ تحديث الآن",updChk:"البحث عن تحديث",updNone:"لديك آخر نسخة.",ver:"النسخة",
+updT:"🆕 نسخة جديدة جاهزة",updB:"⬆️ تحديث الآن",updChk:"البحث عن تحديث",updNone:"لديك آخر نسخة.",updGo:"جارٍ التحديث… يرجى الانتظار",updGo2:"لا تغلق التطبيق. عملك المحفوظ باقٍ.",ver:"النسخة",
 insBtn:"📲 تثبيت التطبيق",insIos:"اضغط مشاركة ⬆️ ثم إضافة إلى الشاشة الرئيسية ➕",
 shareH:"امسح هذا الرمز بالهاتف الآخر، أو أرسل الرابط.",shareB:"📤 إرسال الرابط",copy:"📋 نسخ الرابط",copied:"تم النسخ",close:"إغلاق",
 pend:"بانتظار",act:"موافق عليه",rej:"مرفوض",blk:"محظور",approve:"✅ موافقة",reject:"❌ رفض",block:"⛔ حظر",unblock:"↩️ إلغاء الحظر",resetPin:"🔑 إعادة تعيين الرمز",admin:"مسؤول",noPend:"لا أحد بالانتظار.",dscBT:"⛔ حظر وحذف %n؟",dscRT:"❌ رفض وحذف %n؟",dscH:"سيُحذف %n من القائمة. رمز PIN القديم لن يعمل بعد الآن. يمكنه إرسال طلب جديد لاحقًا.",dscY:"🗑️ نعم، احذف",dscN:"↩️ رجوع",dscOld:"🗑️ حذف",dscDone:"تم حذف %n.",dscSelf:"لا يمكنك حذف نفسك.",dscLast:"لا يمكنك حذف آخر مسؤول.",dscTok:"سجّل الدخول مجددًا برمز PIN لحذف الأشخاص.",goneT:"غير موافق عليه",goneH:"حذف المسؤول هذا الطلب. يمكنك إرسال طلب جديد.",again:"📨 إرسال طلب جديد",
@@ -362,8 +363,8 @@ function permLab(p){return p[lang]||p.en}
 /* VER 9 = base VER 6 ADMIN FIX RULE (phone): role + token decide, never the team code alone. Admin with a token = fix, even if a team code is saved.
    A team-code phone with no token counts as staff (the server refuses its fixes). See tmc-base tests/admin_fix_test_spec.md. */
 function canFix(){const m=me();if(!(m&&m.admin))return false;return !!(sTok()||!sCode())}
-function put(kind,id,data){const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&isMain(R[k].data)&&!mainKept(data)){toast(t("dscMain"));return false}if(kind!=="u"&&R[k]&&!R[k].del&&!canFix()){alert(t("fixOnly"));return false}if(kind!=="u"&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:0,data:data};dirty[k]=1;saveR();syncSoon();}
-function remove(kind,id){const k=kind+":"+id;if(kind==="u")return false;if(kind!=="u"&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();}
+function put(kind,id,data){if(updLock){toast(t("updGo"));return false}const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&isMain(R[k].data)&&!mainKept(data)){toast(t("dscMain"));return false}if(kind!=="u"&&R[k]&&!R[k].del&&!canFix()){alert(t("fixOnly"));return false}if(kind!=="u"&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:0,data:data};dirty[k]=1;saveR();syncSoon();}
+function remove(kind,id){if(updLock){toast(t("updGo"));return false}const k=kind+":"+id;if(kind==="u")return false;if(kind!=="u"&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();}
 /* fix(): Admin changes one field; old value, Admin name and time are kept in data._fix (audit column) and the server "Fix log" tab. */
 function fix(kind,id,field,val){if(!canFix())return false;const k=kind+":"+id,r=R[k];if(!r||r.del)return false;const d=Object.assign({},r.data),old=d[field];if(String(old)===String(val))return true;
   d._fix=(Array.isArray(d._fix)?d._fix:[]).concat([{f:field,old:old,by:me().name,at:new Date().toISOString()}]);d[field]=val;return put(kind,id,d)!==false}
@@ -678,9 +679,9 @@ const MT={
  ar:{v2P1:"دفع الجزء الأول (الذهاب)",v2P2:"دفع الباقي (العودة)",v2First:"الجزء الأول",v2Bal:"الباقي",v2Paid:"المدفوع",v2Pr:"السعر",v2Full:"✅ مدفوع بالكامل",v2Owe:"ما زال مستحقاً",v2Trips:"الرحلات",v2Pays:"الدفعات",v2Short:"المسار القصير",v2Long:"المسار الطويل",v2Prices:"⚙️ أسعار المسارات",v2Det:"تفاصيل الرحلة",v2DetBad:"اكتب تفاصيل الرحلة",v2Note:"ملاحظة (اختياري)",veh2:"السيارة الثانية",v2Pay:"دفع السيارة الثانية",v2Why:"التناوب: نقل الموظفين إلى مطار برداي والعودة إلى المقر",tSal:"الرواتب",tLoan:"القروض",mAdj:"⚖️ تعديل الرصيد",mAdjAdd:"➕ إضافة",mAdjSub:"➖ خصم",mWhy:"لماذا؟ (إلزامي)",mWhyBad:"اكتب السبب",mAdjd:"تم تعديل الرصيد",wNames:"👥 الأسماء",wAdd:"➕ إضافة اسم",wNew:"اسم جديد",wDupe:"موجود في القائمة",wDelQ:"حذف %n؟",mMonth:"هذا الشهر",mRecv:"النقد المستلم",mSpentM:"المصروف",mLeft:"المتبقي",mMoved:"منقول من المرحّل",mMore:"المزيد: الرواتب والسلف",mPaidTo:"مدفوع حتى",mShowAll:"عرض الكل",mCB:"💵 النقد المتوفر",mCIn:"⬇️ نقد مستلم",mTrip:"🛒 نقد للمشتريات",mRet:"↩️ الباقي المرتجع",mTook:"من أخذه",mTripN:"رحلة",mGiven:"المعطى",mBack:"المرتجع",mSpent:"المصروف",mOpenT:"رحلات مفتوحة",mCurr:"العملة",mNoTrip:"لا رحلة مفتوحة",mClose:"✅ إغلاق",mRefT:"مرجع المشتريات (نص حر)",work:"المال",mPD:"📅 يوم",mPW:"📅 أسبوع",mPM:"📅 شهر",mPQ:"📅 ربع",mPY:"📅 سنة",mSal:"💵 راتب مدفوع",mLoan:"🤝 سلفة",mRep:"↩️ سداد سلفة",mDed:"✂️ من الراتب",mCashR:"💵 نقدا",mWho:"الشخص",mAmt:"المبلغ (CFA)",mDate:"التاريخ",mNote:"ملاحظة",mRef:"رقم الإيصال",mHow:"طريقة الدفع",mSave:"💾 حفظ",mBad:"اكتب المبلغ",mList:"السجلات",mNone:"لا شيء بعد",mOwe:"سلفة مستحقة",mDue:"راتب مستحق",mDueP:"مستحق هذه الفترة",mPaid:"مدفوع",mDays:"أيام العمل",mDaySave:"💾 حفظ الأيام",mRate:"أجر اليوم",mHead:"العدد",mFixed:"ثابت",mDayR:"باليوم",mPer2:"كل أسبوعين",mPerM:"شهري",mPerR:"لكل دورة",mPerG:"حسب المجموعة",mStaff:"👥 الموظفون",mAddP:"➕ إضافة شخص",mName:"الاسم الكامل",mSno:"رقم الموظف",mPos:"الوظيفة",mDept:"القسم",mStart:"تاريخ البدء",mGroup:"المجموعة",mPer:"فترة الدفع",mPType:"نوع الأجر",mSalP:"المبلغ لكل فترة (CFA)",mMeth:"طريقة الدفع",mDet:"البنك / الهاتف",mStat:"الحالة",mUnset:"غير محدد",mRot:"🔄 الأسماء من Rotation",mFromRot:"Rotation",mManual:"يدوي",mGroups:"المجموعات",mCsvP:"⬇️ CSV المدفوعات",mCsvS:"⬇️ CSV الموظفين",mTot:"المجاميع",mOut:"السلف القائمة",mRaise:"مبلغ جديد من",mOpen:"فتح",mDupe:"هذا الاسم موجود",mMine:"مالي",mNotes:"📝 ملاحظات",mCalc:"أيام × أجر",mWhoOwed:"لمن ندين"}};
 Object.keys(MT).forEach(l=>Object.assign(T[l],MT[l]));
 const MT2={
- en:{dscMain:"The main Admin can never be removed, blocked, demoted or renamed.",sfund:"Specialist Fund",shop:"Shopping",sfIn:"Move in",sfOut:"Move out",sfInH:"Month close-out: move the money left in the books into the Specialist Fund.",sfOutH:"Bring money from the Specialist Fund back into the cash book.",sfNote:"Note (required)",sfNoteBad:"Please write a note.",sfTooMuch:"That is more than is there.",sfBooks:"Left in the books now",sfMoves:"Moves",sfToF:"into the fund",sfFromF:"back to the cash book",inHow:"How did the money come?",inCash:"💵 Cash",inTr:"🏦 Transfer",inWho:"Brought from N'Djamena by",feeL:"Transfer fee",feeH:"Transfer fee 10% (paid on top, saved as a cost)",loanDue:"pay back by",loanDueH:"1-month loan: pay back by %d",repCash:"Paid back in cash to the main Admin on the mine site.",v2Drv:"Driver",v2DrvB:"Regular driver",v2DrvSave:"⭐ Save as regular driver",v2DrvSaved:"Regular driver saved",salFix:"🧱 Fixed monthly salaries",salHau:"🗓️ Hausa wages (days × day rate)",salPerM:"/ month",shopSend:"Send to Purchases",shopRet:"Return (change back)",shopOut:"Money still out",shopOutOne:"Still out",shopDone:"Trip closed"},
- fr:{dscMain:"L'Admin principal ne peut jamais être retiré, bloqué, rétrogradé ni renommé.",sfund:"Fonds spécialiste",shop:"Courses",sfIn:"Entrée",sfOut:"Sortie",sfInH:"Clôture du mois : placer l'argent restant dans les livres dans le Fonds spécialiste.",sfOutH:"Remettre de l'argent du Fonds spécialiste dans le livre de caisse.",sfNote:"Note (obligatoire)",sfNoteBad:"Veuillez écrire une note.",sfTooMuch:"C'est plus que ce qu'il y a.",sfBooks:"Reste dans les livres",sfMoves:"Mouvements",sfToF:"vers le fonds",sfFromF:"retour à la caisse",inHow:"Comment l'argent est-il arrivé ?",inCash:"💵 Espèces",inTr:"🏦 Transfert",inWho:"Apporté de N'Djamena par",feeL:"Frais de transfert",feeH:"Frais de transfert 10 % (payés en plus, notés comme dépense)",loanDue:"à rembourser le",loanDueH:"Prêt d'un mois : à rembourser le %d",repCash:"Remboursé en espèces à l'Admin principal sur le site minier.",v2Drv:"Chauffeur",v2DrvB:"Chauffeur habituel",v2DrvSave:"⭐ Enregistrer comme chauffeur habituel",v2DrvSaved:"Chauffeur habituel enregistré",salFix:"🧱 Salaires mensuels fixes",salHau:"🗓️ Salaires Haoussa (jours × taux)",salPerM:"/ mois",shopSend:"Envoyer aux Achats",shopRet:"Retour (monnaie rendue)",shopOut:"Argent encore dehors",shopOutOne:"Encore dehors",shopDone:"Course clôturée"},
- ar:{dscMain:"لا يمكن أبداً حذف المسؤول الرئيسي أو حظره أو تخفيض صلاحياته أو تغيير اسمه.",sfund:"الصندوق الخاص",shop:"التسوق",sfIn:"إيداع",sfOut:"سحب",sfInH:"إقفال الشهر: نقل المال المتبقي في الدفاتر إلى الصندوق الخاص.",sfOutH:"إعادة مال من الصندوق الخاص إلى دفتر النقد.",sfNote:"ملاحظة (إلزامية)",sfNoteBad:"يرجى كتابة ملاحظة.",sfTooMuch:"هذا أكثر من المتوفر.",sfBooks:"المتبقي في الدفاتر الآن",sfMoves:"الحركات",sfToF:"إلى الصندوق",sfFromF:"عودة إلى دفتر النقد",inHow:"كيف وصل المال؟",inCash:"💵 نقداً",inTr:"🏦 تحويل",inWho:"أحضره من انجامينا",feeL:"رسوم التحويل",feeH:"رسوم التحويل 10٪ (تُدفع إضافةً وتُسجَّل كمصروف)",loanDue:"السداد قبل",loanDueH:"قرض لمدة شهر: السداد قبل %d",repCash:"سُدِّد نقداً للمسؤول الرئيسي في موقع المنجم.",v2Drv:"السائق",v2DrvB:"السائق المعتاد",v2DrvSave:"⭐ حفظ كسائق معتاد",v2DrvSaved:"تم حفظ السائق المعتاد",salFix:"🧱 الرواتب الشهرية الثابتة",salHau:"🗓️ أجور الهوسا (الأيام × أجر اليوم)",salPerM:"/ شهر",shopSend:"إرسال إلى المشتريات",shopRet:"إرجاع (الباقي)",shopOut:"مال ما زال في الخارج",shopOutOne:"ما زال في الخارج",shopDone:"أُغلقت الرحلة"}};
+ en:{dscMain:"The main Admin can never be removed, blocked, demoted or renamed.",sfund:"Specialist Fund",shop:"Shopping",sfIn:"Move in",sfOut:"Move out",sfInH:"Month close-out: move the money left in the books into the Specialist Fund.",sfOutH:"Bring money from the Specialist Fund back into the cash book.",sfNote:"Note (required)",sfNoteBad:"Please write a note.",sfTooMuch:"That is more than is there.",sfBooks:"Left in the books now",sfMoves:"Moves",sfToF:"into the fund",sfFromF:"back to the cash book",inHow:"How did the money come?",inCash:"💵 Cash",inTr:"🏦 Transfer",inWho:"Brought from N'Djamena by",feeL:"Transfer fee",feeH:"Transfer fee 10% (paid on top, saved as a cost)",loanDue:"pay back by",loanDueH:"1-month loan: pay back by %d",repCash:"Paid back in cash to the main Admin on the mine site.",v2Drv:"Driver",v2DrvB:"Regular driver",v2DrvSave:"⭐ Save as regular driver",v2DrvSaved:"Regular driver saved",salAdd:"➕ Add staff",salSet:"⚙️ Groups & settings",salPay:"Pay",salEd:"✏️ Edit details",salRem:"🗑️ Remove",salRemQ:"Remove {n}? Past payments stay in the totals and reports.",salRemY:"Yes, remove",salRemD:"Removed. Past payments are kept.",salMon:"Monthly pay",salAmt:"Monthly pay or day rate (CFA)",salFix:"🧱 Fixed monthly salaries",salHau:"🗓️ Hausa wages (days × day rate)",salPerM:"/ month",shopSend:"Send to Purchases",shopRet:"Return (change back)",shopOut:"Money still out",shopOutOne:"Still out",shopDone:"Trip closed"},
+ fr:{dscMain:"L'Admin principal ne peut jamais être retiré, bloqué, rétrogradé ni renommé.",sfund:"Fonds spécialiste",shop:"Courses",sfIn:"Entrée",sfOut:"Sortie",sfInH:"Clôture du mois : placer l'argent restant dans les livres dans le Fonds spécialiste.",sfOutH:"Remettre de l'argent du Fonds spécialiste dans le livre de caisse.",sfNote:"Note (obligatoire)",sfNoteBad:"Veuillez écrire une note.",sfTooMuch:"C'est plus que ce qu'il y a.",sfBooks:"Reste dans les livres",sfMoves:"Mouvements",sfToF:"vers le fonds",sfFromF:"retour à la caisse",inHow:"Comment l'argent est-il arrivé ?",inCash:"💵 Espèces",inTr:"🏦 Transfert",inWho:"Apporté de N'Djamena par",feeL:"Frais de transfert",feeH:"Frais de transfert 10 % (payés en plus, notés comme dépense)",loanDue:"à rembourser le",loanDueH:"Prêt d'un mois : à rembourser le %d",repCash:"Remboursé en espèces à l'Admin principal sur le site minier.",v2Drv:"Chauffeur",v2DrvB:"Chauffeur habituel",v2DrvSave:"⭐ Enregistrer comme chauffeur habituel",v2DrvSaved:"Chauffeur habituel enregistré",salAdd:"➕ Ajouter un employé",salSet:"⚙️ Groupes et réglages",salPay:"Payer",salEd:"✏️ Modifier les détails",salRem:"🗑️ Retirer",salRemQ:"Retirer {n} ? Les paiements passés restent dans les totaux et rapports.",salRemY:"Oui, retirer",salRemD:"Retiré. Les paiements passés sont gardés.",salMon:"Salaire mensuel",salAmt:"Salaire mensuel ou taux journalier (CFA)",salFix:"🧱 Salaires mensuels fixes",salHau:"🗓️ Salaires Haoussa (jours × taux)",salPerM:"/ mois",shopSend:"Envoyer aux Achats",shopRet:"Retour (monnaie rendue)",shopOut:"Argent encore dehors",shopOutOne:"Encore dehors",shopDone:"Course clôturée"},
+ ar:{dscMain:"لا يمكن أبداً حذف المسؤول الرئيسي أو حظره أو تخفيض صلاحياته أو تغيير اسمه.",sfund:"الصندوق الخاص",shop:"التسوق",sfIn:"إيداع",sfOut:"سحب",sfInH:"إقفال الشهر: نقل المال المتبقي في الدفاتر إلى الصندوق الخاص.",sfOutH:"إعادة مال من الصندوق الخاص إلى دفتر النقد.",sfNote:"ملاحظة (إلزامية)",sfNoteBad:"يرجى كتابة ملاحظة.",sfTooMuch:"هذا أكثر من المتوفر.",sfBooks:"المتبقي في الدفاتر الآن",sfMoves:"الحركات",sfToF:"إلى الصندوق",sfFromF:"عودة إلى دفتر النقد",inHow:"كيف وصل المال؟",inCash:"💵 نقداً",inTr:"🏦 تحويل",inWho:"أحضره من انجامينا",feeL:"رسوم التحويل",feeH:"رسوم التحويل 10٪ (تُدفع إضافةً وتُسجَّل كمصروف)",loanDue:"السداد قبل",loanDueH:"قرض لمدة شهر: السداد قبل %d",repCash:"سُدِّد نقداً للمسؤول الرئيسي في موقع المنجم.",v2Drv:"السائق",v2DrvB:"السائق المعتاد",v2DrvSave:"⭐ حفظ كسائق معتاد",v2DrvSaved:"تم حفظ السائق المعتاد",salAdd:"➕ إضافة موظف",salSet:"⚙️ المجموعات والإعدادات",salPay:"دفع",salEd:"✏️ تعديل التفاصيل",salRem:"🗑️ إزالة",salRemQ:"إزالة {n}؟ تبقى المدفوعات السابقة في المجاميع والتقارير.",salRemY:"نعم، إزالة",salRemD:"تمت الإزالة. المدفوعات السابقة محفوظة.",salMon:"راتب شهري",salAmt:"الراتب الشهري أو أجر اليوم (CFA)",salFix:"🧱 الرواتب الشهرية الثابتة",salHau:"🗓️ أجور الهوسا (الأيام × أجر اليوم)",salPerM:"/ شهر",shopSend:"إرسال إلى المشتريات",shopRet:"إرجاع (الباقي)",shopOut:"مال ما زال في الخارج",shopOutOne:"ما زال في الخارج",shopDone:"أُغلقت الرحلة"}};
 Object.keys(MT2).forEach(l=>Object.assign(T[l],MT2[l]));
 /* SPEED: one cache per task. Every list (records, profiles, balances) is built once per redraw, not once per row.
    Cleared at the start of every screen build (homeMoney/workHTML) and after the current task. */
@@ -882,19 +883,42 @@ function recBox(u,types){if(!canKind("m","view"))return "";const L_=visRecs().fi
 /* v11: the month's pay list. Fixed monthly salaries (Excavator driver, Chefs, Military, … = whoever has a fixed amount) and Hausa wages
    (each person's own day rate × days). Names and pay come only from the Sheet records; tap a person = salary form for them. */
 function payListHTML(){const P=profiles().filter(p=>p.status!=="Inactive"),F=P.filter(p=>!isDay(p)),D=P.filter(p=>isDay(p)),d=today();
-  const row=p=>{const b=bal(p),r=num(p.rate),sa=salAt(p,d);return `<button type="button" class="sec mPayP" data-sid="${esc(p.id)}"><b>${esc(p.name)}</b>${p.pos?` · <span class="hint">${esc(p.pos)}</span>`:""}<br><span class="hint">${isDay(p)?`${b.days||0} × ${r==null?"—":esc(money(r))}`:`${sa==null?"—":esc(money(sa))} ${esc(t("salPerM"))}`} · ${esc(t("mDueP"))}: <b class="mPayDue">${b.duePP==null?"—":esc(money(b.duePP))}</b></span></button>`};
+  const row=p=>{const b=bal(p);return `<button type="button" class="sec mPayP" data-sid="${esc(p.id)}"><b>${esc(p.name)}</b><span class="mPayAmt">${esc(t("mDueP"))}: <b class="mPayDue">${b.duePP==null?"—":esc(money(b.duePP))}</b></span></button>`};
   return `<div class="box" id="mPayList"><h3>${esc(t("salFix"))} (${F.length})</h3><div id="mPayFix">${F.map(row).join("")||`<p class="hint">${esc(t("mNone"))}</p>`}</div><h3>${esc(t("salHau"))} (${D.length})</h3><div id="mPayDay">${D.map(row).join("")||`<p class="hint">${esc(t("mNone"))}</p>`}</div></div>`}
+/* v12 (Johan 3 Nov 2026): Fuel-style Salaries. Admin sees little: one big button per person (name + amount owed),
+   a big "+ Add staff" and one small "Groups & settings" button. A person opens their own screen (Back, big Pay, Edit,
+   big red Remove with a confirm step). Remove only hides the person (status Inactive): past payments stay in totals and reports. */
+let salP="",salSet=false,salRem=false;
+function salPersonHTML(u,p){const b=bal(p),sa=salAt(p,today()),r=num(p.rate);
+  return `<div class="box" id="salPS" data-sid="${esc(p.id)}"><h2>${esc(p.name)}</h2><p class="hint">${esc(grpLab(p.group)||"—")} · ${isDay(p)?esc(t("mDayR"))+": "+(r==null?"—":esc(money(r))):esc(t("salMon"))+": "+(sa==null?"—":esc(money(sa)))}</p>
+  <div class="mBal" id="salPDue">${esc(t("mDueP"))}: ${b.duePP==null?"—":esc(money(b.duePP))}</div>${b.owe?`<p class="hint">🤝 ${esc(t("mOut"))}: ${esc(money(b.owe))}</p>`:""}
+  ${canKind("m","add")?`<div class="tiles one"><button type="button" class="tile" id="salPay"><b>💵</b>${esc(t("salPay"))}</button></div>`:""}
+  <button type="button" class="sec" id="salPEd">${esc(t("salEd"))}</button>
+  ${salRem?`<div class="box" id="salRemBox"><p><b>${esc(t("salRemQ").replace("{n}",p.name))}</b></p><button type="button" class="red" id="salRemY">${esc(t("salRemY"))}</button><button type="button" class="sec" id="salRemN">${esc(t("close"))}</button></div>`:`<button type="button" class="red" id="salRemB">${esc(t("salRem"))}</button>`}</div>`}
+function addStHTML(){const G=groups();return `<div class="box" id="mNewP"><h2>${esc(t("salAdd"))}</h2><label>${esc(t("mName"))}</label><input id="mNPName" autocomplete="off" spellcheck="false">
+  <label>${esc(t("mGroup"))}</label><select id="mNPGroup"><option value=""></option>${Object.keys(G).map(g=>`<option value="${esc(g)}">${esc(grpLab(g))}</option>`).join("")}</select>
+  <label>${esc(t("mPType"))}</label><select id="mNPType"><option value="fixed">${esc(t("salMon"))}</option><option value="day">${esc(t("mDayR"))}</option></select>
+  <label>${esc(t("salAmt"))}</label><input id="mNPAmt" inputmode="numeric" autocomplete="off" placeholder="CFA"><p class="err" id="mNPErr"></p><button type="button" id="mNPSave">${esc(t("mSave"))}</button></div>`}
 function salHTML(u){fresh();const mp=prof(myId());let h="";
-  if(!u.admin&&mp&&canKind("m","view"))h+=balBox(mp,"mBalBox");
-  if(u.admin&&canKind("m","view"))h+=`<div class="box" id="mOweBox">${oweList(profiles())}</div>`+payListHTML();
-  if(canKind("m","add"))h+=`<div class="tiles one"><button type="button" class="tile" id="mSalB"><b>💵</b>${esc(t("mSal").slice(2))}</button></div>`;
-  if(mForm==="salary"&&canKind("m","add"))h+=formHTML(u);
-  h+=daysHTML(u);
-  if(u.admin){const PER=[["d","mPD"],["w","mPW"],["m","mPM"],["q","mPQ"],["y","mPY"]];
+  if(!u.admin){if(mp&&canKind("m","view"))h+=balBox(mp,"mBalBox");
+    if(canKind("m","add"))h+=`<div class="tiles one"><button type="button" class="tile" id="mSalB"><b>💵</b>${esc(t("mSal").slice(2))}</button></div>`;
+    if(mForm==="salary"&&canKind("m","add"))h+=formHTML(u);
+    return h+daysHTML(u)+recBox(u,["salary"])}
+  if(canKind("m","view"))h+=payListHTML();
+  if(canKind("p","add"))h+=`<div class="tiles one"><button type="button" class="tile" id="mAddStB"><b>➕</b>${esc(t("salAdd").replace(/^➕\s*/,""))}</button></div>`;
+  h+=`<button type="button" class="sec sm" id="salSetB">${esc(t("salSet"))}</button>`;
+  if(mAddP&&canKind("p","add"))h+=addStHTML();
+  const p=salP&&prof(salP);if(p)h+=salPersonHTML(u,p);
+  if(salSet||mSel||mRep||mForm==="salary"){h+=`<div id="salSet">`;
+    if(canKind("m","view"))h+=`<div class="box" id="mOweBox">${oweList(profiles())}</div>`;
+    if(canKind("m","add"))h+=`<div class="tiles one"><button type="button" class="tile" id="mSalB"><b>💵</b>${esc(t("mSal").slice(2))}</button></div>`;
+    if(mForm==="salary"&&canKind("m","add"))h+=formHTML(u);
+    h+=daysHTML(u);
+    const PER=[["d","mPD"],["w","mPW"],["m","mPM"],["q","mPQ"],["y","mPY"]];
     h+=`<div class="box"><div class="mPer">${PER.map(x=>`<button type="button" class="sec mPerB${mRep===x[0]?" on":""}" data-per="${x[0]}">${esc(t(x[1]))}</button>`).join("")}</div>
-    <button type="button" class="sec" id="mCsv">${esc(t("mCsvP"))}</button><button type="button" class="sec" id="mCsvS">${esc(t("mCsvS"))}</button>${mRep?`<div id="mRepOut">${repHTML(mRep)}</div>`:""}</div>`}
-  h+=staffHTML(u);
-  return h+recBox(u,["salary"])}
+    <button type="button" class="sec" id="mCsv">${esc(t("mCsvP"))}</button><button type="button" class="sec" id="mCsvS">${esc(t("mCsvS"))}</button>${mRep?`<div id="mRepOut">${repHTML(mRep)}</div>`:""}</div>`;
+    h+=staffHTML(u)+recBox(u,["salary"])+`</div>`}
+  return h}
 function loanHTML(u){fresh();const mp=prof(myId());let h="";
   if(!u.admin&&mp&&canKind("m","view"))h+=balBox(mp,"mBalBox");
   if(u.admin&&canKind("m","view")){const P=profiles(),O=P.map(p=>({p:p,o:bal(p).owe})).filter(x=>x.o!==0);
@@ -1078,10 +1102,17 @@ function bindWork(u){
   on("mCsv",()=>dl(csvPay(),C.APP_ID+"-payments-"+today()+".csv"));on("mCsvS",()=>dl(csvStaff(),C.APP_ID+"-staff-"+today()+".csv"));
   document.querySelectorAll(".mOpenP").forEach(b=>b.onclick=()=>{mSel=mSel===b.dataset.sid?null:b.dataset.sid;render()});
   on("mPX",()=>{mSel=null;render()});
-  document.querySelectorAll(".mPayP").forEach(b=>b.onclick=()=>{mSel=b.dataset.sid;mForm="salary";render();const f=$("mForm");if(f)f.scrollIntoView({block:"start"})});
+  document.querySelectorAll(".mPayP").forEach(b=>b.onclick=()=>{salP=b.dataset.sid;salRem=false;render();scrollTo(0,0)});
+  on("mAddStB",()=>{if(!u.admin)return;mAddP=true;render();scrollTo(0,0)});on("salSetB",()=>{salSet=true;render();scrollTo(0,0)});
+  on("salPay",()=>{mSel=salP;mForm="salary";render();scrollTo(0,0)});on("salPEd",()=>{if(!u.admin)return;mSel=salP;render();scrollTo(0,0)});
+  on("salRemB",()=>{if(!u.admin)return;salRem=true;render()});on("salRemN",()=>{salRem=false;render()});
+  on("salRemY",()=>{if(!u.admin||!salP)return;if(saveProf(salP,{status:"Inactive"})===false)return;salP="";salRem=false;toast(t("salRemD"));render()});
   on("mAddPB",()=>{mAddP=!mAddP;render()});
+  ["mNPAmt","mNPName"].forEach(i=>{const x=$(i);if(x)x.addEventListener("input",()=>{const e=$("mNPErr");if(e)e.style.display="none"})});
   on("mNPSave",()=>{const n=$("mNPName").value.trim().replace(/\s+/g," ");if(!n)return;const id=PK(n);if(prof(id)){$("mNPErr").textContent=t("mDupe");$("mNPErr").style.display="block";return}
-    saveProf(id,{name:n,group:$("mNPGroup").value,src:"manual",status:"Active"});mAddP=false;mSel=id;render()});
+    const ty=$("mNPType"),am=$("mNPAmt"),v={name:n,group:$("mNPGroup").value,src:"manual",status:"Active"};
+    if(ty&&am){const a=num(am.value);if(!(a>0)){$("mNPErr").textContent=t("mBad");$("mNPErr").style.display="block";return}if(ty.value==="day"){v.ptype="day";v.rate=a}else{v.ptype="fixed";v.sal=a;v.per="m";v.start=today()}}
+    if(saveProf(id,v)===false)return;mAddP=false;if(tab==="tSal"){salP=id;salRem=false}else mSel=id;render();scrollTo(0,0)});
   document.querySelectorAll(".mGPer").forEach(s=>s.onchange=()=>{const g=s.dataset.g,k="g:"+g;if(R[k]&&!R[k].del)fix("g",g,"per",s.value);else put("g",g,{id:g,per:s.value});render()});
   on("mPSave",()=>{const id=$("mPEdit").dataset.sid,v={};document.querySelectorAll(".mPF").forEach(e=>{let x=e.value.trim();if(["rate","sal"].includes(e.dataset.f))x=x===""?"":num(x);v[e.dataset.f]=x});
     const hf=$("mHFrom").value,hs=num($("mHSal").value);if(hf&&hs>0){const p=prof(id);v.hist=(Array.isArray(p.hist)?p.hist:[]).filter(x=>x.from!==hf).concat([{from:hf,sal:hs}])}
@@ -1211,21 +1242,32 @@ window.TMC.toast=toast;
 function onData(){const u=me();if(flow&&flow.s==="wait"&&!u){/* stay */}if(!u&&L.get("uid")){signOut();render();return}
   const a=document.activeElement;if(u&&!formDirty&&!(a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA")))render()}
 
-/* ---------------- Auto-update (service worker) ---------------- */
-let reg=null,updReady=false;
+/* ---------------- Auto-update (service worker) ----------------
+   VER 11: on open and on coming back to the foreground the app checks for a new version. If one is found it
+   locks saves (put() refuses), shows a full-screen "Updating… please wait", activates the new worker and reloads.
+   Offline / check fails: nothing happens, the app works normally, it tries again next open. Saved records live in
+   localStorage / IndexedDB (APP_ID_ keys), so a reload never loses unsynced work. */
+let reg=null,updReady=false,updLock=false,updT0=0;
 function paintUpd(){const w=$("updW");if(!w)return;w.style.display=updReady?"block":"none";if(updReady){w.innerHTML=`${esc(t("updT"))}<button type="button" id="updB">${esc(t("updB"))}</button>`;$("updB").onclick=applyUpdate}}
-function applyUpdate(){if(reg&&reg.waiting)reg.waiting.postMessage("skip");else location.reload()}
+function updScreen(on){let o=$("updGo");if(!on){if(o)o.remove();return}if(!o){o=document.createElement("div");o.id="updGo";o.setAttribute("role","alert");document.body.appendChild(o)}
+  o.innerHTML=`<img src="icons/icon-192.png" alt=""><i></i><b>${esc(t("updGo"))}</b><span>${esc(t("updGo2"))}</span>`}
+function updOn(){if(updLock)return;updLock=true;updT0=Date.now();try{const a=document.activeElement;if(a&&a.blur)a.blur()}catch(e){}updScreen(1);
+  setTimeout(()=>{if(updLock&&!(reg&&reg.waiting)&&Date.now()-updT0>=45000)updOff()},45000)}   // download stuck: let staff work, retry next open
+function updOff(){updLock=false;updScreen(0)}
+function applyUpdate(){updOn();if(reg&&reg.waiting)reg.waiting.postMessage("skip");else location.reload();setTimeout(()=>location.reload(),8000)}
 function checkUpdate(manual){if(!reg)return;reg.update().then(()=>{if(manual){const m=$("uMsg");if(m)m.textContent=reg.waiting||reg.installing?t("updT"):t("updNone")}}).catch(()=>{})}
-window.TMC.checkUpdate=checkUpdate;
+window.TMC.checkUpdate=checkUpdate;window.TMC.updLock=()=>updLock;
 if("serviceWorker" in navigator&&location.protocol!=="file:"){
   let reloading=false;
   navigator.serviceWorker.addEventListener("controllerchange",()=>{if(reloading)return;reloading=true;location.reload()});
-  navigator.serviceWorker.register("sw.js",{scope:"./"}).then(r=>{reg=r;
-    const watch=w=>{if(!w)return;w.addEventListener("statechange",()=>{if(w.state==="installed"&&navigator.serviceWorker.controller){updReady=true;paintUpd()}})};
-    if(r.waiting&&navigator.serviceWorker.controller){updReady=true;paintUpd()}
-    watch(r.installing);r.addEventListener("updatefound",()=>watch(r.installing));
-    setInterval(()=>checkUpdate(),30*60000);
-  }).catch(e=>console.warn("sw",e));
+  const hook=r=>{if(!r||reg)return;reg=r;   // ready answers at once when installed; register() can wait for the network
+    const watch=w=>{if(!w||!navigator.serviceWorker.controller)return;updOn();w.addEventListener("statechange",()=>{if(w.state==="installed"){updReady=true;paintUpd();applyUpdate()}else if(w.state==="redundant"&&!r.waiting)updOff()})};
+    if(r.waiting&&navigator.serviceWorker.controller){updReady=true;applyUpdate()}
+    else{watch(r.installing);checkUpdate()}
+    r.addEventListener("updatefound",()=>watch(r.installing));
+    setInterval(()=>checkUpdate(),30*60000)};
+  if(navigator.serviceWorker.controller)navigator.serviceWorker.ready.then(r=>{if(new URL(r.scope).href===new URL("./",location.href).href)hook(r)}).catch(()=>{});
+  navigator.serviceWorker.register("sw.js",{scope:"./"}).then(hook).catch(e=>console.warn("sw",e));
 }
 
 /* ---------------- Install button + iPhone hint ---------------- */
@@ -1267,6 +1309,8 @@ const SUBS=[
  {on:()=>!!mAddP,sel:"#mNewP",close:()=>{mAddP=false}},
  {on:()=>!!mSel,sel:"#mPEdit",close:()=>{mSel=null}},
  {on:()=>!!mRep,sel:"#mRepOut",close:()=>{mRep=null}},
+ {on:()=>!!salP,sel:"#salPS",close:()=>{salP="";salRem=false}},
+ {on:()=>salSet,sel:"#salSet",close:()=>{salSet=false}},
  {on:()=>!!v2Ed,sel:"#v2PrBox",close:()=>{v2Ed=false}},
  {on:()=>!!v2Open,sel:"#v2Trip",close:()=>{v2Open=""}}];
 /* Users keeps the base's own list (a tapped person opens in the list, base check 12c) */
