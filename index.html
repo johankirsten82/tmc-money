@@ -23,7 +23,7 @@
  "APP_ID": "tmcmoney",
  "NAME": "TMC Money",
  "SHORT": "TMC Money",
- "VER": 12,
+ "VER": 14,
  "REPORT_COLOR": "#1B7F3B",
  "COLOR": "#15803d",
  "COLOR_DARK": "#14532d",
@@ -409,6 +409,7 @@ function syncNow(){
     const F=force;force={};
     (j.records||[]).forEach(s=>{const k=s.kind+":"+s.id,u=+s.u||0,loc=R[k];if(F[k]&&!dirty[k]){delete F[k]}else if(loc&&(loc.u>u||(dirty[k]&&loc.u>=u)))return;
       let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del&&!(s.del&&d&&d.discarded===1))return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
+    if(Array.isArray(j.handover)&&j.handover.length)try{hoApply(j.handover)}catch(e){console.warn(e)}  // v14 TMC Handover: change returned by Purchases
     L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;
     /* the server refused a fix (admin_only_fix / main_admin_only): tell the user and take the server copy back, so no phone keeps a fix only it has */
     if(j.refused&&Array.isArray(j.refusedDiscard)&&j.refusedDiscard.length){j.refusedDiscard.forEach(id=>{if(!dirty["u:"+id])force["u:"+id]=1});L.set("since","0");toast(t(j.refusedWhy==="main_admin"?"dscMain":j.refusedWhy==="last_admin"?"dscLast":j.refusedWhy==="self"?"dscSelf":"dscTok"));syncSoon(200)}
@@ -683,6 +684,7 @@ const MT2={
  fr:{dscMain:"L'Admin principal ne peut jamais être retiré, bloqué, rétrogradé ni renommé.",sfund:"Fonds spécialiste",shop:"Courses",sfIn:"Entrée",sfOut:"Sortie",sfInH:"Clôture du mois : placer l'argent restant dans les livres dans le Fonds spécialiste.",sfOutH:"Remettre de l'argent du Fonds spécialiste dans le livre de caisse.",sfNote:"Note (obligatoire)",sfNoteBad:"Veuillez écrire une note.",sfTooMuch:"C'est plus que ce qu'il y a.",sfBooks:"Reste dans les livres",sfMoves:"Mouvements",sfToF:"vers le fonds",sfFromF:"retour à la caisse",inHow:"Comment l'argent est-il arrivé ?",inCash:"💵 Espèces",inTr:"🏦 Transfert",inWho:"Apporté de N'Djamena par",feeL:"Frais de transfert",feeH:"Frais de transfert 10 % (payés en plus, notés comme dépense)",loanDue:"à rembourser le",loanDueH:"Prêt d'un mois : à rembourser le %d",repCash:"Remboursé en espèces à l'Admin principal sur le site minier.",v2Drv:"Chauffeur",v2DrvB:"Chauffeur habituel",v2DrvSave:"⭐ Enregistrer comme chauffeur habituel",v2DrvSaved:"Chauffeur habituel enregistré",salAdd:"➕ Ajouter un employé",salSet:"⚙️ Groupes et réglages",salPay:"Payer",salEd:"✏️ Modifier les détails",salRem:"🗑️ Retirer",salRemQ:"Retirer {n} ? Les paiements passés restent dans les totaux et rapports.",salRemY:"Oui, retirer",salRemD:"Retiré. Les paiements passés sont gardés.",salMon:"Salaire mensuel",salAmt:"Salaire mensuel ou taux journalier (CFA)",salFix:"🧱 Salaires mensuels fixes",salHau:"🗓️ Salaires Haoussa (jours × taux)",salPerM:"/ mois",shopSend:"Envoyer aux Achats",shopRet:"Retour (monnaie rendue)",shopOut:"Argent encore dehors",shopOutOne:"Encore dehors",shopDone:"Course clôturée"},
  ar:{dscMain:"لا يمكن أبداً حذف المسؤول الرئيسي أو حظره أو تخفيض صلاحياته أو تغيير اسمه.",sfund:"الصندوق الخاص",shop:"التسوق",sfIn:"إيداع",sfOut:"سحب",sfInH:"إقفال الشهر: نقل المال المتبقي في الدفاتر إلى الصندوق الخاص.",sfOutH:"إعادة مال من الصندوق الخاص إلى دفتر النقد.",sfNote:"ملاحظة (إلزامية)",sfNoteBad:"يرجى كتابة ملاحظة.",sfTooMuch:"هذا أكثر من المتوفر.",sfBooks:"المتبقي في الدفاتر الآن",sfMoves:"الحركات",sfToF:"إلى الصندوق",sfFromF:"عودة إلى دفتر النقد",inHow:"كيف وصل المال؟",inCash:"💵 نقداً",inTr:"🏦 تحويل",inWho:"أحضره من انجامينا",feeL:"رسوم التحويل",feeH:"رسوم التحويل 10٪ (تُدفع إضافةً وتُسجَّل كمصروف)",loanDue:"السداد قبل",loanDueH:"قرض لمدة شهر: السداد قبل %d",repCash:"سُدِّد نقداً للمسؤول الرئيسي في موقع المنجم.",v2Drv:"السائق",v2DrvB:"السائق المعتاد",v2DrvSave:"⭐ حفظ كسائق معتاد",v2DrvSaved:"تم حفظ السائق المعتاد",salAdd:"➕ إضافة موظف",salSet:"⚙️ المجموعات والإعدادات",salPay:"دفع",salEd:"✏️ تعديل التفاصيل",salRem:"🗑️ إزالة",salRemQ:"إزالة {n}؟ تبقى المدفوعات السابقة في المجاميع والتقارير.",salRemY:"نعم، إزالة",salRemD:"تمت الإزالة. المدفوعات السابقة محفوظة.",salMon:"راتب شهري",salAmt:"الراتب الشهري أو أجر اليوم (CFA)",salFix:"🧱 الرواتب الشهرية الثابتة",salHau:"🗓️ أجور الهوسا (الأيام × أجر اليوم)",salPerM:"/ شهر",shopSend:"إرسال إلى المشتريات",shopRet:"إرجاع (الباقي)",shopOut:"مال ما زال في الخارج",shopOutOne:"ما زال في الخارج",shopDone:"أُغلقت الرحلة"}};
 Object.keys(MT2).forEach(l=>Object.assign(T[l],MT2[l]));
+Object.assign(T.en,{hoDone:"🤝 %n closed: change back from Purchases"});Object.assign(T.fr,{hoDone:"🤝 %n clôturée : monnaie rendue par Achats"});Object.assign(T.ar,{hoDone:"🤝 تم إغلاق %n: الباقي من المشتريات"});
 /* SPEED: one cache per task. Every list (records, profiles, balances) is built once per redraw, not once per row.
    Cleared at the start of every screen build (homeMoney/workHTML) and after the current task. */
 let MC=null;const memo=(k,f)=>{if(!MC){MC={};Promise.resolve().then(()=>{MC=null})}return k in MC?MC[k]:(MC[k]=f())};const fresh=()=>{MC=null};
@@ -941,9 +943,17 @@ const cmoney=(n,cu)=>money(n).replace(/ CFA$/," "+cLab(cu||"XAF"));
 function book(){return memo("book",()=>allM("b").slice().sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at))))}
 function trips(){return memo("trips",trips0)}
 function trips0(){const o={};book().filter(r=>r.type==="trip").forEach(r=>o[r.trip]={trip:r.trip,id:r.id,who:r.who,cur:r.cur||"XAF",given:num(r.amt)||0,ret:0,date:r.date,ref:r.ref,closed:!!r.closed});
-  book().filter(r=>r.type==="ret").forEach(r=>{const x=o[r.trip];if(x){x.ret+=num(r.amt)||0;if(r.close)x.closed=true}});
+  book().filter(r=>r.type==="ret").forEach(r=>{const x=o[r.trip];if(x){x.ret+=num(r.amt)||0;if(r.close)x.closed=true;if(r.ho)x.ho=1}});
   return Object.keys(o).map(k=>Object.assign(o[k],{spent:o[k].given-o[k].ret})).sort((a,b)=>String(b.trip).localeCompare(String(a.trip)))}
 const openTrips=()=>trips().filter(x=>!x.closed);
+/* v14 TMC HANDOVER: the server sends {id,trip,change,updated} for Money trips that Purchases marked "change returned".
+   The phone adds ONE ret record (id "h"+trip record id, same data on every phone, so never a double) with close:1 → trip closed. */
+function hoApply(L_){const n=[];fresh();
+  L_.forEach(h=>{if(!h||!h.id)return;const tr=R["b:"+h.id],rk="b:h"+h.id;if(!tr||tr.del||!tr.data||tr.data.type!=="trip"||R[rk]||!canKind("b","add"))return;
+    if(trips().some(x=>x.id===String(h.id)&&x.closed))return;const up=String(h.updated||""),dt=/^\d{4}-\d{2}-\d{2}/.test(up)?up.slice(0,10):today();
+    const d={id:"h"+h.id,type:"ret",trip:tr.data.trip,amt:Math.max(0,num(h.change)||0),cur:tr.data.cur||"XAF",who:tr.data.who||"",date:dt,close:1,ho:String(h.id),note:"Handover",by:"Handover",at:up||dt};
+    if(put("b",d.id,d)!==false){n.push(d.trip);fresh()}});
+  if(n.length)toast(t("hoDone").replace("%n",n.join(", ")));return n}
 function nextTrip(){const n=allM("b").filter(r=>r.type==="trip").map(r=>parseInt(String(r.trip).replace(/\D/g,""),10)||0);return "T-"+String((n.length?Math.max.apply(null,n):0)+1).padStart(3,"0")}
 /* MONTHLY CASH BOOK per currency (never mixed). Month = YYYY-MM of the record date.
    received = cash in (+ loan repaid in cash, CFA);  spent = given to trips − change returned (+ salary and loans paid, CFA).
@@ -981,7 +991,7 @@ function namesHTML(){if(!canKind("w","add"))return "";const W=takers();let h=`<b
 function isMain(u){u=u||me();return !!u&&!!u.admin&&u.status==="active"&&NK(u.name)===ADMIN_KEY}
 function mainKept(d){return !!d&&!!d.admin&&d.status==="active"&&NK(d.name)===ADMIN_KEY}
 let bSign=1;
-function tripList(onlyOpen){const L_=onlyOpen?openTrips():trips();return `<h3>${esc(t(onlyOpen?"mOpenT":"mTripN"))}</h3><div class="mTrips">${L_.length?L_.map(x=>`<div class="urow mTrip1" data-trip="${esc(x.trip)}"><span class="n">🛒 <b>${esc(x.trip)}</b> · ${esc(x.who)} · ${esc(x.date)}${x.ref?" · "+esc(x.ref):""}</span><span class="hint">${esc(t("mGiven"))}: <b class="tG">${esc(cmoney(x.given,x.cur))}</b> · ${esc(t("mBack"))}: <b class="tR">${esc(cmoney(x.ret,x.cur))}</b> · ${esc(t("mSpent"))}: <b class="tS">${esc(cmoney(x.spent,x.cur))}</b></span>${!onlyOpen&&!x.closed&&canFix()?`<button type="button" class="sec sm mTClose" data-id="${esc(x.id)}">${esc(t("mClose"))}</button>`:""}${fixBtn("b",x.id,"amt")}</div>`).join(""):`<p class="hint">${esc(t("mNoTrip"))}</p>`}</div>`}
+function tripList(onlyOpen){const L_=onlyOpen?openTrips():trips();return `<h3>${esc(t(onlyOpen?"mOpenT":"mTripN"))}</h3><div class="mTrips">${L_.length?L_.map(x=>`<div class="urow mTrip1" data-trip="${esc(x.trip)}"><span class="n">${x.ho?"🤝":"🛒"} <b>${esc(x.trip)}</b>${x.closed?" ✅":""} · ${esc(x.who)} · ${esc(x.date)}${x.ref?" · "+esc(x.ref):""}</span><span class="hint">${esc(t("mGiven"))}: <b class="tG">${esc(cmoney(x.given,x.cur))}</b> · ${esc(t("mBack"))}: <b class="tR">${esc(cmoney(x.ret,x.cur))}</b> · ${esc(t("mSpent"))}: <b class="tS">${esc(cmoney(x.spent,x.cur))}</b></span>${!x.closed&&canFix()?`<button type="button" class="sec sm mTClose" data-id="${esc(x.id)}">${esc(t("mClose"))}</button>`:""}${fixBtn("b",x.id,"amt")}</div>`).join(""):`<p class="hint">${esc(t("mNoTrip"))}</p>`}</div>`}
 let bForm=null,bPhoto="",bHow="cash",shopLast="",sfDir="";
 const FEE_PCT=10,feeOf=a=>Math.round((num(a)||0)*FEE_PCT/100);window.TMC.money.feeOf=feeOf;
 function cashRepHTML(){return usedCC().map(cu=>{const M=Object.values(months(cu)).sort((x,y)=>y.k.localeCompare(x.k));if(!M.length)return "";const c=x=>esc(cmoney(x,cu)),T=M.reduce((a,x)=>({rec:a.rec+x.rec,spent:a.spent+x.spent,adj:a.adj+(x.adj||0)+(x.sf||0)}),{rec:0,spent:0,adj:0});
