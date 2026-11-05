@@ -23,7 +23,7 @@
  "APP_ID": "tmcmoney",
  "NAME": "TMC Money",
  "SHORT": "TMC Money",
- "VER": 16,
+ "VER": 17,
  "REPORT_COLOR": "#1B7F3B",
  "COLOR": "#15803d",
  "COLOR_DARK": "#14532d",
@@ -208,6 +208,14 @@ nav.tabs .tlab{font-size:13px;line-height:1.1;text-align:center;overflow-wrap:an
 .mBank{font-size:20px;margin:4px 0 10px}.mCur{border-bottom:1px solid #e2e8f0;padding:6px 0}.mKRes{padding:10px;border-radius:10px;margin:8px 0;font-size:19px}.mKRes.ok{background:#dcfce7}.mKRes.bad{background:#fee2e2}
 .mBal{font-size:40px;font-weight:800;color:#15803d}.mBal.neg{color:#b91c1c}.mRow{display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px}.mPlus{color:#15803d}.mMinus{color:#b91c1c}.mTab{width:100%;border-collapse:collapse;margin-top:8px}.mTab td,.mTab th{border-bottom:1px solid #e2e8f0;padding:8px 4px;text-align:start}.tile.mOutT{border-color:#fecaca}
 #rpOut .rep{table-layout:fixed;font-size:15px}#rpOut .rep th,#rpOut .rep td{padding:10px 6px;overflow-wrap:anywhere}.rep th{text-align:start}.rep .nm{text-align:end}
+/* held cash book ledger: wide table on tablet/PC/print, phone table puts each description on its own full line */
+#rpOut .rep.cb{table-layout:auto;font-size:18px;margin:6px 0 14px}#rpOut .rep.cb th,#rpOut .rep.cb td{padding:11px 7px;overflow-wrap:normal;vertical-align:top}.rep.cb .nm{white-space:nowrap;font-variant-numeric:tabular-nums}.rep.cb .cbD{white-space:nowrap}.rep.cb .cbDs{min-width:160px}.rep.cb .cbN{display:block;font-size:15px;color:#555;font-weight:400}
+.rep.cb tr.cbOpen td,.rep.cb tr.cbClose td{background:color-mix(in srgb,var(--rc) 22%,#fff)!important;color:var(--rc);font-weight:800;font-size:19px}.rep.cb tr.cbClose td{border-top:3px solid var(--rc)}.rep.cb tr.cbTot td{font-weight:700;border-top:2px solid var(--rc);background:#fff!important}.rep.cb .cbIn{color:#1B7F3B}.rep.cb .cbOut{color:#B3261E}
+.cbHd{font-size:21px;font-weight:800;color:var(--rc);margin:16px 0 4px}.cbG{display:flex;align-items:center;gap:8px;width:100%;min-height:56px;text-align:start;font-size:18px;font-weight:700;background:#fff;color:var(--rc);border:2px solid var(--rc);border-radius:10px;padding:8px 12px;margin:0}.cbG .cbA{margin-inline-start:auto;font-size:22px}
+.rep.cb tr.cbSub td{background:#f4f8f5!important;font-size:17px;border-bottom:1px dashed #cfe1d5}.rep.cb tr.cbSub td.cbP{padding-inline-start:26px}.rep.cb tr.cbSub[hidden]{display:none}
+.rep.cbP4 tbody tr td{background:#fff}.rep.cbP4 tr.cbDr td{border-bottom:0;padding-bottom:2px;font-weight:600}.rep.cbP4 tr.cbDr+tr td{padding-top:2px}.rep.cbP4 th.cbDh{font-size:15px;padding:6px 7px 0;opacity:.9}.rep.cbP4 thead tr:first-child th{border-radius:0}
+.rep.cbP4{font-size:17px!important}#rpOut .rep.cbP4 th,#rpOut .rep.cbP4 td{padding:10px 5px}#rpOut .rep.cbP4 tr.cbDr td{padding:10px 5px 2px}#rpOut .rep.cbP4 tr.cbDr+tr td{padding-top:2px}.rep.cbW{display:none}@media (min-width:620px){.rep.cbW{display:table}.rep.cbP4{display:none}}
+@media print{.rep.cbW{display:table!important}.rep.cbP4{display:none!important}.rep.cb tr.cbSub[hidden]{display:table-row!important}.cbG{border:0;min-height:0;padding:0}.cbG .cbA{display:none}}
 @media print{header,nav.tabs,.bar,.noPr,button{display:none!important}body{background:#fff;padding:0}.box{box-shadow:none}#rpOut .rep th,#rpOut .rep tfoot td,#rpOut .rep tbody tr:nth-child(even) td,.repH{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 .box{background:#fff;border-radius:14px;padding:14px;margin:0 0 12px;box-shadow:0 1px 3px #0002}
 .ph{border:4px dashed #f59e0b;background:#fffbeb;text-align:center}
@@ -609,7 +617,7 @@ function rpRange(){const n=new Date(),td=ymd(n);if(rp.p==="month")return [td.sli
 function rpData(def){const [f,to]=rpRange(),rows=(def.rows(f,to)||[]),tot={};def.cols.forEach(c=>{if(c.sum)tot[c.key]=rows.reduce((a,r)=>a+(+r[c.key]||0),0)});return {f:f,to:to,rows:rows,tot:tot}}
 const fmtN=(v,d)=>v==null||v===""?"":(+v).toFixed(d||0);
 /* table in the company green (same look as TMC.reportHTML) */
-function repTable(def,D){const cs=def.cols;return `<div class="repH">📊 ${esc(tx(def.title))}</div><p class="hint" id="rpPer">${esc(t("rpPeriod"))}: ${esc(D.f===D.to?D.f:D.f+" → "+D.to)}</p><table class="rep"><thead><tr>${cs.map(c=>`<th${c.num?' class="nm"':""}>${esc(tx(c.label))}</th>`).join("")}</tr></thead><tbody>${D.rows.length?D.rows.map(r=>`<tr>${cs.map(c=>`<td${c.num?' class="nm"':""}>${esc(c.num?fmtN(r[c.key],c.d):r[c.key])}</td>`).join("")}</tr>`).join(""):`<tr><td colspan="${cs.length}">${esc(t("rpNone"))}</td></tr>`}</tbody><tfoot><tr>${cs.map((c,i)=>`<td${c.num?' class="nm"':""}>${i===0?esc(tx(def.totalLabel||"rpTot")):c.sum?esc(fmtN(D.tot[c.key],c.d)):""}</td>`).join("")}</tr></tfoot></table>`}
+function repTable(def,D){if(def.html)return def.html(D);const cs=def.cols;return `<div class="repH">📊 ${esc(tx(def.title))}</div><p class="hint" id="rpPer">${esc(t("rpPeriod"))}: ${esc(D.f===D.to?D.f:D.f+" → "+D.to)}</p><table class="rep"><thead><tr>${cs.map(c=>`<th${c.num?' class="nm"':""}>${esc(tx(c.label))}</th>`).join("")}</tr></thead><tbody>${D.rows.length?D.rows.map(r=>`<tr>${cs.map(c=>`<td${c.num?' class="nm"':""}>${esc(c.num?fmtN(r[c.key],c.d):r[c.key])}</td>`).join("")}</tr>`).join(""):`<tr><td colspan="${cs.length}">${esc(t("rpNone"))}</td></tr>`}</tbody><tfoot><tr>${cs.map((c,i)=>`<td${c.num?' class="nm"':""}>${i===0?esc(tx(def.totalLabel||"rpTot")):c.sum?esc(fmtN(D.tot[c.key],c.d)):""}</td>`).join("")}</tr></tfoot></table>`}
 const XL=(()=>{const CT=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;CT[n]=c>>>0}
  const crc=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CT[(c^b[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0};
  const zip=fs=>{const E=new TextEncoder(),P=[],D=[];let off=0;const u16=(a,v)=>a.push(v&255,(v>>8)&255),u32=(a,v)=>a.push(v&255,(v>>8)&255,(v>>16)&255,(v>>>24)&255);
@@ -635,7 +643,7 @@ const XL=(()=>{const CT=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(
    ["xl/_rels/workbook.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
    ["xl/worksheets/sheet1.xml",sheet],["xl/styles.xml",styles]])}
  return {book:book,col:col}})();
-function repXlsx(def,D){const cs=def.cols,R=[],a=5,b=4+Math.max(D.rows.length,1);
+function repXlsx(def,D){if(def.xlsx)return def.xlsx(D);const cs=def.cols,R=[],a=5,b=4+Math.max(D.rows.length,1);
  R.push([{v:tx(def.title),s:"title"}],[t("rpPeriod"),{v:D.f===D.to?D.f:D.f+" → "+D.to,s:"bold"}],[]);
  R.push(cs.map(c=>({v:tx(c.label),s:"h"})));
  if(!D.rows.length)R.push([{v:t("rpNone"),s:"b"}]);
@@ -663,7 +671,8 @@ function bindRep(u){const on=(id,fn)=>{const e=$(id);if(e)e.onclick=fn};
  const cur=()=>REPORTS.length===1?REPORTS[0]:REPORTS.find(r=>r.id===rp.id);
  on("rpXls",()=>{const d=cur();if(d)sendXls(repXlsx(d,rpData(d)))});
  on("rpPrint",()=>window.print());
- on("rpBack",()=>{if(REPORTS.length>1&&rp.id){rp.id=null}else tab="home";render()})}
+ on("rpBack",()=>{if(REPORTS.length>1&&rp.id){rp.id=null}else tab="home";render()});
+ {const d=cur();if(d&&d.bind)d.bind()}}
 /* v11c: Reports = Fuel/base list (📊 Reports, Choose a report); each report opens as its OWN screen with Back + period picker */
 function repCur(){const c=REPORTS.find(r=>r.id===rp.id);if(c)return c;const h=REPORTS.find(r=>{try{return rpData(r).rows.length>0}catch(e){return false}})||REPORTS[0];if(h)rp.id=h.id;return h}
 Object.assign(window.TMC,{addReport:addReport,REPORTS:REPORTS,XL:XL,repXlsx:repXlsx,rpData:rpData,sendXls:sendXls,repOk:repOk,rp:()=>rp});
@@ -1131,9 +1140,83 @@ function cashRange(cu,f,to){let c=0,rec=0,sp=0,adj=0,v2=0,fee=0,sf=0;const aX=r=
     else{const a=aX(r);if(r.type==="in"&&(r.cur||"XAF")!=="LYD")add(d,num(r.amt)||0,1);else if(r.type==="trip")add(d,a,0);else if(r.type==="v2"){add(d,a,0);const x=String(d||"").slice(0,10);if(x>=f&&x<=to)v2+=a}else if(r.type==="ret")add(d,-a,0);else if(r.type==="adj"&&(r.cur||"XAF")!=="LYD"){const x=String(d||"").slice(0,10);if(x<f)c+=num(r.amt)||0;else if(x<=to)adj+=num(r.amt)||0}else if(r.type==="fee"){add(d,a,0);const x=String(d||"").slice(0,10);if(x>=f&&x<=to)fee+=a}else if(r.type==="sf"){const v=(r.dir==="out"?1:-1)*(num(r.amt)||0),x=String(d||"").slice(0,10);if(x<f)c+=v;else if(x<=to)sf+=v}else if(r.type==="ld"&&r.how==="cfa")add(d,a,1)}});
   if(cu==="XAF")recs().forEach(r=>{const d=r.date||r.at;if(r.type==="salary"||r.type==="loan")add(d,num(r.amt)||0,0);else if(r.type==="repay"&&r.rhow==="cash")add(d,num(r.amt)||0,1)});
   return {cur:cLab(cu),rec:rec,spent:sp,v2:v2,fee:fee,adj:adj,sf:sf,left:rec-sp+adj+sf,hand:c+rec-sp+adj+sf}}
+/* HELD (not published): classic cash book ledger. Every movement its own line; wages/salaries = ONE tap-to-open group per pay day.
+   Lines and balances follow cashRange()/cashOn() exactly (same record types, same signs). */
+const CBL={desc:{en:"Description",fr:"Libellé",ar:"البيان"},in_:{en:"In",fr:"Entrée",ar:"وارد"},out:{en:"Out",fr:"Sortie",ar:"صادر"},bal:{en:"Balance",fr:"Solde",ar:"الرصيد"},open:{en:"Opening balance",fr:"Solde d'ouverture",ar:"الرصيد الافتتاحي"},close:{en:"Closing balance",fr:"Solde de clôture",ar:"الرصيد الختامي"},tot:{en:"Totals",fr:"Totaux",ar:"المجاميع"},
+  rec:{en:"Cash received",fr:"Espèces reçues",ar:"نقد مستلم"},trf:{en:"Transfer received",fr:"Transfert reçu",ar:"تحويل مستلم"},trip:{en:"Cash to Purchases",fr:"Espèces aux Achats",ar:"نقد للمشتريات"},ret:{en:"Change returned",fr:"Monnaie rendue",ar:"الباقي المرتجع"},
+  v2:{en:"2nd vehicle",fr:"2e véhicule",ar:"السيارة الثانية"},fee:{en:"Transfer fee",fr:"Frais de transfert",ar:"رسوم التحويل"},sfI:{en:"From Specialist Fund",fr:"Du Fonds spécialiste",ar:"من الصندوق الخاص"},sfO:{en:"To Specialist Fund",fr:"Vers le Fonds spécialiste",ar:"إلى الصندوق الخاص"},
+  adj:{en:"Balance adjustment",fr:"Ajustement du solde",ar:"تعديل الرصيد"},ldC:{en:"Dinar changed to CFA",fr:"Dinar changé en CFA",ar:"دينار مغيّر إلى CFA"},ldS:{en:"Dinar spent",fr:"Dinar dépensé",ar:"دينار مصروف"},
+  wag:{en:"Wages",fr:"Salaires",ar:"الأجور"},ppl:{en:"people",fr:"personnes",ar:"أشخاص"},one:{en:"person",fr:"personne",ar:"شخص"},loan:{en:"Loan given",fr:"Prêt donné",ar:"قرض ممنوح"},rep:{en:"Loan repaid",fr:"Prêt remboursé",ar:"قرض مسدد"},cfa:{en:"CFA",fr:"CFA",ar:"CFA"},lyd:{en:"Libyan Dinar",fr:"Dinar libyen",ar:"الدينار الليبي"}};
+let cbOpen={};
+const cbN=v=>String(Math.abs(Math.round(+v||0))).replace(/\B(?=(\d{3})+(?!\d))/g," ");
+const cbS=v=>(v<0?"-":"")+cbN(v);
+const cbDm=d=>{d=String(d||"").slice(0,10);return d.slice(8,10)+"/"+d.slice(5,7)};
+function cbMoves(cu){const L=[],P={};profiles().forEach(p=>P[p.id]=p);const dash=(a,b)=>tx(a)+(b?" – "+b:"");
+  const push=(r,v,desc,note,x)=>{v=+v||0;if(!v)return;L.push(Object.assign({d:String(r.date||r.at||"").slice(0,10),at:String(r.at||""),v:v,desc:desc,note:note&&note!==desc?note:""},x||{}))};
+  book().forEach(r=>{const tp=r.type,note=String(r.note||"").trim();
+    if(cu==="LYD"){const a=lydOf(r);
+      if(tp==="in"&&(r.cur||"XAF")==="LYD"){const w=r.who||note;push(r,num(r.amt)||0,dash(r.how==="transfer"?CBL.trf:CBL.rec,w),note===w?"":note)}
+      else if(tp==="trip")push(r,-a,tx(CBL.trip)+(r.trip?" "+r.trip:"")+(r.who?" – "+r.who:""),r.ref||note);
+      else if(tp==="ret")push(r,a,tx(CBL.ret)+(r.trip?" "+r.trip:""),note);
+      else if(tp==="adj"&&(r.cur||"XAF")==="LYD")push(r,num(r.amt)||0,dash(CBL.adj,""),note);
+      else if(tp==="ld")push(r,-a,tx(r.how==="cfa"?CBL.ldC:CBL.ldS),note)}
+    else{const a=xafOf(r);
+      if(tp==="in"&&(r.cur||"XAF")!=="LYD"){const w=r.who||note;push(r,num(r.amt)||0,dash(r.how==="transfer"?CBL.trf:CBL.rec,w),note===w?"":note)}
+      else if(tp==="trip")push(r,-a,tx(CBL.trip)+(r.trip?" "+r.trip:"")+(r.who?" – "+r.who:""),r.ref||note);
+      else if(tp==="ret")push(r,a,tx(CBL.ret)+(r.trip?" "+r.trip:""),note);
+      else if(tp==="v2")push(r,-a,dash(CBL.v2,note||r.det||""),r.who?r.who:"");
+      else if(tp==="adj"&&(r.cur||"XAF")!=="LYD")push(r,num(r.amt)||0,tx(CBL.adj),note);
+      else if(tp==="fee")push(r,-a,tx(CBL.fee),"");
+      else if(tp==="sf")push(r,(r.dir==="out"?1:-1)*(num(r.amt)||0),tx(r.dir==="out"?CBL.sfI:CBL.sfO),note);
+      else if(tp==="ld"&&r.how==="cfa")push(r,a,tx(CBL.ldC),note)}});
+  if(cu==="XAF"){const W={};recs().forEach(r=>{const a=num(r.amt)||0,nm=(P[r.sid]||{}).name||r.sname||r.sid||"",d=String(r.date||r.at||"").slice(0,10);if(!a)return;
+    if(r.type==="salary"){const g=W[d]||(W[d]={d:d,at:"",v:0,grp:[]});g.v-=a;g.grp.push({name:nm,v:a,at:String(r.at||"")});if(String(r.at||"")>g.at)g.at=String(r.at||"")}
+    else if(r.type==="loan")push(r,-a,dash(CBL.loan,nm),r.note||"");
+    else if(r.type==="repay"&&r.rhow==="cash")push(r,a,dash(CBL.rep,nm),r.note||"")});
+    Object.keys(W).forEach(d=>{const g=W[d];g.grp.sort((x,y)=>x.at.localeCompare(y.at));const n=g.grp.length;L.push({d:d,at:g.at,v:g.v,grp:g.grp,gid:cu+d,desc:tx(CBL.wag)+", "+n+" "+tx(n===1?CBL.one:CBL.ppl),note:""})})}
+  return L.sort((x,y)=>(x.d+x.at).localeCompare(y.d+y.at))}
+function cbLedger(cu,f,to){let o=0,b,ti=0,tu=0;const M=cbMoves(cu),lines=[];M.forEach(m=>{if(m.d<f)o+=m.v});b=o;
+  M.forEach(m=>{if(m.d<f||m.d>to)return;b+=m.v;if(m.v>0)ti+=m.v;else tu-=m.v;lines.push(Object.assign({},m,{bal:b}))});
+  return {cu:cu,open:o,lines:lines,close:b,tin:ti,tout:tu}}
+function cbBooks(f,to){return canKind("b","view")?usedCC().map(cu=>cbLedger(cu,f,to)):[]}
+function cbHTML(D){const B=cbBooks(D.f,D.to),per=D.f===D.to?D.f:D.f+" → "+D.to;
+  let h=`<div class="repH">📊 ${esc(tx({en:"Cash book",fr:"Livre de caisse",ar:"دفتر النقد"}))}</div><p class="hint" id="rpPer">${esc(t("rpPeriod"))}: ${esc(per)}</p>`;
+  if(!B.length)return h+`<p>${esc(t("rpNone"))}</p>`;
+  const io=m=>m.v>0?`<td class="nm cbIn">${esc(cbN(m.v))}</td><td></td>`:`<td></td><td class="nm cbOut">${esc(cbN(m.v))}</td>`,
+    gb=m=>{const op=!!cbOpen[m.gid];return `<button type="button" class="cbG" data-cbg="${esc(m.gid)}" aria-expanded="${op}">👥 ${esc(m.desc)}<span class="cbA">${op?"▲":"▼"}</span></button>`},
+    hid=m=>cbOpen[m.gid]?"":" hidden",ds=m=>`${esc(m.desc)}${m.note?`<span class="cbN">${esc(m.note)}</span>`:""}`;
+  B.forEach(L=>{const cu=L.cu,O=esc(tx(CBL.open)),Cl=esc(tx(CBL.close)),Tt=esc(tx(CBL.tot)),hI=esc(tx(CBL.in_)),hO=esc(tx(CBL.out)),hB=esc(tx(CBL.bal)),hD=esc(t("rpDate"));
+    /* wide: Date | Description | In | Out | Balance (tablet, PC, print) */
+    let w=`<tr class="cbOpen"><td class="cbD">${esc(cbDm(D.f))}</td><td>${O}</td><td></td><td></td><td class="nm">${esc(cbS(L.open))}</td></tr>`;
+    /* phone: description on its own full-width line, then Date | In | Out | Balance under it */
+    let n=`<tr class="cbOpen"><td class="cbD">${esc(cbDm(D.f))}</td><td colspan="2">${O}</td><td class="nm">${esc(cbS(L.open))}</td></tr>`;
+    if(!L.lines.length){w+=`<tr><td></td><td colspan="4">${esc(t("rpNone"))}</td></tr>`;n+=`<tr><td colspan="4">${esc(t("rpNone"))}</td></tr>`}
+    L.lines.forEach(m=>{if(m.grp){w+=`<tr class="cbGrpR"><td class="cbD">${esc(cbDm(m.d))}</td><td>${gb(m)}</td>${io(m)}<td class="nm">${esc(cbS(m.bal))}</td></tr>`;
+        n+=`<tr class="cbDr"><td colspan="4">${gb(m)}</td></tr><tr class="cbGrpR"><td class="cbD">${esc(cbDm(m.d))}</td>${io(m)}<td class="nm">${esc(cbS(m.bal))}</td></tr>`;
+        m.grp.forEach(p=>{w+=`<tr class="cbSub" data-cbs="${esc(m.gid)}"${hid(m)}><td></td><td class="cbP">• ${esc(p.name)}</td><td></td><td class="nm">${esc(cbN(p.v))}</td><td></td></tr>`;
+          n+=`<tr class="cbSub" data-cbs="${esc(m.gid)}"${hid(m)}><td class="cbP" colspan="2">• ${esc(p.name)}</td><td class="nm">${esc(cbN(p.v))}</td><td></td></tr>`})}
+      else{w+=`<tr><td class="cbD">${esc(cbDm(m.d))}</td><td>${ds(m)}</td>${io(m)}<td class="nm">${esc(cbS(m.bal))}</td></tr>`;
+        n+=`<tr class="cbDr"><td colspan="4">${ds(m)}</td></tr><tr><td class="cbD">${esc(cbDm(m.d))}</td>${io(m)}<td class="nm">${esc(cbS(m.bal))}</td></tr>`}});
+    w+=`<tr class="cbTot"><td></td><td>${Tt}</td><td class="nm cbIn">${esc(cbN(L.tin))}</td><td class="nm cbOut">${esc(cbN(L.tout))}</td><td></td></tr><tr class="cbClose"><td class="cbD">${esc(cbDm(D.to))}</td><td>${Cl}</td><td></td><td></td><td class="nm">${esc(cbS(L.close))}</td></tr>`;
+    n+=`<tr class="cbTot"><td>${Tt}</td><td class="nm cbIn">${esc(cbN(L.tin))}</td><td class="nm cbOut">${esc(cbN(L.tout))}</td><td></td></tr><tr class="cbClose"><td class="cbD">${esc(cbDm(D.to))}</td><td colspan="2">${Cl}</td><td class="nm">${esc(cbS(L.close))}</td></tr>`;
+    h+=`<div class="cbHd" data-cur="${esc(cu)}">${cu==="LYD"?"🪙 "+esc(tx(CBL.lyd))+" (LYD)":"💵 CFA (XAF)"}</div>
+    <table class="rep cb cbW" data-cur="${esc(cu)}"><thead><tr><th>${hD}</th><th class="cbDs">${esc(tx(CBL.desc))}</th><th class="nm">${hI}</th><th class="nm">${hO}</th><th class="nm">${hB}</th></tr></thead><tbody>${w}</tbody></table>
+    <table class="rep cb cbP4" data-cur="${esc(cu)}"><thead><tr><th colspan="4" class="cbDh">${esc(tx(CBL.desc))}</th></tr><tr><th>${hD}</th><th class="nm">${hI}</th><th class="nm">${hO}</th><th class="nm">${hB}</th></tr></thead><tbody>${n}</tbody></table>`});
+  return h}
+function cbXlsx(D){const B=cbBooks(D.f,D.to),R=[[{v:tx({en:"Cash book",fr:"Livre de caisse",ar:"دفتر النقد"}),s:"title"}],[t("rpPeriod"),{v:D.f===D.to?D.f:D.f+" → "+D.to,s:"bold"}]];
+  B.forEach(L=>{R.push([],[{v:L.cu==="LYD"?tx(CBL.lyd)+" (LYD)":"CFA (XAF)",s:"title"}],[t("rpDate"),tx(CBL.desc),tx(CBL.in_),tx(CBL.out),tx(CBL.bal)].map(v=>({v:v,s:"h"})));
+    R.push([{v:D.f,s:"t"},{v:tx(CBL.open),s:"t"},{v:"",s:"t"},{v:"",s:"t"},{v:L.open,d:0,s:"t"}]);
+    L.lines.forEach((m,i)=>{const s=i%2?"a":"b";R.push([{v:m.d,s:s},{v:m.desc+(m.note?" ("+m.note+")":""),s:s},m.v>0?{v:m.v,d:0,s:s}:{v:"",s:s},m.v<0?{v:-m.v,d:0,s:s}:{v:"",s:s},{v:m.bal,d:0,s:s}]);
+      (m.grp||[]).forEach(p=>R.push([{v:"",s:s},{v:"   • "+p.name+" — "+cbN(p.v),s:s},{v:"",s:s},{v:"",s:s},{v:"",s:s}]))});
+    R.push([{v:"",s:"t"},{v:tx(CBL.tot),s:"t"},{v:L.tin,d:0,s:"t"},{v:L.tout,d:0,s:"t"},{v:"",s:"t"}],[{v:D.to,s:"t"},{v:tx(CBL.close),s:"t"},{v:"",s:"t"},{v:"",s:"t"},{v:L.close,d:0,s:"t"}])});
+  const nm=(C.SHORT+" "+tx({en:"Cash book",fr:"Livre de caisse",ar:"دفتر النقد"})+" "+(D.f===D.to?D.f:D.f+" to "+D.to)).replace(/[\\\/:*?"<>|]/g," ");
+  return {name:nm+".xlsx",blob:XL.book(tx({en:"Cash book",fr:"Livre de caisse",ar:"دفتر النقد"}),R,[12,46,14,14,16],C.REPORT_COLOR)}}
+function cbBind(){document.querySelectorAll("[data-cbg]").forEach(b=>b.onclick=()=>{const g=b.dataset.cbg,op=!cbOpen[g];cbOpen[g]=op;b.setAttribute("aria-expanded",String(op));const a=b.querySelector(".cbA");if(a)a.textContent=op?"▲":"▼";document.querySelectorAll('tr[data-cbs="'+g+'"]').forEach(r=>{r.hidden=!op})})}
 addReport({id:"cash",title:{en:"Cash book",fr:"Livre de caisse",ar:"دفتر النقد"},
-  cols:[{key:"cur",label:{en:"Currency",fr:"Devise",ar:"العملة"}},{key:"rec",label:{en:"Received",fr:"Reçu",ar:"المستلم"},num:true},{key:"spent",label:{en:"Spent",fr:"Dépensé",ar:"المصروف"},num:true},{key:"v2",label:{en:"of which 2nd vehicle",fr:"dont 2e véhicule",ar:"منها السيارة الثانية"},num:true},{key:"fee",label:{en:"of which Transfer fee",fr:"dont frais de transfert",ar:"منها رسوم التحويل"},num:true},{key:"adj",label:{en:"Adjusted",fr:"Ajusté",ar:"التعديل"},num:true},{key:"sf",label:{en:"Specialist Fund moves",fr:"Mouvements Fonds spécialiste",ar:"تحويلات الصندوق الخاص"},num:true},{key:"left",label:{en:"Left over",fr:"Reste",ar:"المتبقي"},num:true},{key:"hand",label:{en:"Cash on hand",fr:"En caisse",ar:"النقد المتوفر"},num:true}],
-  rows:(f,to)=>canKind("b","view")?usedCC().map(cu=>cashRange(cu,f,to)):[]});
+  cols:[{key:"date",label:"rpDate"},{key:"desc",label:CBL.desc},{key:"in",label:CBL.in_,num:true},{key:"out",label:CBL.out,num:true},{key:"bal",label:CBL.bal,num:true}],
+  rows:(f,to)=>cbBooks(f,to).reduce((a,L)=>a.concat(L.lines.map(m=>({date:m.d,desc:m.desc,in:m.v>0?m.v:"",out:m.v<0?-m.v:"",bal:m.bal}))),[]),
+  html:cbHTML,xlsx:cbXlsx,bind:cbBind});
+window.TMC.money.cash.ledger=cbLedger;
 addReport({id:"trips",title:{en:"Purchases trips",fr:"Courses Achats",ar:"رحلات المشتريات"},
   cols:[{key:"trip",label:{en:"Trip",fr:"Course",ar:"الرحلة"}},{key:"date",label:{en:"Date",fr:"Date",ar:"التاريخ"}},{key:"given",label:{en:"Given CFA",fr:"Donné CFA",ar:"المعطى CFA"},num:true,sum:true},{key:"givenL",label:{en:"Given LYD",fr:"Donné LYD",ar:"المعطى LYD"},num:true,sum:true},{key:"ret",label:{en:"Back CFA",fr:"Rendu CFA",ar:"المرتجع CFA"},num:true,sum:true},{key:"retL",label:{en:"Back LYD",fr:"Rendu LYD",ar:"المرتجع LYD"},num:true,sum:true},{key:"spent",label:{en:"Spent CFA",fr:"Dépensé CFA",ar:"المصروف CFA"},num:true,sum:true},{key:"spentL",label:{en:"Spent LYD",fr:"Dépensé LYD",ar:"المصروف LYD"},num:true,sum:true}],
   rows:(f,to)=>canKind("b","view")?trips().filter(x=>inR(x.date,f,to)).map(x=>({trip:x.trip+(x.closed?" ✅":""),date:x.date,given:x.given,givenL:x.givenL||0,ret:x.ret,retL:x.retL||0,spent:x.spent,spentL:x.spentL||0})).reverse():[]});
